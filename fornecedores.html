@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Fornecedores</title>
+    <link rel="stylesheet" href="style.css">
+    <script  src="fornecedorList.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Fornecedor</h1>
+    
+        <form id="formularioCadastro">
+          <label for="tipoPessoa">Tipo de Pessoa:</label>
+          <select id="tipoPessoa" name="tipoPessoa" required>
+            <option value="">Selecione</option>
+            <option value="fisica">Física</option>
+            <option value="juridica">Jurídica</option>
+          </select>
+    
+          <label for="nomeFornecedor">Nome do Fornecedor:</label>
+          <input type="text" id="nomeFornecedor" name="nomeFornecedor" required>
+    
+          <label for="cpfCnpj">CPF/CNPJ:</label>
+          <input type="text" id="cpfCnpj" name="cpfCnpj" required>
+    
+          <label for="endereco">Endereço:</label>
+          <input type="text" id="endereco" name="endereco" required>
+    
+          <label for="cep">CEP:</label>
+          <input type="text" id="cep" name="cep" required>
+    
+          <label for="cidade">Cidade:</label>
+          <input type="text" id="cidade" name="cidade" required>
+    
+          <label for="pais">País:</label>
+          <input type="text" id="pais" name="pais" required>
+    
+          <label for="telefone">Telefone:</label>
+          <input type="text" id="telefone" name="telefone" required>
+    
+          <label for="site">Site:</label>
+          <input type="text" id="site" name="site">
+    
+          <label for="email">E-mail:</label>
+          <input type="email" id="email" name="email" required>
+    
+          <label for="detalhe">Detalhe:</label>
+          <textarea id="detalhe" name="detalhe"></textarea>
+    
+          <button id = "cadastro" onclick="addFornecedor()" type="submit">Cadastrar</button>
+          <button id = "atualizar" onclick="updateFornecedor()" type="submit">Atualizar</button>
+        </form>
+      </div>
+    
+    <div class = 'contanier' id = 'pecas'>
+        <div id="tabela-pecas"></div>
+        <button type="button" onclick="proximaPagina()">Carregar mais >></button>
+    </div>
+
+
+</body>
+</html>

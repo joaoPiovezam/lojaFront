@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Nota Fiscal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Cadastro de Nota Fiscal</h1>
+
+    <form id="formCadastro">
+        <div class="campo">
+            <label for="codigo">Código:</label>
+            <input type="number" id="codigo" name="codigo" required>
+        </div>
+
+        <div class="campo">
+            <label for="dataEmissao">Data de Emissão:</label>
+            <input type="date" id="dataEmissao" name="dataEmissao" required>
+        </div>
+
+        <div class="campo">
+            <label for="dataValidade">Data de Validade:</label>
+            <input type="date" id="dataValidade" name="dataValidade" required>
+        </div>
+
+        <div class="campo">
+            <label for="tipoEntrega">Tipo de Entrega:</label>
+            <select id="tipoEntrega" name="tipoEntrega" required>
+                <option value="">Selecione</option>
+                <option value="SEDEX">SEDEX</option>
+                <option value="PAC">PAC</option>
+                <option value="OUTROS">Outros</option>
+            </select>
+        </div>
+
+        <div class="campo">
+            <label for="responsavel">Responsável:</label>
+            <input type="text" id="responsavel" name="responsavel" required>
+        </div>
+
+        <div class="campo">
+            <label for="frete">Valor do Frete:</label>
+            <input type="number" id="frete" name="frete" step="0.01" required>
+        </div>
+
+        <div class="campo">
+            <label for="marcasEmbarque">Marcas de Embarque:</label>
+            <input type="text" id="marcasEmbarque" name="marcasEmbarque" required>
+        </div>
+
+        <div class="campo">
+            <h2>Dados de Entrega</h2>
+        </div>
+
+        <div class="campo">
+            <label for="nomeEntrega">Nome do Destinatário:</label>
+            <input type="text" id="nomeEntrega" name="nomeEntrega" required>
+        </div>
+
+        <div class="campo">
+            <label for="cnpjEntrega">CNPJ do Destinatário:</label>
+            <input type="number" id="cnpjEntrega" name="cnpjEntrega" required>
+        </div>
+
+        <div class="campo">
+            <label for="enderecoEntrega">Endereço de Entrega:</label>
+            <input type="text" id="enderecoEntrega" name="enderecoEntrega" required>
+        </div>
+
+        <div class="campo">
+            <label for="cidadeEntrega">Cidade de Entrega:</label>
+            <input type="text" id="cidadeEntrega" name="cidadeEntrega" required>
+        </div>
+
+        <div class="campo">
+            <label for="paisEntrega">País de Entrega:</label>
+            <input type="text" id="paisEntrega" name="paisEntrega" required>
+        </div>
+
+        <div class="campo">
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" name="cliente" required>
+                <option value="">Selecione</option>
+                </select>
+        </div>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+</html>

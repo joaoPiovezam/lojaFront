@@ -4,7 +4,9 @@ var str = "";
 
 function proximaPagina(){
     pagina += 1;
+    urlAPI = "http://127.0.0.1:8000/peca/?page="+ pagina +"&search="+str;
     carregarDados()
+
 }
 
 var urlAPI = "http://127.0.0.1:8000/peca/?format=json&page="+ pagina;
@@ -115,12 +117,13 @@ function popularTabelaPecas(dados){
 }
 
 function pesquisar(){
+    pagina = 1
     for(var j = 1; j<=i; j++ ){
         var linhas = document.getElementById("linhas");
         linhas.remove();
     }
     str = document.getElementById("pesquisa").value;
-    urlAPI = "http://127.0.0.1:8000/peca/?page=1&search="+str;
+    urlAPI = "http://127.0.0.1:8000/peca/?page="+ pagina +"&search="+str;
     var p = document.getElementById("pesquisa");
     p.remove();
     i=1;
