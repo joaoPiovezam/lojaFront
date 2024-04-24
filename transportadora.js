@@ -1,3 +1,38 @@
+/*const formCadastro = document.getElementById('formCadastro');
+const nomeInput = document.getElementById('nome');
+const cnpjInput = document.getElementById('cnpj');
+const enderecoInput = document.getElementById('endereco');
+const cepInput = document.getElementById('cep');
+const cidadeInput = document.getElementById('cidade');
+const paisInput = document.getElementById('pais');
+const telefoneInput = document.getElementById('telefone');
+const siteInput = document.getElementById('site');
+const emailInput = document.getElementById('email');
+const detalheInput = document.getElementById('detalhe');
+
+formCadastro.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const dadosCliente = {
+        nome: nomeInput.value,
+        cnpj: cnpjInput.value,
+        endereco: enderecoInput.value,
+        cep: cepInput.value,
+        cidade: cidadeInput.value,
+        pais: paisInput.value,
+        telefone: telefoneInput.value,
+        site: siteInput.value,
+        email: emailInput.value,
+        detalhe: detalheInput.value
+    };
+
+    // Processar os dados do cliente (ex: salvar no banco de dados)
+    console.log(dadosCliente);
+
+    // Limpar o formulário
+    formCadastro.reset();
+});*/
+
 var pagina = 1;
 var i = 1;
 var str = "";
@@ -5,12 +40,12 @@ var id = 0;
 
 function proximaPagina(){
     pagina += 1;
-    urlAPI = "http://127.0.0.1:8000/fornecedores/?format=json/?page="+ pagina +"&search="+str;
+    urlAPI = "http://127.0.0.1:8000/transportadora/?format=json/?page="+ pagina;// +"&search="+str;
     carregarDados()
 
 }
 
-var urlAPI = "http://127.0.0.1:8000/fornecedores/?format=json&page="+ pagina;
+var urlAPI = "http://127.0.0.1:8000/transportadora/?format=json&page="+ pagina;
 
 async function carregarDados() {
         const resposta = await fetch(urlAPI);
@@ -30,7 +65,7 @@ function formatarPreco(preco) {
 carregarDados();
 
 function carregarTabela(){
-    const tabela = document.getElementById("tabela-pecas");
+    const tabela = document.getElementById("tabela-transportadora");
 
     const pesquisa = document.createElement("input");
     pesquisa.id = "pesquisa";
@@ -72,7 +107,7 @@ function carregarTabela(){
 function popularTabela(dados){
     const botao = document.getElementById("atualizar");
     botao.style.display = "none";
-    const tabela = document.getElementById("tabela-pecas");
+    const tabela = document.getElementById("tabela-transportadora");
     for (const item of dados.results) {
         const linha = document.createElement("tr");
         const colunaItem = document.createElement("td");
@@ -91,7 +126,7 @@ function popularTabela(dados){
         qtd.min = "0";
         qtd.id =  "q" + i;      
 
-        var id = item.id; 
+        //var id = item.id; 
 
         btn.setAttribute("onclick", "preencherForm("+ JSON.stringify(item) +")");            
         
@@ -99,9 +134,9 @@ function popularTabela(dados){
         colunaQtd.appendChild(btn);
 
         colunaItem.textContent = i.toString();
-        colunaCodigo.textContent = item.cpfCnpj;
-        colunaDescricao.textContent = item.nomeFornecedor;
-        colunaMarca.textContent = item.pais;
+        colunaCodigo.textContent = item.cnpj;
+        colunaDescricao.textContent = item.nome;
+        colunaMarca.textContent = item.endereco;
         colunaPreco.textContent = item.cidade;
         btn.textContent = "adicionar ao orçamento";
 
@@ -127,46 +162,39 @@ function pesquisar(){
         linhas.remove();
     }
     str = document.getElementById("pesquisa").value;
-    urlAPI = "http://127.0.0.1:8000/fornecedor/?page="+ pagina +"&search="+str;
+    urlAPI = "http://127.0.0.1:8000/transportadora/?page="+ pagina +"&search="+str;
     var p = document.getElementById("pesquisa");
     p.remove();
     i=1;
     carregarDados()
 }
 
-function preencherForm(Fornecedor){
+function preencherForm(Transportadora){
     const botaoCad = document.getElementById('cadastro');
     const botaoAtu = document.getElementById("atualizar");
-    const Fornec = Fornecedor;
-    var tipoPessoa =  document.getElementById('tipoPessoa');
-    var nomeFornecedor = document.getElementById('nomeFornecedor');
-    var cpfCnpj = document.getElementById('cpfCnpj');
-    var endereco = document.getElementById('endereco');
-    var cep = document.getElementById('cep');
-    var cidade = document.getElementById('cidade');
-    var pais = document.getElementById('pais');
-    var telefone = document.getElementById('telefone');
-    var site = document.getElementById('site');
-    var email = document.getElementById('email');
-    var detalhe = document.getElementById('detalhe');
+    const transportadora = Transportadora;
+    const nome = document.getElementById('nome');
+    const cnpj = document.getElementById('cnpj');
+    const endereco = document.getElementById('endereco');
+    const cep = document.getElementById('cep');
+    const cidade = document.getElementById('cidade');
+    const pais = document.getElementById('pais');
+    const telefone = document.getElementById('telefone');
+    const site = document.getElementById('site');
+    const email = document.getElementById('email');
+    const detalhe = document.getElementById('detalhe')
 
-
-    if (Fornec.tipoPessoa == 'f'){
-        tipoPessoa.value = "fisica";
-    }else{
-        tipoPessoa.value = "juridica";
-    }
-    nomeFornecedor.value = Fornec.nomeFornecedor;
-    cpfCnpj.value = Fornec.cpfCnpj;
-    endereco.value = Fornec.endereco;
-    cep.value = Fornec.cep;
-    cidade.value = Fornec.cidade;
-    pais.value = Fornec.pais;
-    telefone.value = Fornec.telefone;
-    site.value = Fornec.site;
-    email.value = Fornec.email;
-    detalhe.value = Fornec.detalhe;
-    id = Fornec.id;
+    nome.value = transportadora.nome;
+    cnpj.value = transportadora.cnpj;
+    endereco.value = transportadora.endereco;
+    cep.value = transportadora.cep;
+    cidade.value = transportadora.cidade;
+    pais.value = transportadora.pais;
+    telefone.value = transportadora.telefone;
+    site.value = transportadora.site;
+    email.value = transportadora.email;
+    detalhe.value = transportadora.detalhe;
+    id = transportadora.id;
 
     botaoCad.style.display = "none";
     botaoAtu.style.display = "block";
@@ -180,9 +208,8 @@ function add(){
     event.preventDefault();
 
     const dados = {
-        tipoPessoa: document.getElementById('tipoPessoa').value,
-        nomeFornecedor: document.getElementById('nomeFornecedor').value,
-        cpfCnpj: document.getElementById('cpfCnpj').value,
+        nome: document.getElementById('nome').value,
+        cnpj: document.getElementById('cnpj').value,
         endereco: document.getElementById('endereco').value,
         cep: document.getElementById('cep').value,
         cidade: document.getElementById('cidade').value,
@@ -192,18 +219,11 @@ function add(){
         email: document.getElementById('email').value,
         detalhe: document.getElementById('detalhe').value
     };
-    console.log('Dados do formulário:', dados);
-    if (dados.tipoPessoa == "Física"){
-        var p = "f"
-    }else{
-        var p = "j"
-    }
-    fetch("http://127.0.0.1:8000/fornecedores/", {
+    fetch("http://127.0.0.1:8000/transportadora/", {
         method: "POST",
         body: JSON.stringify({
-            "tipoPessoa": p,
-            "nomeFornecedor": dados.nomeFornecedor,
-            "cpfCnpj": dados.cpfCnpj,
+            "nome": dados.nome,
+            "cnpj": dados.cnpj,
             "endereco": dados.endereco,
             "cep": dados.cep,
             "cidade": dados.cidade,
@@ -222,20 +242,20 @@ function add(){
     });
 }
 
-function addFornecedor(){
+function addTranpostadora(){
     add();
+    setTimeout(() => {  location.reload(); }, 500)
 }
 
-function updateFornecedor(){
+function update(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
     formularioCadastro.addEventListener('submit', function(event) {
     event.preventDefault();
 
     const dados = {
-        tipoPessoa: document.getElementById('tipoPessoa').value,
-        nomeFornecedor: document.getElementById('nomeFornecedor').value,
-        cpfCnpj: document.getElementById('cpfCnpj').value,
+        nome: document.getElementById('nome').value,
+        cnpj: document.getElementById('cnpj').value,
         endereco: document.getElementById('endereco').value,
         cep: document.getElementById('cep').value,
         cidade: document.getElementById('cidade').value,
@@ -245,19 +265,12 @@ function updateFornecedor(){
         email: document.getElementById('email').value,
         detalhe: document.getElementById('detalhe').value
     };
-    console.log('Dados do formulário:', dados);
-    if (dados.tipoPessoa == "Física"){
-        var p = "f"
-    }else{
-        var p = "j"
-    }
-    fetch("http://127.0.0.1:8000/fornecedores/" + id + "/", {
+    fetch("http://127.0.0.1:8000/transportadora/" + id + "/", {
         method: "PUT",
         body: JSON.stringify({
             "id": id,
-            "tipoPessoa": p,
-            "nomeFornecedor": dados.nomeFornecedor,
-            "cpfCnpj": dados.cpfCnpj,
+            "nome": dados.nome,
+            "cnpj": dados.cnpj,
             "endereco": dados.endereco,
             "cep": dados.cep,
             "cidade": dados.cidade,
@@ -274,4 +287,9 @@ function updateFornecedor(){
         .then((response) => response.json())
         .then((json) => console.log(json));
     });
+}
+
+function updateTranpostadora(){
+    update();
+    setTimeout(() => {  location.reload(); }, 500)
 }

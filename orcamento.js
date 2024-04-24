@@ -1,32 +1,30 @@
-/*const formCadastro = document.getElementById('formCadastro');
-const codigoInput = document.getElementById('codigo');
-const dataEmissaoInput = document.getElementById('dataEmissao');
-const dataValidadeInput = document.getElementById('dataValidade');
-const tipoEntregaSelect = document.getElementById('tipoEntrega');
-const responsavelInput = document.getElementById('responsavel');
-const freteInput = document.getElementById('frete');
-const marcasEmbarqueInput = document.getElementById('marcasEmbarque');
-const nomeEntregaInput = document.*/
-
-
 var pagina = 1;
 var i = 1;
 var str = "";
 var id = 0;
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 function proximaPagina(){
     pagina += 1;
-    urlAPI = "http://127.0.0.1:8000/fornecedores/?format=json/?page="+ pagina +"&search="+str;
+    urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json/?page="+ pagina +"&search="+str;
     carregarDados()
 
 }
 
-var urlAPI = "http://127.0.0.1:8000/fornecedores/?format=json&page="+ pagina;
+var urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json&page="+ pagina;
 
 async function carregarDados() {
         const resposta = await fetch(urlAPI);
         const dadosJSON = await resposta.json();
-        
+        loadScript("cliente.js")
         if(pagina == 1){
             carregarTabela();
         }
@@ -57,25 +55,50 @@ function carregarTabela(){
     const linha = document.createElement("tr");
     const colunaItem = document.createElement("td");
     const colunaCodigo = document.createElement("td");
-    const colunaDescricao = document.createElement("td");
-    const colunaMarca = document.createElement("td");
-    const colunaPreco = document.createElement("td");
-    const colunaQtd = document.createElement("td");
+    const colunaDataEmissao = document.createElement("td");
+    const colunaDataValidade = document.createElement("td");
+    const colunaTipoEntrega = document.createElement("td");
+    const colunaResponsavel = document.createElement("td");
+    const colunaFrete = document.createElement("td");
+    const colunaMarcasEmbarque = document.createElement("td");
+    const colunaNomeEntrega = document.createElement("td");
+    const colunaCnpjEntrega = document.createElement("td");
+    const colunaEnderecoEntrega = document.createElement("td");
+    const colunaCidadeEntrega = document.createElement("td");
+    const colunaPaisEntrega = document.createElement("td");
+    const colunaCliente = document.createElement("td");
+    
     linha.id = "linhas";
 
     colunaItem.textContent = "ITEM";
     colunaCodigo.textContent = "CODIGO";
-    colunaDescricao.textContent = "DESCRIÇÂO";
-    colunaMarca.textContent = "MARCA";
-    colunaPreco.textContent = "PREÇO";
-    colunaQtd.textContent = "QUANTIDADE";
+    colunaDataEmissao .textContent = "Data Emissão";
+    colunaDataValidade.textContent = "Data Validade";
+    colunaTipoEntrega.textContent = "Tipo Entrega";
+    colunaResponsavel.textContent = "Responsavel";
+    colunaFrete.textContent = "Frete";
+    colunaMarcasEmbarque.textContent = "Marcas Embarque";
+    colunaNomeEntrega.textContent = "Nome Entrega";
+    colunaCnpjEntrega.textContent = "Cnpj Entrega";
+    colunaEnderecoEntrega.textContent = "Endereco Entrega";
+    colunaCidadeEntrega.textContent = "Cidade Entrega";
+    colunaPaisEntrega.textContent = "Pais Entrega";
+    colunaCliente.textContent = "Cliente";
 
     linha.appendChild(colunaItem);
     linha.appendChild(colunaCodigo);
-    linha.appendChild(colunaDescricao);
-    linha.appendChild(colunaMarca);
-    linha.appendChild(colunaPreco);
-    linha.appendChild(colunaQtd);
+    linha.appendChild(colunaDataEmissao);
+    linha.appendChild(colunaDataValidade);
+    linha.appendChild(colunaTipoEntrega);
+    linha.appendChild(colunaResponsavel);
+    linha.appendChild(colunaFrete);
+    linha.appendChild(colunaMarcasEmbarque);
+    linha.appendChild(colunaNomeEntrega);
+    linha.appendChild(colunaCnpjEntrega);
+    linha.appendChild(colunaEnderecoEntrega);
+    linha.appendChild(colunaCidadeEntrega);
+    linha.appendChild(colunaPaisEntrega);
+    linha.appendChild(colunaCliente);
 
     tabela.appendChild(linha);
 }
@@ -88,41 +111,61 @@ function popularTabela(dados){
         const linha = document.createElement("tr");
         const colunaItem = document.createElement("td");
         const colunaCodigo = document.createElement("td");
-        const colunaDescricao = document.createElement("td");
-        const colunaMarca = document.createElement("td");
-        const colunaPreco = document.createElement("td");
-        const colunaQtd = document.createElement("td");
+        const colunaDataEmissao = document.createElement("td");
+        const colunaDataValidade = document.createElement("td");
+        const colunaTipoEntrega = document.createElement("td");
+        const colunaResponsavel = document.createElement("td");
+        const colunaFrete = document.createElement("td");
+        const colunaMarcasEmbarque = document.createElement("td");
+        const colunaNomeEntrega = document.createElement("td");
+        const colunaCnpjEntrega = document.createElement("td");
+        const colunaEnderecoEntrega = document.createElement("td");
+        const colunaCidadeEntrega = document.createElement("td");
+        const colunaPaisEntrega = document.createElement("td");
+        const colunaCliente = document.createElement("td");
+      
         var qtd = document.createElement("input");
         var btn = document.createElement("button");
         btn.id = "preencher"
         linha.id = "linhas";
-        
-        qtd.type = "number";
-        qtd.value = "0";
-        qtd.min = "0";
-        qtd.id =  "q" + i;      
 
         var id = item.id; 
 
         btn.setAttribute("onclick", "preencherForm("+ JSON.stringify(item) +")");            
         
-        colunaQtd.appendChild(qtd);
-        colunaQtd.appendChild(btn);
+        /*colunaQtd.appendChild(qtd);
+        colunaQtd.appendChild(btn);*/
 
         colunaItem.textContent = i.toString();
-        colunaCodigo.textContent = item.cpfCnpj;
-        colunaDescricao.textContent = item.nomeFornecedor;
-        colunaMarca.textContent = item.pais;
-        colunaPreco.textContent = item.cidade;
+        colunaCodigo.textContent = item.codigo;
+        colunaDataEmissao.textContent = item.dataEmissao;
+        colunaDataValidade.textContent = item.dataValidade;
+        colunaTipoEntrega.textContent = item.tipoEntrega;
+        colunaResponsavel.textContent = item.responsavel;
+        colunaFrete.textContent = item.frete;
+        colunaMarcasEmbarque.textContent = item.marcasEmbarque;
+        colunaNomeEntrega.textContent = item.nomeEntrega;
+        colunaCnpjEntrega.textContent = item.cnpjEntrega;
+        colunaEnderecoEntrega.textContent = item.enderecoEntrega;
+        colunaCidadeEntrega.textContent = item.cidadeEntrega;
+        colunaPaisEntrega.textContent = item.paisEntrega;
+        colunaCliente.textContent = item.cliente;
         btn.textContent = "adicionar ao orçamento";
 
         linha.appendChild(colunaItem);
         linha.appendChild(colunaCodigo);
-        linha.appendChild(colunaDescricao);
-        linha.appendChild(colunaMarca);
-        linha.appendChild(colunaPreco);
-        linha.appendChild(colunaQtd);
-        
+        linha.appendChild(colunaDataEmissao);
+        linha.appendChild(colunaDataValidade);
+        linha.appendChild(colunaTipoEntrega);
+        linha.appendChild(colunaResponsavel);
+        linha.appendChild(colunaFrete);
+        linha.appendChild(colunaMarcasEmbarque);
+        linha.appendChild(colunaNomeEntrega);
+        linha.appendChild(colunaCnpjEntrega);
+        linha.appendChild(colunaEnderecoEntrega);
+        linha.appendChild(colunaCidadeEntrega);
+        linha.appendChild(colunaPaisEntrega);
+        linha.appendChild(colunaCliente);        
 
         tabela.appendChild(linha);
 
@@ -138,11 +181,11 @@ function pesquisar(){
         linhas.remove();
     }
     str = document.getElementById("pesquisa").value;
-    urlAPI = "http://127.0.0.1:8000/fornecedor/?page="+ pagina +"&search="+str;
+    urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json/?page="+ pagina //+"&search="+str;
     var p = document.getElementById("pesquisa");
     p.remove();
     i=1;
-    carregarDados()
+    carregarDados();
 }
 
 function preencherForm(Fornecedor){
@@ -189,40 +232,39 @@ function add(){
 
     formularioCadastro.addEventListener('submit', function(event) {
     event.preventDefault();
-
     const dados = {
-        tipoPessoa: document.getElementById('tipoPessoa').value,
-        nomeFornecedor: document.getElementById('nomeFornecedor').value,
-        cpfCnpj: document.getElementById('cpfCnpj').value,
-        endereco: document.getElementById('endereco').value,
-        cep: document.getElementById('cep').value,
-        cidade: document.getElementById('cidade').value,
-        pais: document.getElementById('pais').value,
-        telefone: document.getElementById('telefone').value,
-        site: document.getElementById('site').value,
-        email: document.getElementById('email').value,
-        detalhe: document.getElementById('detalhe').value
+        codigo: document.getElementById('codigo').value,
+        dataEmissao: document.getElementById('dataEmissao').value,
+        dataValidade: document.getElementById('dataValidade').value,
+        tipoEntrega: document.getElementById('tipoEntrega').value,
+        responsavel: document.getElementById('responsavel').value,
+        frete: document.getElementById('frete').value,
+        marcasEmbarque: document.getElementById('marcasEmbarque').value,
+        nomeEntrega: document.getElementById('nomeEntrega').value,
+        cnpjEntrega: document.getElementById('cnpjEntrega').value,
+        enderecoEntrega: document.getElementById('enderecoEntrega').value,
+        cidadeEntrega: document.getElementById('cidadeEntrega').value,
+        paisEntrega: document.getElementById('paisEntrega').value,
+        cliente: document.getElementById('dropDownClientes').value
     };
     console.log('Dados do formulário:', dados);
-    if (dados.tipoPessoa == "Física"){
-        var p = "f"
-    }else{
-        var p = "j"
-    }
-    fetch("http://127.0.0.1:8000/fornecedores/", {
+
+    fetch("http://127.0.0.1:8000/orcamentos/", {
         method: "POST",
         body: JSON.stringify({
-            "tipoPessoa": p,
-            "nomeFornecedor": dados.nomeFornecedor,
-            "cpfCnpj": dados.cpfCnpj,
-            "endereco": dados.endereco,
-            "cep": dados.cep,
-            "cidade": dados.cidade,
-            "pais": dados.pais,
-            "telefone": dados.telefone,
-            "site": dados.site,
-            "email": dados.email,
-            "detalhe": dados.detalhe
+                "codigo": dados.codigo,
+                "dataEmissao": dados.dataEmissao,
+                "dataValidade": dados.dataValidade,
+                "tipoEntrega": dados.tipoEntrega,
+                "responsavel": dados.responsavel,
+                "frete": dados.frete,
+                "marcasEmbarque": dados.marcasEmbarque,
+                "nomeEntrega": dados.nomeEntrega,
+                "cnpjEntrega": dados.cnpjEntrega,
+                "enderecoEntrega": dados.enderecoEntrega,
+                "cidadeEntrega": dados.cidadeEntrega,
+                "paisEntrega": dados.paisEntrega,
+                "cliente": dados.cliente
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -231,10 +273,11 @@ function add(){
         .then((response) => response.json())
         .then((json) => console.log(json));
     });
+    
 }
 
-function addFornecedor(){
-    add();
+async function addOrcamento(){
+     await add();
 }
 
 function updateFornecedor(){
@@ -262,7 +305,7 @@ function updateFornecedor(){
     }else{
         var p = "j"
     }
-    fetch("http://127.0.0.1:8000/fornecedores/" + id + "/", {
+    fetch("http://127.0.0.1:8000/orcamentos/" + id + "/", {
         method: "PUT",
         body: JSON.stringify({
             "id": id,
