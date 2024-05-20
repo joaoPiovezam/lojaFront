@@ -9,7 +9,7 @@
 </head>
 <body>
     <h1>Cadastro de Produto</h1>
-
+    <input hidden id="pagina" value="2">
     <form id="formCadastro">
         <div class="campo">
             <label for="codigo">Código:</label>
@@ -22,17 +22,20 @@
         </div>
 
         <div class="campo">
-            <label for="peca">Nome da Peça:</label>
+            <label for="peca">Item:</label>
             <input type="text" id="peca" name="peca" required>
         </div>
 
         <div class="campo">
             <label for="fornecedor">Fornecedor:</label>
-            <input type="text" id="fornecedor" name="fornecedor" required>
+            <select width="800" id="dropDownFornecedor" name="fornecedor" required>
+                <option value="">Selecione</option>
+            </select>
         </div>
 
         <button type="submit">Cadastrar</button>
     </form>
-
+    <div id="tabela-pecas"></div>
+    <button type="button" onclick="proximaPagina()">Carregar mais >></button>
 </body>
 </html>

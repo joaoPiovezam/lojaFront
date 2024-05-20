@@ -1,38 +1,3 @@
-/*const formCadastro = document.getElementById('formCadastro');
-const nomeInput = document.getElementById('nome');
-const cnpjInput = document.getElementById('cnpj');
-const enderecoInput = document.getElementById('endereco');
-const cepInput = document.getElementById('cep');
-const cidadeInput = document.getElementById('cidade');
-const paisInput = document.getElementById('pais');
-const telefoneInput = document.getElementById('telefone');
-const siteInput = document.getElementById('site');
-const emailInput = document.getElementById('email');
-const detalheInput = document.getElementById('detalhe');
-
-formCadastro.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    const dadosCliente = {
-        nome: nomeInput.value,
-        cnpj: cnpjInput.value,
-        endereco: enderecoInput.value,
-        cep: cepInput.value,
-        cidade: cidadeInput.value,
-        pais: paisInput.value,
-        telefone: telefoneInput.value,
-        site: siteInput.value,
-        email: emailInput.value,
-        detalhe: detalheInput.value
-    };
-
-    // Processar os dados do cliente (ex: salvar no banco de dados)
-    console.log(dadosCliente);
-
-    // Limpar o formulário
-    formCadastro.reset();
-});*/
-
 var pagina = 1;
 var i = 1;
 var str = "";

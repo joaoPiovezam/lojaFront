@@ -3,6 +3,7 @@ const urlAPI = "http://127.0.0.1:8000/orcamento/2/pedidos/?format=json";
 var  precoTotal = 0.0;
 var pesoTotal = 0.0;
 var volumeTotal = 0.0;
+
 async function carregarDados() {
         const resposta = await fetch(urlAPI);
         const dadosJSON = await resposta.json();

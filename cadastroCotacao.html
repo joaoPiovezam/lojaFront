@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Tabela de dados JSON</title>
+    <link rel="stylesheet" href="style.css">
+    <script  src="pecaFornecedorList.js"></script>
+</head>
+<body> 
+
+    <div class="campo">
+        <label for="fornecedor">Fornecedor:</label>
+        <select onchange="filtrarFornecedor()" width="800" id="dropDownFornecedor" name="fornecedor" required>
+            <option value="0">Selecione</option>
+        </select>
+    </div>  
+
+    <div class="campo">
+        <label for="fornecedor">Pedido:</label>
+        <select onchange="filtrarPecas()" width="800" id="dropDownPedidos" name="fornecedor" required>
+            <option value="0">Selecione</option>
+        </select>
+    </div>  
+    
+    <div class = 'contanier' id = 'pecas'>
+        <div id = "tabela-pecas"></div>
+        <input hidden id="pagina" value="1">
+        <button type="button" onclick="proximaPagina()">Carregar mais >></button>   
+    </div>
+
+    <div class = 'contanier' id = 'pecas'>
+        <div id = "tabela-cotacoes"></div>  
+    </div>
+
+</body>
+</html>
