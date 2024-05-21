@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Operação Fiscal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="pedidoCompra.js"></script>
+</head>
+<body>
+    <h1>Cadastro de Operação Fiscal</h1>
+
+    <form id="formularioCadastro">
+        <div class="campo">
+            <label for="operacaoFiscal">Operação Fiscal:</label>
+            <input type="text" id="operacaoFiscal" name="operacaoFiscal" required>
+        </div>
+
+        <div class="campo">
+            <label for="vencimento">Vencimento:</label>
+            <input type="text" id="vencimento" name="vencimento">
+        </div>
+
+        <div class="campo">
+            <label for="comprador">Comprador:</label>
+            <input type="text" id="comprador" name="comprador" required>
+        </div>
+
+        <div class="campo">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="campo">
+            <label for="observacoes">Observações:</label>
+            <textarea id="observacoes" name="observacoes"></textarea>
+        </div>
+
+        <div class="campo">
+            <label for="frete">Frete:</label>
+            <input type="number" id="frete" name="frete">
+        </div>
+
+        <div class="campo">
+            <label for="cotacao">Cotação:</label>
+            <input type="number" id="cotacao" name="cotacao">
+        </div>
+
+        <div class="campo">
+            <label for="transportadora">Transportadora:</label>
+            <input type="text" id="transportadora" name="transportadora">
+        </div>
+
+        <button type="submit" onclick="addPedido()">Cadastrar</button>
+    </form>
+
+    
+</body>
+</html>
