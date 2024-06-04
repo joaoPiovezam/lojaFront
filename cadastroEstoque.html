@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="estoque.js"></script>
+</head>
+<body>
+    <h1>Cadastro de Estoque</h1>
+
+    <form id="formularioEstoque">
+
+        <div class="campo">
+            <label for="pedido">Peca:</label>
+            <select width="800" id="dropDownPecas" name="Pedido" required>
+                <option value="0">Selecione</option>
+            </select>
+        </div>  
+
+        <div class="campo">
+            <label for="dataEntrada">Data de Entrada:</label>
+            <input type="date" id="dataEntrada" name="dataEntrada">
+        </div>
+
+        <div class="campo">
+            <label for="dataSaida">Data de Saída:</label>
+            <input type="date" id="dataSaida" name="dataSaida">
+        </div>
+
+        <button type="submit" onclick="addEstoque()">Cadastrar</button>
+    </form>
+
+    <h1>Peças em Estoque</h1>
+    <div class = 'contanier' id = 'orcamento'>
+        <table id = "tabela">
+    </div>
+    
+</body>
+</html>
