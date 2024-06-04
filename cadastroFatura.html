@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Fatura</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="fatura.js"></script>
+</head>
+<body>
+    <h1>Notificar</h1>
+
+    <form id="formularioCadastro">
+        <div class="campo">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" required>
+        </div>
+
+        <div class="campo">
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" required>
+        </div>
+
+        <div class="campo">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <h1>Condicao Pagamento</h1>   
+
+        
+        <div class="campo">
+            <label for="cota">Cota:</label>
+            <input type="text" id="cota" name="cota"  required>
+        </div>
+
+        <div class="campo">
+            <label for="porcentagem">Porcentagem:</label>
+            <input type="number" id="porcentagem" name="porcentagem" step="0.01" required>
+        </div>
+
+        <div class="campo">
+            <label for="data">Data:</label>
+            <input type="date" id="data" name="data"  required>
+        </div>
+
+        <div class="campo">
+            <label for="total">Total:</label>
+            <input type="number" id="total" name="total" step="0.01"  required>
+        </div>
+
+
+        <button type="submit" onclick="add()">Cadastrar</button>
+    </form>
+
+    
+</body>
+</html>

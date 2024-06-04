@@ -20,8 +20,6 @@ async function carregarDados() {
             carregarTabela();
         }
         popularTabelaPecas(dadosJSON);
-    
-        console.log(tipo);
     }
 
 function formatarPreco(preco) {

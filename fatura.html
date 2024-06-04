@@ -13,7 +13,7 @@
 
     <script>
         function gerarPDF() {
-        var element = document.getElementById('orcamento');
+        var element = document.getElementById('fatura');
         var options = {
             margin: 10,
             filename: 'meu-pdf.pdf',
@@ -29,10 +29,14 @@
         html2pdf().from(element).set(options).save();
         }
     </script>
-    <div class = 'contanier' id = 'orcamento'>
-        <input hidden id="pagina" value="orcamento">
+    <div class = 'contanier' id = 'fatura'>
+        <input hidden id="pagina" value="fatura">
         <table id = "tabela">
             <div id="tabela-cliente"></div>
+            <div id="tabela-notificar"></div>
+            <div id="tabela-condicao"></div>
+            <div id="tabela-peso"></div>
+            <div id="notificar"></div>
             <div id="tabela-pedidos"></div>
         </table>
         <script src="scriptTabelaPedidos.js"></script>
