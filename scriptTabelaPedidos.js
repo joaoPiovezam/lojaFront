@@ -1,6 +1,7 @@
 const urlAPI = "http://127.0.0.1:8000/orcamento/2/pedidos/?format=json";
 const urlNotificar = "http://127.0.0.1:8000/notificacao/2/";
 const urlCondicao = "http://127.0.0.1:8000/condicao/2/";
+const urlPacote = "http://127.0.0.1:8000/packOrcamento/2";
 
 var precoTotal = 0.0;
 var pesoTotal = 0.0;
@@ -13,7 +14,9 @@ async function carregarDados() {
         const resposta = await fetch(urlAPI);
         const dadosJSON = await resposta.json();
 
-        popularTabelaPedidos(dadosJSON);
+        if(tipo.value != 'packingList2'){
+            popularTabelaPedidos(dadosJSON);
+        }
 
         if (tipo.value == "fatura"){
             const respostaNotificar = await fetch(urlNotificar);
@@ -26,7 +29,18 @@ async function carregarDados() {
             popularTabelaCondicao(dadosCondicao);
             popularTabelaPeso(dadosJSON);
         }
-    
+
+        if (tipo.value == "packingList"  || tipo.value == 'packingList2'){
+            const respostaPacote = await fetch(urlPacote);
+            const dadosPacote = await respostaPacote.json();
+            if(tipo.value == 'packingList2'){
+                popularTabelaPacotesPutDelete(dadosPacote);
+                popularTabelaPedidos(dadosJSON, dadosPacote);
+            }else{
+                popularTabelaPacotes(dadosPacote);
+            }    
+        }
+
         popularTabelaCliente1(dadosJSON);
         popularTabelaCliente2(dadosJSON);
         popularTabelaCliente3(dadosJSON);
@@ -321,7 +335,7 @@ function popularTabelaPeso(dados){
     tabela.appendChild(linha1);
 }
 
-function popularTabelaPedidos(dados){
+function popularTabelaPedidos(dados, dadosPacote){
     const tabela = document.getElementById("tabela-pedidos");
     
     const linha = document.createElement("tr");
@@ -329,46 +343,71 @@ function popularTabelaPedidos(dados){
     const colunaCodigo = document.createElement("td");
     const colunaDescricao = document.createElement("td");
     const colunaQuantidade = document.createElement("td");
-
-    const colulaPrecoUnit = document.createElement("td");
-    const colunaPreco = document.createElement("td");
-    const colunaNcm = document.createElement("td");   
+      
     colunaDescricao.setAttribute('width', '188px');    
 
     colunaItem.textContent = "ITEM";
     colunaCodigo.textContent = "CODIGO";
     colunaDescricao.textContent = "PRODUTOS";
-    colunaQuantidade.textContent = "QTDE.";
-    
-    colulaPrecoUnit.textContent = "PREÇO UN.";
-    colunaPreco.textContent = 'PREÇO TOTAL';    
-    
-    colunaNcm.textContent = 'NCM';
+    colunaQuantidade.textContent = "QTDE.";    
 
     linha.appendChild(colunaItem);
-    linha.appendChild(colunaCodigo);
+    if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
+        const colunaCodigo = document.createElement("select");
+        colunaCodigo.id = "colunaCodigo";
+        colunaCodigo.value = "0";
+        colunaCodigo.setAttribute("onchange","filtrarCodigo(" + JSON.stringify(dados) +")");
+        linha.appendChild(colunaCodigo);
+
+        const opcaoCodigo = document.createElement("option");
+        opcaoCodigo.textContent = "CODIGO";
+        colunaCodigo.append(opcaoCodigo);
+    }else{
+        linha.appendChild(colunaCodigo);
+    }
     linha.appendChild(colunaDescricao);
-    if (tipo.value != "fatura"){ 
+    linha.appendChild(colunaQuantidade);
+
+    if (tipo.value != 'orcamento'){
+        const colunaUnid = document.createElement("td");
+        colunaUnid.textContent = "UNID";
+        linha.appendChild(colunaUnid);
+    }else{
         const colunaDataEntrega = document.createElement("td");
         colunaDataEntrega.textContent = "ENTREGA";
         linha.appendChild(colunaDataEntrega);
+    }
+
+    if (tipo.value != 'packingList' && tipo.value != 'packingList2'){
+        const colulaPrecoUnit = document.createElement("td");
+        const colunaPreco = document.createElement("td");
+        const colunaNcm = document.createElement("td");
+
+        colulaPrecoUnit.textContent = "PREÇO UN.";
+        colunaPreco.textContent = 'PREÇO TOTAL';    
+        colunaNcm.textContent = 'NCM';
+
+        linha.appendChild(colunaNcm);
+        linha.appendChild(colulaPrecoUnit);
+        linha.appendChild(colunaPreco); 
+    }
+    
+    if (tipo.value != "fatura"){ 
 
         const colunaPeso = document.createElement("td");
         colunaPeso.textContent = 'PESO';
         linha.appendChild(colunaPeso);
 
+        const colunaPesoTotal = document.createElement("td");
+        colunaPesoTotal.textContent = 'PESO TOTAL';
+        linha.appendChild(colunaPesoTotal);
+    }
+
+    if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
         const colunaVolume = document.createElement("td");
         colunaVolume.textContent = 'VOLUME';
         linha.appendChild(colunaVolume);
-    }else{
-        const colunaUnid = document.createElement("td");
-        colunaUnid.textContent = "UNID";
-        linha.appendChild(colunaUnid);
     }
-    linha.appendChild(colunaNcm);
-    linha.appendChild(colunaQuantidade);
-    linha.appendChild(colulaPrecoUnit);
-    linha.appendChild(colunaPreco);    
 
     tabela.appendChild(linha);
 
@@ -378,22 +417,12 @@ function popularTabelaPedidos(dados){
         const colunaItem = document.createElement("td");
         const colunaCodigo = document.createElement("td");
         const colunaDescricao = document.createElement("td");
-        const colunaQuantidade = document.createElement("td");
-
-        const colulaPrecoUnit = document.createElement("td");
-        const colunaPreco = document.createElement("td");
-        const colunaNcm = document.createElement("td");
-               
+        const colunaQuantidade = document.createElement("td");               
 
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.peca.codigo;
         colunaDescricao.textContent = item.peca.descricao;
-        colunaQuantidade.textContent = item.quantidade;
-        
-        colulaPrecoUnit.textContent = formatarPreco(item.peca.precoVenda * 1.2);
-        colunaPreco.textContent = formatarPreco(item.peca.precoVenda * item.quantidade * 1.2);
-        colunaNcm.textContent = item.peca.ncm;
-                
+        colunaQuantidade.textContent = item.quantidade;                 
 
         precoTotal  += item.peca.precoVenda * item.quantidade;
         volumeTotal += item.peca.volume     * item.quantidade;
@@ -404,27 +433,72 @@ function popularTabelaPedidos(dados){
         linha.appendChild(colunaItem);
         linha.appendChild(colunaCodigo);
         linha.appendChild(colunaDescricao); 
-        if (tipo.value != "fatura"){ 
-            const colunaDataEntrega = document.createElement("td");
-            colunaDataEntrega.textContent = formatarData(item.dataEntrega);
-            linha.appendChild(colunaDataEntrega);
+        linha.appendChild(colunaQuantidade); 
 
-            const colunaPeso = document.createElement("td");
-            colunaPeso.textContent = item.peca.peso;
-            linha.appendChild(colunaPeso);
-
-            const colunaVolume = document.createElement("td"); 
-            colunaVolume.textContent = item.peca.volume;
-            linha.appendChild(colunaVolume);
-        }else{
+        if (tipo.value != 'orcamento'){
             const colunaUnid = document.createElement("td");
             colunaUnid.textContent = item.unidade;
             linha.appendChild(colunaUnid);
+        }else{
+            const colunaDataEntrega = document.createElement("td");
+            colunaDataEntrega.textContent = formatarData(item.dataEntrega);
+            linha.appendChild(colunaDataEntrega);
         }
-        linha.appendChild(colunaNcm);
-        linha.appendChild(colunaQuantidade);
-        linha.appendChild(colulaPrecoUnit);
-        linha.appendChild(colunaPreco);               
+
+        if (tipo.value != 'packingList' && tipo.value != 'packingList2'){
+            const colulaPrecoUnit = document.createElement("td");
+            const colunaPreco = document.createElement("td");
+            const colunaNcm = document.createElement("td");
+    
+            colulaPrecoUnit.textContent = formatarPreco(item.peca.precoVenda * 1.2);
+            colunaPreco.textContent = formatarPreco(item.peca.precoVenda * item.quantidade * 1.2);
+            colunaNcm.textContent = item.peca.ncm;
+    
+            linha.appendChild(colunaNcm);
+            linha.appendChild(colulaPrecoUnit);
+            linha.appendChild(colunaPreco); 
+        }
+
+        if (tipo.value != "fatura"){ 
+            const colunaPeso = document.createElement("td");
+            colunaPeso.textContent = formatarPreco(item.peca.peso*1);
+            linha.appendChild(colunaPeso);
+
+            const colunaPesoTotal = document.createElement("td");
+            colunaPesoTotal.textContent = formatarPreco(item.peca.peso * item.quantidade);
+            linha.appendChild(colunaPesoTotal);
+        }
+        
+        if (tipo.value == 'packingList'){
+            const colunaVolume = document.createElement("td"); 
+            colunaVolume.textContent = item.volume;
+            linha.appendChild(colunaVolume);
+
+            const coluna = document.getElementById("colunaCodigo");
+            const opcaoCodigo = document.createElement("option");
+            opcaoCodigo.textContent = item.peca.codigo;
+            opcaoCodigo.value = item.peca.id;
+            coluna.append(opcaoCodigo);
+        }
+
+        if(tipo.value == 'packingList2'){
+            const colunaVolume = document.createElement("td");
+            const select = document.createElement("select");
+            colunaVolume.append(select);
+            const option = document.createElement("option");
+            option.textContent = "volume";
+            select.append(option);
+            //console.log(dadosPacote)
+            for(const opcao of dadosPacote.results){
+                const option = document.createElement("option");
+                option.textContent = opcao.volume;
+                option.value = opcao.pacote;
+                option.id = item.id;
+                select.setAttribute("onchange","adicionarVolumePeca(" + JSON.stringify(item)  +  ",this)");
+                select.append(option);
+            } 
+            linha.appendChild(colunaVolume);
+        }
 
         tabela.appendChild(linha);
 
@@ -445,5 +519,246 @@ function popularTabelaPedidos(dados){
         totalPeso.append(formatarPreco(pesoTotal));
 
       }
+}
 
+function popularTabelaPacotes(dados){
+    const tabela = document.getElementById("tabela-pacotes");
+    const linha = document.createElement("tr");
+
+    const colunaVolume = document.createElement("td");
+    const colunaPacote = document.createElement("td");
+    const colunaLargura = document.createElement("td");
+    const colunaComprimento = document.createElement("td");
+    const colunaAltura = document.createElement("td");
+    const colunaVol = document.createElement("td");
+    const colunaPeso = document.createElement("td");
+
+    colunaVolume.textContent = "VOLUME";
+    colunaPacote.textContent = "PACOTE";
+    colunaLargura.textContent = "LARGURA";
+    colunaComprimento.textContent = "COMPRIMENTO";
+    colunaAltura.textContent = "ALTURA";
+    colunaVol.textContent = "Vol (m³)";
+    colunaPeso.textContent = "PESO BRUTO(Kg)";
+
+    linha.appendChild(colunaVolume);
+    linha.appendChild(colunaPacote);
+    linha.appendChild(colunaLargura);
+    linha.appendChild(colunaComprimento);
+    linha.appendChild(colunaAltura);
+    linha.appendChild(colunaVol);
+    linha.appendChild(colunaPeso);
+
+    tabela.appendChild(linha);
+
+    for (const item of dados.results) {
+        const linha = document.createElement("tr");
+        linha.id = item.id;
+
+        const colunaVolume = document.createElement("td");
+        const colunaPacote = document.createElement("td");
+        const colunaLargura = document.createElement("td");
+        const colunaComprimento = document.createElement("td");
+        const colunaAltura = document.createElement("td");
+        const colunaVol = document.createElement("td");
+        const colunaPeso = document.createElement("td");
+    
+        colunaVolume.textContent = item.volume;
+        colunaPacote.textContent = item.pacote;
+        colunaLargura.textContent = item.largura;
+        colunaComprimento.textContent = item.comprimento;
+        colunaAltura.textContent = item.altura;
+        colunaVol.textContent = item.volumePack;
+        colunaPeso.textContent = item.peso;
+    
+        linha.appendChild(colunaVolume);
+        linha.appendChild(colunaPacote);
+        linha.appendChild(colunaLargura);
+        linha.appendChild(colunaComprimento);
+        linha.appendChild(colunaAltura);
+        linha.appendChild(colunaVol);
+        linha.appendChild(colunaPeso);
+    
+        tabela.appendChild(linha);
+    }
+
+}
+
+function popularTabelaPacotesPutDelete(dados){
+    const tabela = document.getElementById("tabela-pacotes");
+    const linha = document.createElement("tr");
+
+    const colunaVolume = document.createElement("td");
+    const colunaPacote = document.createElement("td");
+    const colunaLargura = document.createElement("td");
+    const colunaComprimento = document.createElement("td");
+    const colunaAltura = document.createElement("td");
+    const colunaVol = document.createElement("td");
+    const colunaPeso = document.createElement("td");
+
+    colunaVolume.textContent = "VOLUME";
+    colunaPacote.textContent = "PACOTE";
+    colunaLargura.textContent = "LARGURA";
+    colunaComprimento.textContent = "COMPRIMENTO";
+    colunaAltura.textContent = "ALTURA";
+    colunaVol.textContent = "Vol (m³)";
+    colunaPeso.textContent = "PESO BRUTO(Kg)";
+
+    linha.appendChild(colunaVolume);
+    linha.appendChild(colunaPacote);
+    linha.appendChild(colunaLargura);
+    linha.appendChild(colunaComprimento);
+    linha.appendChild(colunaAltura);
+    linha.appendChild(colunaVol);
+    linha.appendChild(colunaPeso);
+
+    tabela.appendChild(linha);
+
+    for (const item of dados.results) {
+        const linha = document.createElement("tr");
+        linha.id = item.id;
+
+        const colunaVolume = document.createElement("td");
+        const colunaPacote = document.createElement("td");
+        const colunaLargura = document.createElement("td");
+        const colunaComprimento = document.createElement("td");
+        const colunaAltura = document.createElement("td");
+        const colunaVol = document.createElement("td");
+        const colunaPeso = document.createElement("td");
+        const colunaPut = document.createElement("td");
+        const colunaDelete = document.createElement("td");
+
+        const inputLargura = document.createElement("input");
+        const inputComprimento = document.createElement("input");
+        const inputAltura = document.createElement("input");
+        const inputPeso = document.createElement("input");
+        const btnPut = document.createElement("button");
+        const btnDelete = document.createElement("button");
+    
+        colunaVolume.textContent = item.volume;
+        colunaPacote.textContent = item.pacote;
+        colunaVol.textContent = item.volumePack;
+
+        inputLargura.value = item.largura;
+        inputComprimento.value = item.comprimento;
+        inputAltura.value = item.altura;
+        inputPeso.value = item.peso;
+        
+        inputLargura.id = item.id + "largura";
+        inputComprimento.id = item.id + "comprimento";
+        inputAltura.id = item.id + "altura";
+        inputPeso.id = item.id + "peso";
+
+        btnPut.textContent = "ATUALIZAR";
+        btnDelete.textContent = "DELETAR";
+
+        btnPut.setAttribute("onclick","atualizarPacote("+ JSON.stringify(item) +  ")");
+        btnDelete.setAttribute("onclick","excluirPacote("+ item.id +  ")");
+
+        colunaLargura.append(inputLargura);
+        colunaComprimento.append(inputComprimento);
+        colunaAltura.append(inputAltura);
+        colunaPeso.append(inputPeso);
+        colunaPut.append(btnPut);
+        colunaDelete.append(btnDelete);
+    
+        linha.appendChild(colunaVolume);
+        linha.appendChild(colunaPacote);
+        linha.appendChild(colunaLargura);
+        linha.appendChild(colunaComprimento);
+        linha.appendChild(colunaAltura);
+        linha.appendChild(colunaVol);
+        linha.appendChild(colunaPeso);
+        linha.appendChild(colunaPut);
+        linha.appendChild(colunaDelete);
+    
+        tabela.appendChild(linha);
+    }
+}
+
+function filtrarCodigo(dadosJSON){
+        // Cria um novo array vazio para armazenar os dados filtrados
+        var i = 0;
+        const dadosFiltrados = {"results": [{}]};
+        var criterioFiltro = document.getElementById("colunaCodigo").value;
+        
+        // Itera sobre cada elemento do JSON original
+        for (const chave in dadosJSON.results) {
+            const valor = dadosJSON.results[i];
+      
+            // Aplica o critério de filtro ao elemento atual
+            if (criterioFiltro == valor.peca.id) {
+              // Adiciona o elemento ao array de dados filtrados
+              console.log(valor)
+              dadosFiltrados.results.push(valor);
+            }
+          
+          i++
+        }
+    dadosFiltrados.results.shift()
+    popularTabelaPedidos(dadosFiltrados);
+}
+
+function adicionarVolumePeca(pedido,sel ){
+    var volume = sel.options[sel.selectedIndex].text;
+    var pacote = sel.options[sel.selectedIndex].value;
+    updateVolumePeca(pedido, volume, pacote);
+}
+
+function updateVolumePeca(pedido, volume, pacote){
+    fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
+        method: "PUT",
+        body: JSON.stringify({
+            "codigoPedido": pedido.codigoPedido,
+            "dataCriacao": pedido.dataCriacao,
+            "dataEntrega": pedido.dataEntrega,
+            "quantidade": pedido.quantidade,
+            "pesoBruto": pedido.pesoBruto,
+            "volumeBruto": pedido.volumeBruto,
+            "unidade": pedido.unidade,
+            "pacote": pacote,
+            "volume": volume,
+            "codigoPeca": pedido.codigoPeca,
+            "codigoOrcamento": pedido.codigoOrcamento,
+            "codigoCliente": pedido.codigoCliente
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+}
+
+function atualizarPacote(pacote){
+    var largura = document.getElementById(pacote.id+"largura").value
+    var comprimento = document.getElementById(pacote.id+"comprimento").value
+    var altura = document.getElementById(pacote.id+"altura").value
+    var peso = document.getElementById(pacote.id+"peso").value
+    
+    fetch("http://127.0.0.1:8000/pack/" + pacote.id + "/", {
+        method: "PUT",
+        body: JSON.stringify({
+                "volume": pacote.volume,
+                "pacote": pacote.pacote,
+                "comprimento": comprimento,
+                "largura": largura,
+                "altura": altura,
+                "peso": peso,
+                "orcamento": pacote.orcamento
+        }),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+}
+
+function excluirPacote(item){
+    fetch("http://127.0.0.1:8000/pack/"+item+"/", {
+        method: 'DELETE',
+    })
+    .then(res => res.text())
+    .then(res => console.log(res));
 }

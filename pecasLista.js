@@ -12,7 +12,7 @@ function proximaPagina(){
 
 var urlAPI = "http://127.0.0.1:8000/peca/?format=json&page="+ pagina;
 
-async function carregarDados() {
+async function carregarDados() {   
         const resposta = await fetch(urlAPI);
         const dadosJSON = await resposta.json();
         
@@ -34,6 +34,7 @@ function carregarTabela(){
 
     const pesquisa = document.createElement("input");
     pesquisa.id = "pesquisa";
+    pesquisa.placeholder = "pesquisar peça"
     tabela.appendChild(pesquisa);
 
     pesquisa.addEventListener("keypress", function(event) {
