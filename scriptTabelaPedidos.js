@@ -1,7 +1,9 @@
-const urlAPI = "http://127.0.0.1:8000/orcamento/2/pedidos/?format=json";
-const urlNotificar = "http://127.0.0.1:8000/notificacao/2/";
-const urlCondicao = "http://127.0.0.1:8000/condicao/2/";
-const urlPacote = "http://127.0.0.1:8000/packOrcamento/2";
+var orcamentoId = localStorage.orcamentoId;
+
+const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/?format=json";
+const urlNotificar = "http://127.0.0.1:8000/notificacao/"+ orcamentoId + "/";
+const urlCondicao = "http://127.0.0.1:8000/condicao/"+ orcamentoId + "/";
+const urlPacote = "http://127.0.0.1:8000/packOrcamento/" + orcamentoId;
 
 var precoTotal = 0.0;
 var pesoTotal = 0.0;

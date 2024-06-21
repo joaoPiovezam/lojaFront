@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Encomendas</title>
+    <title>Cadastro de Pacotes</title>
     <link rel="stylesheet" href="style.css">
     <script src="cadastroPackList.js"></script>
 </head>
 <body>
-    <h1>Cadastro de Encomendas</h1>
+    <h1>Cadastro de Pacotes</h1>
 
     <input hidden id="pagina" value="packingList2">
-
+    <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
+        <option value="">Selecione o Orçamento</option>
+    </select>
     <div id="tabela-pacotes"></div>
 
     <form id="formularioEncomenda">

@@ -109,6 +109,9 @@ function popularTabela(dados){
     const tabela = document.getElementById("tabela-pecas");
     for (const item of dados.results) {
         const linha = document.createElement("tr");
+        const colunaBtnVizualizar = document.createElement("td");
+        const colunaBtnFatura = document.createElement("td");
+        const colunaBtnAdicionar = document.createElement("td");
         const colunaItem = document.createElement("td");
         const colunaCodigo = document.createElement("td");
         const colunaDataEmissao = document.createElement("td");
@@ -129,9 +132,29 @@ function popularTabela(dados){
         btn.id = "preencher"
         linha.id = "linhas";
 
+        const btnVizualizar = document.createElement("button");
+        const btnFatura = document.createElement("button");
+
+        colunaBtnVizualizar.append(btnVizualizar);
+        colunaBtnFatura.append(btnFatura);
+
+        btnVizualizar.textContent = "Vizualizar Orcamento";
+        btnFatura.textContent = "Vizualizar Fatura";
+
+        btnVizualizar.id = item.id;
+        btnFatura.id = item.id;
+
+        const btnAdicionar = document.createElement("button");
+        colunaBtnAdicionar.append(btnAdicionar);
+        btnAdicionar.textContent = "Adicionar Peças";
+        btnAdicionar.id = item.id;
+
         var id = item.id; 
 
         btn.setAttribute("onclick", "preencherForm("+ JSON.stringify(item) +")");            
+        btnVizualizar.setAttribute("onclick", "vizualizarOrcamento("+ btnVizualizar.id +")");            
+        btnAdicionar.setAttribute("onclick", "adicionarPecas("+ btnAdicionar.id +")");            
+        btnFatura.setAttribute("onclick", "vizualizarFatura("+ btnFatura.id +")");            
         
         /*colunaQtd.appendChild(qtd);
         colunaQtd.appendChild(btn);*/
@@ -165,7 +188,10 @@ function popularTabela(dados){
         linha.appendChild(colunaEnderecoEntrega);
         linha.appendChild(colunaCidadeEntrega);
         linha.appendChild(colunaPaisEntrega);
-        linha.appendChild(colunaCliente);        
+        linha.appendChild(colunaCliente); 
+        linha.appendChild(colunaBtnVizualizar);
+        linha.appendChild(colunaBtnFatura);       
+        linha.appendChild(colunaBtnAdicionar);       
 
         tabela.appendChild(linha);
 
@@ -329,4 +355,19 @@ function updateFornecedor(){
         .then((json) => console.log(json));
     });
     location.reload();
+}
+
+function vizualizarOrcamento(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    location.href = '/orcamento.html';
+}
+
+function adicionarPecas(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    location.href = '/pecas.html';
+}
+
+function vizualizarFatura(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    location.href = '/fatura.html';
 }

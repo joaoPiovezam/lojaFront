@@ -35,7 +35,7 @@ function addCondicao(){
             "porcentagem": dadosFatura.porcentagem,
             "data": dadosFatura.data,
             "total": dadosFatura.total,
-            "orcamento": 2
+            "orcamento": localStorage.orcamentoId
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"
@@ -66,7 +66,7 @@ function addNotificar(){
             "nome": dadosNotificar.nome,
             "telefone": dadosNotificar.telefone,
             "email": dadosNotificar.email,
-            "orcamento": 2
+            "orcamento": localStorage.orcamentoId
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"

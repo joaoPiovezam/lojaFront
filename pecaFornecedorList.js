@@ -21,15 +21,34 @@ function proximaPagina(){
 
 }
 
+function popularDropDownOrcamento(dados){
+    const dropdownOrcamento = document.getElementById('dropdownOrcamento');
+
+    for(const item of dados.results){
+        const orcamento = document.createElement("option");
+        orcamento.value = item.id;
+        orcamento.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+        console.log(item.id);
+        dropdownOrcamento.appendChild(orcamento);
+    }
+}
+function atualizarOrcamento(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    location.reload();
+}
+
 var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/0/0/?ordering=preco";
-var urlPedidos = "http://127.0.0.1:8000/orcamento/1/pedidos/";
+var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/";
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
-var urlCotacao = "http://127.0.0.1:8000/cotacaoOrcamento/1/";
+var urlCotacao = "http://127.0.0.1:8000/cotacaoOrcamento/"+ localStorage.orcamentoId + "/";
+var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
 
 async function carregarDados() { 
         const respostaPecas = await fetch(urlPecaFornecedor);
         const dadosJSONPecas = await respostaPecas.json();
-
+        const respostaOrcamento = await fetch(urlOrcamento);
+        const dadosOrcamento = await respostaOrcamento.json();
+        popularDropDownOrcamento(dadosOrcamento); 
         if(pagina == 1 ){
             carregarTabela();
         }

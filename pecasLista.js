@@ -162,10 +162,19 @@ function pesquisar(){
     carregarDados()
 }
 
-function criarPedido(idPeca, i){
+async function getClienteByOrcamentoId(orcamentoId){
+    var urlAPI = "http://127.0.0.1:8000/orcamentos/" + orcamentoId + "/";
+        const resposta = await fetch(urlAPI);
+        const dadosJSON = await resposta.json();
+    return dadosJSON.cliente
+}
+
+
+async function criarPedido(idPeca, i){
     var qtd = document.getElementById('q' + i);
 
     console.log("pedido adicionado" + qtd.value);
+    var cliente = await getClienteByOrcamentoId(localStorage.orcamentoId);
 
     fetch("http://127.0.0.1:8000/pedidos/", {
         method: "POST",
@@ -180,8 +189,8 @@ function criarPedido(idPeca, i){
             "pacote": "caixa de madeira",
             "volume": 0,
             "codigoPeca": idPeca,
-            "codigoOrcamento": 1,
-            "codigoCliente": 1
+            "codigoOrcamento": localStorage.orcamentoId,
+            "codigoCliente": cliente
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8"

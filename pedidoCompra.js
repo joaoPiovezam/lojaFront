@@ -1,13 +1,17 @@
-const urlAPI = "http://127.0.0.1:8000/pedidoCompra/1/1?format=json";
+var urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/0?format=json";
+var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
 
-var  precoTotal = 0.0;
+var precoTotal = 0.0;
 var pesoTotal = 0.0;
 var volumeTotal = 0.0;
 
 async function carregarDados() {
         const resposta = await fetch(urlAPI);
-        const dadosJSON = await resposta.json();
-    
+        const dadosJSON = await resposta.json();        
+        const respostaFornecedores = await fetch(urlFornecedor);
+        const dadosFornecedores= await respostaFornecedores.json();
+
+        popularDownFornecedores(dadosFornecedores);     
         popularTabelaCliente1(dadosJSON);
         popularTabelaCliente2(dadosJSON);
         /*popularTabelaCliente3(dadosJSON);
@@ -25,7 +29,23 @@ function formatarPreco(preco) {
     return ` ${preco.toFixed(2).replace(".", ",")}`;
 }    
 carregarDados();
-    
+
+function popularDownFornecedores(dados){
+    const dropDownFornecedores = document.getElementById('dropDownFornecedor');
+
+    for(const item of dados.results){
+        const fornecedor = document.createElement("option");
+        fornecedor.value = item.id;
+        fornecedor.textContent = item.nomeFornecedor + ' - ' + item.cpfCnpj;
+        console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
+        dropDownFornecedores.appendChild(fornecedor);
+    }
+}    
+function atualizarFonecedor(fornecedorId){
+    urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/" + fornecedorId + "?format=json";
+    carregarDados();
+}
+
 function popularTabelaCliente1(dados){
     const tabela = document.getElementById("tabela-cliente");
 

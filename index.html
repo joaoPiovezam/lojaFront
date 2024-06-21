@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script>
+        localStorage.orcamentoId = 0;
+      </script>
+      <select id="dropdownOrcamento" onchange="localStorage.orcamentoId =  this.value">
+        <option value="">Selecione o Orçamento</option>
+      </select>
+
+    <div class="search-bar">
+        <input type="text" placeholder="Pesquisar...">
+        <button type="submit">Pesquisar</button>
+    </div>
+
+    <div class="login-link">
+        <button style="border-radius: 10px;"><i class="fas fa-user"></i> Fazer Login</button>
+    </div>
+    <div class="navbar" id="navbar">
+        <ul>
+                <a href="/pecas.html" >Peças</a>
+                <a href="/cadastroOrcamento.html">Orçamento</a>
+                <a href="/cadastroCotacao.html">Cotação</a>
+                <a href="/cadastroFatura.html">Fatura</a>
+                <a href="/cadastroPedidoCompra.html">Pedido de Compra</a>
+                <a href="/cadatroPacotes.html">Packing List</a>
+                <a href="/cadastroEstoque.html">Estoque</a>                
+        </ul>
+    </div>
+</body>
+
+</html>

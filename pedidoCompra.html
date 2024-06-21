@@ -29,6 +29,9 @@
         html2pdf().from(element).set(options).save();
         }
     </script>
+    <select id="dropDownFornecedor" onchange="atualizarFonecedor(this.value)">
+        <option value="">Selecione o Fornecedor</option>
+    </select>
     <div class = 'contanier' id = 'orcamento'>
         <table id = "tabela">
             <div id="tabela-cliente"></div>
