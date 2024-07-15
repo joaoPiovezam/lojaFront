@@ -13,37 +13,42 @@
 
     <script>
         function gerarPDF() {
-        var element = document.getElementById('fatura');
-        var options = {
-            margin: 10,
-            filename: 'meu-pdf.pdf',
-            image: {
-            type: 'jpeg',
-            quality: 1
-            },
-            html2canvas: {
-            scale: 2
-            }
-        };
+            var colunaCodigoS = document.getElementById("colunaCodigoS");
+            colunaCodigoS.hidden = true;
+            var colunaCodigo = document.getElementById("colunaCodigo");
+            colunaCodigo.hidden = false;
+            var element = document.getElementById('fatura');
+            var options = {
+                margin: 10,
+                filename: 'meu-pdf.pdf',
+                image: {
+                type: 'jpeg',
+                quality: 1
+                },
+                html2canvas: {
+                scale: 2
+                }
+            };
 
-        html2pdf().from(element).set(options).save();
+            html2pdf().from(element).set(options).save();
         }
     </script>
     <div class = 'contanier' id = 'fatura'>
         <input hidden id="pagina" value="packingList">
-        <table id = "tabela">
-            <div id="tabela-cliente"></div>
-            <div id="tabela-notificar"></div>
-            <div id="tabela-condicao"></div>
-            <div id="tabela-peso"></div>
-            <div id="notificar"></div>
-            <div id="tabela-pedidos"></div>
-            <div id="tabela-pacotes"></div>
-        </table>
+            <table id="tabela-cliente"></table>
+            <table id="tabela-notificar"></table>
+            <table id="tabela-condicao"></table>
+            <table id="tabela-peso"></table>
+            <table id="notificar"></table>
+            <table id="tabela-pedidos"></table>
+            <table id="tabela-pacotes"></table>
         <script src="scriptTabelaPedidos.js"></script>
-        <div id="total-orcado"></div>
-        <div id="total-volume"></div>
-        <div id="total-peso"></div>
+        <table>
+            <td><div id="total-orcado"></div></td>
+            <td><div id="total-volume"></div></td>
+            <td><div id="total-peso"></div></td>            
+        </table>
+        
     </div>
 
 

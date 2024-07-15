@@ -3,14 +3,22 @@ var urlAPI = "http://127.0.0.1:8000/orcamentos/";
 async function carregarDados() {
         const resposta = await fetch(urlAPI);
         const dadosJSON = await resposta.json();
-        popularTabela(dadosJSON); 
+        //popularTabela(dadosJSON); 
+        popularDropDownOrcamento(dadosJSON); 
     }
 
 carregarDados();
 
+function popularDropDownOrcamento(dados){
+    const dropdownOrcamento = document.getElementById('dropdownOrcamento');
 
-function popularTabela(dados){
-
+    for(const item of dados.results){
+        const orcamento = document.createElement("option");
+        orcamento.value = item.id;
+        orcamento.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+        console.log(item.id);
+        dropdownOrcamento.appendChild(orcamento);
+    }
 }
 
 function addCondicao(){

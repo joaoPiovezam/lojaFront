@@ -9,19 +9,19 @@
 <body> 
     
     <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
-        <option value="">Selecione o Orçamento</option>
+        <option value="0">Selecione o Orçamento</option>
     </select>
 
     <div class="campo">
         <label for="fornecedor">Fornecedor:</label>
-        <select onchange="filtrarFornecedor()" width="800" id="dropDownFornecedor" name="fornecedor" required>
+        <select onchange="filtrarFornecedor(this.value)" width="800" id="dropDownFornecedor" name="fornecedor" required>
             <option value="0">Selecione</option>
         </select>
-    </div>  
+    </div>
 
     <div class="campo">
-        <label for="fornecedor">Pedido:</label>
-        <select onchange="filtrarPecas()" width="800" id="dropDownPedidos" name="fornecedor" required>
+        <label for="Pecas">Pedido:</label>
+        <select onchange="filtrarPecas(this.value)" width="800" id="dropDownPedidos" name="Pecas" required>
             <option value="0">Selecione</option>
         </select>
     </div>  

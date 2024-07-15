@@ -1,13 +1,69 @@
 #tabela-pedidos {
-    width: 90%;
+    font-size: 10px;
+}
+#tabela-notificar{
+    text-align:center;
+}
+#tabela-pacotes{
+    text-align:center;
+    font-size: 15px;
+}
+#linhaNotificar{
+    background-color: yellow;
 }
 
-#tabela-cliente {
-    width: 90%;
+#linhaComprador{
+    text-align:center;
+    background-color: yellow;
 }
 
+#linhaCondicao{
+    text-align:center;
+    background-color: yellow;
+}
+
+#linhaPacote{
+    text-align:center;
+    background-color: yellow;
+}
+
+#linhaPecas{
+    text-align:center;
+    background-color: yellow;
+}
+
+#nome{
+    font-size: 15px;
+}
+#rua{
+    font-size: 15px;
+}
+#cidade{
+    font-size: 15px;
+}
+#pais{
+    font-size: 15px;
+}
+#cnpj{
+    font-size: 15px;
+}
+
+#celular{
+    font-size: 15px;
+}
+
+#data{
+    font-size: 15px;
+}
+#hora{
+    font-size: 15px;
+}
+table{
+    width: 95%;
+    margin: auto;
+}
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #414040;
     padding: 8px;
 }
 body {

@@ -111,6 +111,8 @@ function popularTabela(dados){
         const linha = document.createElement("tr");
         const colunaBtnVizualizar = document.createElement("td");
         const colunaBtnFatura = document.createElement("td");
+        const colunaBtnPacotes = document.createElement("td");
+        const colunaBtnPedido = document.createElement("td");
         const colunaBtnAdicionar = document.createElement("td");
         const colunaItem = document.createElement("td");
         const colunaCodigo = document.createElement("td");
@@ -134,15 +136,23 @@ function popularTabela(dados){
 
         const btnVizualizar = document.createElement("button");
         const btnFatura = document.createElement("button");
+        const btnPacotes = document.createElement("button");
+        const btnPedidos = document.createElement("button");
 
         colunaBtnVizualizar.append(btnVizualizar);
         colunaBtnFatura.append(btnFatura);
+        colunaBtnPacotes.append(btnPacotes);
+        colunaBtnPedido.append(btnPedidos);
 
         btnVizualizar.textContent = "Vizualizar Orcamento";
         btnFatura.textContent = "Vizualizar Fatura";
+        btnPacotes.textContent = "Packing List";
+        btnPedidos.textContent = "Pedidos de Compras";
 
         btnVizualizar.id = item.id;
         btnFatura.id = item.id;
+        btnPacotes.id = item.id;
+        btnPedidos.id = item.id;
 
         const btnAdicionar = document.createElement("button");
         colunaBtnAdicionar.append(btnAdicionar);
@@ -155,6 +165,8 @@ function popularTabela(dados){
         btnVizualizar.setAttribute("onclick", "vizualizarOrcamento("+ btnVizualizar.id +")");            
         btnAdicionar.setAttribute("onclick", "adicionarPecas("+ btnAdicionar.id +")");            
         btnFatura.setAttribute("onclick", "vizualizarFatura("+ btnFatura.id +")");            
+        btnPacotes.setAttribute("onclick", "vizualizarPacotes("+ btnPacotes.id +")");            
+        btnPedidos.setAttribute("onclick", "vizualizarPedidoCompra("+ btnPedidos.id +")");            
         
         /*colunaQtd.appendChild(qtd);
         colunaQtd.appendChild(btn);*/
@@ -191,6 +203,8 @@ function popularTabela(dados){
         linha.appendChild(colunaCliente); 
         linha.appendChild(colunaBtnVizualizar);
         linha.appendChild(colunaBtnFatura);       
+        linha.appendChild(colunaBtnPacotes);       
+        linha.appendChild(colunaBtnPedido);       
         linha.appendChild(colunaBtnAdicionar);       
 
         tabela.appendChild(linha);
@@ -359,15 +373,25 @@ function updateFornecedor(){
 
 function vizualizarOrcamento(orcamentoId){
     localStorage.orcamentoId = orcamentoId;
-    location.href = '/orcamento.html';
+    window.open('/orcamento.html', '_blank').focus();
 }
 
 function adicionarPecas(orcamentoId){
     localStorage.orcamentoId = orcamentoId;
-    location.href = '/pecas.html';
+    window.open('/pecas.html', '_blank').focus();
 }
 
 function vizualizarFatura(orcamentoId){
     localStorage.orcamentoId = orcamentoId;
-    location.href = '/fatura.html';
+    window.open('/fatura.html', '_blank').focus();
+}
+
+function vizualizarPacotes(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    window.open('/packingList.html', '_blank').focus();
+}
+
+function vizualizarPedidoCompra(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    window.open( '/pedidoCompra.html', '_blank').focus();
 }

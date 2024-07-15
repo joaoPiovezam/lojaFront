@@ -33,20 +33,74 @@
         <option value="">Selecione o Fornecedor</option>
     </select>
     <div class = 'contanier' id = 'orcamento'>
-        <table id = "tabela">
-            <div id="tabela-cliente"></div>
-            <div id="tabela-pedidos"></div>
-        </table>
+        <header>
+            <table id="cabecalho">
+                <td>
+                    <img src="logo.png" alt="" width="100px">
+                </td>
+                <td>
+                    <div id="nome"> JP Trading LTDA. </div>
+                    <div id="rua"> Tamoios, 262 </div>
+                    <div id="cidade"> Ribeirão/SP </div>
+                    <div id="pais"> Brasil </div>
+                    <div id="cnpj"> 49.465.446/0007-76 </div>
+                </td>
+                <td>
+                    <div id="celular"> +55 (16) 99999-9999</div>
+                </td>
+                <td>
+                    <div id="data" ></div>
+                    <div id="hora"></div>
+                </td>
+            </table>            
+        </header>
+        <table id="tabela-cliente"></table>
+        <table id="tabela-pedidos"></table>
         <script src="pedidoCompra.js"></script>
-        <div id="opercaoFiscal"></div>
-        <div id="vencimento"></div>
-        <div id="total-orcado"></div>
-        <div id="total-peso"></div>
-        <div id="comprador"></div>
-        <div id="transportadora"></div>
-        <div id="traportadoraFone"></div>
-        <div id="frete"></div>
+        <table>
+            <tr>
+                <td id="opercaoFiscal"></td>
+                <td id="vencimento"></td>
+            </tr>
+            <tr>
+                <td id="total-orcado"></td>
+                <td id="total-peso"></td>
+            </tr>
+            <tr>
+                <td id="comprador"></td>
+                <td id="frete"></td>
+            </tr>
+            <tr>
+                <td id="transportadora"></td>
+                <td id="traportadoraFone"></td>
+            </tr>
+
+        </table>
     </div>
+
+    <script>
+        function addZero(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        const displayDateTime = () => {
+            const now = new Date();
+            const date = addZero(now.getDate());
+            const month = addZero(now.getMonth() + 1);
+            const year = now.getFullYear();
+            const hours = addZero(now.getHours());
+            const minutes = addZero(now.getMinutes());
+
+            const formattedDateTime = `${date}/${month}/${year}`;
+            const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+            document.getElementById('data').innerText = "data: " + formattedDateTime;
+            document.getElementById('hora').innerText = "hora: " + formattedTime;
+        };
+
+        displayDateTime();
+    </script>
 
 
 </body>

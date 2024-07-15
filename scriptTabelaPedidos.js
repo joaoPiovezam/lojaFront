@@ -1,6 +1,12 @@
 var orcamentoId = localStorage.orcamentoId;
+var pecaCodigo = localStorage.pecaCodigo;
 
-const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/?format=json";
+if (localStorage.pecaCodigo == null){
+    pecaCodigo = '';
+}
+
+const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/?search=" + pecaCodigo;
+const urlPecas = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/";
 const urlNotificar = "http://127.0.0.1:8000/notificacao/"+ orcamentoId + "/";
 const urlCondicao = "http://127.0.0.1:8000/condicao/"+ orcamentoId + "/";
 const urlPacote = "http://127.0.0.1:8000/packOrcamento/" + orcamentoId;
@@ -39,6 +45,9 @@ async function carregarDados() {
                 popularTabelaPacotesPutDelete(dadosPacote);
                 popularTabelaPedidos(dadosJSON, dadosPacote);
             }else{
+                const respostaPecas = await fetch(urlPecas);
+                const dadosPecas = await respostaPecas.json();
+                popularDownPecas(dadosPecas);
                 popularTabelaPacotes(dadosPacote);
             }    
         }
@@ -63,6 +72,12 @@ carregarDados();
     
 function popularTabelaCliente1(dados){
     const tabela = document.getElementById("tabela-cliente");
+
+    const linhaComprador = document.createElement("td");
+    linhaComprador.textContent = "CLIENTE";
+    linhaComprador.colSpan = 5;
+    linhaComprador.id = "linhaComprador";
+    tabela.appendChild(linhaComprador);
 
     const orcamento = dados.results[0].orcamento;
 
@@ -214,6 +229,12 @@ function popularTabelaCliente4(dados){
 function popularTabelaNotificar(dados){
     const tabela = document.getElementById("tabela-notificar");
 
+    const linhaNotificar = document.createElement("td");
+    linhaNotificar.textContent = "NOTIFICAR";
+    linhaNotificar.colSpan = 3;
+    linhaNotificar.id = "linhaNotificar";
+    tabela.appendChild(linhaNotificar);
+
     const linha = document.createElement("tr");
     const colunaNome = document.createElement("td");
     const colunaTelefone = document.createElement("td");
@@ -248,6 +269,12 @@ function popularTabelaNotificar(dados){
 
 function popularTabelaCondicao(dados){
     const tabela = document.getElementById("tabela-condicao");
+
+    const linhaCondicao = document.createElement("td");
+    linhaCondicao.textContent = "CONDIÇÕES DE PAGAMENTO";
+    linhaCondicao.colSpan = 5;
+    linhaCondicao.id = "linhaCondicao";
+    tabela.appendChild(linhaCondicao);
 
     const linha = document.createElement("tr");
     const colunaCondicao = document.createElement("td");
@@ -300,6 +327,12 @@ function popularTabelaCondicao(dados){
 function popularTabelaPeso(dados){
     tabela = document.getElementById("tabela-peso");
 
+    const linhaPacote = document.createElement("td");
+    linhaPacote.textContent = "PACOTE";
+    linhaPacote.colSpan = 5;
+    linhaPacote.id = "linhaPacote";
+    tabela.appendChild(linhaPacote);
+
     const linha = document.createElement("tr");
     const colunaPesoLiq = document.createElement("td");
     const colunaPesoBruto = document.createElement("td");
@@ -339,14 +372,21 @@ function popularTabelaPeso(dados){
 
 function popularTabelaPedidos(dados, dadosPacote){
     const tabela = document.getElementById("tabela-pedidos");
+
+    const linhaPecas = document.createElement("td");
+    linhaPecas.textContent = "PEÇAS";
+    linhaPecas.colSpan = 10;
+    linhaPecas.id = "linhaPecas";
+    tabela.appendChild(linhaPecas);
     
     const linha = document.createElement("tr");
     const colunaItem = document.createElement("td");
     const colunaCodigo = document.createElement("td");
     const colunaDescricao = document.createElement("td");
     const colunaQuantidade = document.createElement("td");
-      
-    colunaDescricao.setAttribute('width', '188px');    
+
+    colunaItem.setAttribute('width' , '10px')  
+    colunaDescricao.setAttribute('width', '50px');    
 
     colunaItem.textContent = "ITEM";
     colunaCodigo.textContent = "CODIGO";
@@ -355,15 +395,19 @@ function popularTabelaPedidos(dados, dadosPacote){
 
     linha.appendChild(colunaItem);
     if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
-        const colunaCodigo = document.createElement("select");
-        colunaCodigo.id = "colunaCodigo";
-        colunaCodigo.value = "0";
-        colunaCodigo.setAttribute("onchange","filtrarCodigo(" + JSON.stringify(dados) +")");
-        linha.appendChild(colunaCodigo);
+        const colunaCodigoS = document.createElement("select");
+        colunaCodigoS.id = "colunaCodigoS";
+        colunaCodigoS.value = "0";
+        colunaCodigoS.setAttribute("onchange","filtrarCodigo()");
+        linha.appendChild(colunaCodigoS);
 
         const opcaoCodigo = document.createElement("option");
         opcaoCodigo.textContent = "CODIGO";
-        colunaCodigo.append(opcaoCodigo);
+        opcaoCodigo.value = '';
+        colunaCodigoS.append(opcaoCodigo);
+        colunaCodigo.id = "colunaCodigo";
+        colunaCodigo.hidden = true;
+        linha.appendChild(colunaCodigo);
     }else{
         linha.appendChild(colunaCodigo);
     }
@@ -475,12 +519,6 @@ function popularTabelaPedidos(dados, dadosPacote){
             const colunaVolume = document.createElement("td"); 
             colunaVolume.textContent = item.volume;
             linha.appendChild(colunaVolume);
-
-            const coluna = document.getElementById("colunaCodigo");
-            const opcaoCodigo = document.createElement("option");
-            opcaoCodigo.textContent = item.peca.codigo;
-            opcaoCodigo.value = item.peca.id;
-            coluna.append(opcaoCodigo);
         }
 
         if(tipo.value == 'packingList2'){
@@ -523,9 +561,27 @@ function popularTabelaPedidos(dados, dadosPacote){
       }
 }
 
+function popularDownPecas(dados){
+    const coluna = document.getElementById("colunaCodigoS");
+
+    for(const item of dados.results){        
+        const opcaoCodigo = document.createElement("option");
+        opcaoCodigo.textContent = item.peca.codigo;
+        opcaoCodigo.value = item.peca.id;
+        coluna.append(opcaoCodigo);
+    }
+    coluna.value = localStorage.pecaCodigo;
+}    
+
 function popularTabelaPacotes(dados){
     const tabela = document.getElementById("tabela-pacotes");
     const linha = document.createElement("tr");
+
+    const linhaPecas = document.createElement("td");
+    linhaPecas.textContent = "PACOTES";
+    linhaPecas.colSpan = 10;
+    linhaPecas.id = "linhaPecas";
+    tabela.appendChild(linhaPecas);
 
     const colunaVolume = document.createElement("td");
     const colunaPacote = document.createElement("td");
@@ -678,27 +734,10 @@ function popularTabelaPacotesPutDelete(dados){
     }
 }
 
-function filtrarCodigo(dadosJSON){
-        // Cria um novo array vazio para armazenar os dados filtrados
-        var i = 0;
-        const dadosFiltrados = {"results": [{}]};
-        var criterioFiltro = document.getElementById("colunaCodigo").value;
-        
-        // Itera sobre cada elemento do JSON original
-        for (const chave in dadosJSON.results) {
-            const valor = dadosJSON.results[i];
-      
-            // Aplica o critério de filtro ao elemento atual
-            if (criterioFiltro == valor.peca.id) {
-              // Adiciona o elemento ao array de dados filtrados
-              console.log(valor)
-              dadosFiltrados.results.push(valor);
-            }
-          
-          i++
-        }
-    dadosFiltrados.results.shift()
-    popularTabelaPedidos(dadosFiltrados);
+function filtrarCodigo(){
+    codigoPeca = document.getElementById("colunaCodigoS").value;
+    localStorage.pecaCodigo = codigoPeca;
+    location.reload();
 }
 
 function adicionarVolumePeca(pedido,sel ){

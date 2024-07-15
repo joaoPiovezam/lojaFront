@@ -1,4 +1,4 @@
-var urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/0?format=json";
+var urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/"+ localStorage.idFornececedor;
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
 
 var precoTotal = 0.0;
@@ -27,8 +27,10 @@ function formatarData(data) {
 // Função para formatar preço
 function formatarPreco(preco) {
     return ` ${preco.toFixed(2).replace(".", ",")}`;
-}    
+} 
+  
 carregarDados();
+
 
 function popularDownFornecedores(dados){
     const dropDownFornecedores = document.getElementById('dropDownFornecedor');
@@ -40,10 +42,11 @@ function popularDownFornecedores(dados){
         console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
         dropDownFornecedores.appendChild(fornecedor);
     }
+    dropDownFornecedores.value = localStorage.idFornececedor;
 }    
 function atualizarFonecedor(fornecedorId){
-    urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/" + fornecedorId + "?format=json";
-    carregarDados();
+    localStorage.idFornececedor = fornecedorId
+    location.reload();
 }
 
 function popularTabelaCliente1(dados){
@@ -99,6 +102,8 @@ function popularTabelaCliente2(dados){
     const colunaEndereco = document.createElement("td");
     const colunaCidade = document.createElement("td");
 
+    colunaEndereco.colSpan = 2
+
     colunaCep.textContent = "CEP:";
     colunaEndereco.textContent = "ENDEREÇO:";
     colunaCidade.textContent = "CIDADE:";
@@ -113,6 +118,8 @@ function popularTabelaCliente2(dados){
     const colunaCep1 = document.createElement("td");
     const colunaEndereco1 = document.createElement("td");
     const colunaCidade1 = document.createElement("td");
+
+    colunaEndereco1.colSpan = 2
 
     colunaCep1.textContent = fornecedor.cep;
     colunaEndereco1.textContent = fornecedor.endereco;
@@ -318,7 +325,7 @@ function popularTabelaPedidos(dados){
       transportadora.append('TRASPORTADORA: ');
       transportadora.append(dados.results[0].transportadora.nome);
 
-      transportadoraFone.append("FONE:");
+      transportadoraFone.append("FONE(Transportadora): ");
       transportadoraFone.append(dados.results[0].transportadora.telefone);
 
       frete.append("FRETE: ");

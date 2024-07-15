@@ -3,8 +3,8 @@ var i = 1;
 var iC = 1;
 var str = "";
 var id = 0;
-var idPeca = 0;
-var idFornececedor = 0;
+//var idPeca = localStorage.idPeca;
+//var idFornececedor = localStorage.idFornececedor;
 
 function loadScript(url){    
     var head = document.getElementsByTagName('head')[0];
@@ -16,7 +16,7 @@ function loadScript(url){
 
 function proximaPagina(){
     pagina += 1;
-    urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" +idPeca+ "/"+ idFornececedor + "/?ordering=preco&page="+ pagina +"&search="+str;
+    urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco&page=" + pagina + "&search=" + str;
     carregarDados();
 
 }
@@ -31,13 +31,14 @@ function popularDropDownOrcamento(dados){
         console.log(item.id);
         dropdownOrcamento.appendChild(orcamento);
     }
+    dropdownOrcamento.value = localStorage.orcamentoId;
 }
 function atualizarOrcamento(orcamentoId){
     localStorage.orcamentoId = orcamentoId;
     location.reload();
 }
 
-var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/0/0/?ordering=preco";
+var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco";
 var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/";
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
 var urlCotacao = "http://127.0.0.1:8000/cotacaoOrcamento/"+ localStorage.orcamentoId + "/";
@@ -64,6 +65,7 @@ async function popularDropDownFornecedor(){
     const respostaFornecedor = await fetch(urlFornecedor);
     const dados = await respostaFornecedor.json();
     const dropDownFornecedores = document.getElementById('dropDownFornecedor');
+    
 
     for(const item of dados.results){
         const fornecedor = document.createElement("option");
@@ -72,6 +74,7 @@ async function popularDropDownFornecedor(){
         console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
         dropDownFornecedores.appendChild(fornecedor);
     }
+    dropDownFornecedores.value = localStorage.idFornececedor;
 }
 
 async function popularDropDownPedidos(){
@@ -86,6 +89,7 @@ async function popularDropDownPedidos(){
         console.log(item.nomepedido + ' - ' + item.cpfCnpj);
         dropDownpedido.appendChild(pedido);
     }
+    dropDownpedido.value = localStorage.idPeca;
 }
 
 function carregarTabela(){
@@ -256,28 +260,30 @@ function popularTabela(dados){
 
 }
 
-function filtrarPecas(){
-    pagina = 1
+function filtrarPecas(Peca){
+    /*pagina = 1
     for(var j = 1; j<=i; j++ ){
         var linhas = document.getElementById("linhas");
         linhas.remove();
-    }
-    idPeca = document.getElementById("dropDownPedidos").value;
-    urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" +idPeca+ "/"+ idFornececedor + "/?ordering=preco&page="+ pagina +"&search="+str;
-    i=1;
-    carregarDados()
+    }*/
+    localStorage.idPeca = Peca;
+    //urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + idFornececedor.idPeca+ "/"+ idFornececedor.idFornececedor + "/?ordering=preco&page="+ pagina +"&search="+str;
+    //i=1;
+    location.reload();
+    //carregarDados()
 }
 
-function filtrarFornecedor(){
-    pagina = 1
+function filtrarFornecedor(Fornececedor){
+    /*pagina = 1
     for(var j = 1; j<=i; j++ ){
         var linhas = document.getElementById("linhas");
         linhas.remove();
-    }
-    idFornececedor = document.getElementById("dropDownFornecedor").value;
-    urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" +idPeca+ "/"+ idFornececedor +  "/?ordering=preco&page="+ pagina +"&search="+str;
-    i=1;
-    carregarDados()
+    }*/
+    localStorage.idFornececedor = Fornececedor;
+   //urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + idFornececedor.idPeca+ "/"+ idFornececedor.idFornececedor +  "/?ordering=preco&page="+ pagina +"&search="+str;
+    //i=1;
+    location.reload();
+    //carregarDados()
 }
 
 function criarCotacao(){

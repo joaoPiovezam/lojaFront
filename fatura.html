@@ -31,20 +31,60 @@
     </script>
     <div class = 'contanier' id = 'fatura'>
         <input hidden id="pagina" value="fatura">
-        <table id = "tabela">
-            <div id="tabela-cliente"></div>
-            <div id="tabela-notificar"></div>
-            <div id="tabela-condicao"></div>
-            <div id="tabela-peso"></div>
-            <div id="notificar"></div>
-            <div id="tabela-pedidos"></div>
-        </table>
+            <table id="cabecalho">
+                <td>
+                    <img src="logo.png" alt="" width="100px">
+                </td>
+                <td>
+                    <div id="nome"> JP Trading LTDA. </div>
+                    <div id="rua"> Tamoios, 262 </div>
+                    <div id="cidade"> Ribeirão/SP </div>
+                    <div id="pais"> Brasil </div>
+                    <div id="cnpj"> 49.465.446/0007-76 </div>
+                </td>
+                <td>
+                    <div id="celular"> +55 (16) 99999-9999</div>
+                </td>
+                <td>
+                    <div id="data" ></div>
+                    <div id="hora"></div>
+                </td>
+            </table>            
+            <table id="tabela-cliente"></table>
+            <table id="tabela-notificar"></table>
+            <table id="tabela-condicao"></table>
+            <table id="tabela-peso"></table>
+            <table id="notificar"></table>
+            <table id="tabela-pedidos"></table>
+        
         <script src="scriptTabelaPedidos.js"></script>
-        <div id="total-orcado"></div>
-        <div id="total-volume"></div>
-        <div id="total-peso"></div>
+            <table id="total-orcado"></table>
+            <div id="total-volume"></div>
+            <div id="total-peso"></div>
     </div>
+    <script>
+        function addZero(i) {
+            if (i < 10) {
+                i = "0" + i;
+            }
+            return i;
+        }
+        const displayDateTime = () => {
+            const now = new Date();
+            const date = addZero(now.getDate());
+            const month = addZero(now.getMonth() + 1);
+            const year = now.getFullYear();
+            const hours = addZero(now.getHours());
+            const minutes = addZero(now.getMinutes());
 
+            const formattedDateTime = `${date}/${month}/${year}`;
+            const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+            document.getElementById('data').innerText = "data: " + formattedDateTime;
+            document.getElementById('hora').innerText = "hora: " + formattedTime;
+        };
+
+        displayDateTime();
+    </script>
 
 </body>
 </html>

@@ -45,25 +45,24 @@ function carregarTabela(){
 
     const linha = document.createElement("tr");
     const colunaItem = document.createElement("td");
-    const colunaCodigo = document.createElement("td");
-    const colunaDescricao = document.createElement("td");
-    const colunaMarca = document.createElement("td");
-    const colunaPreco = document.createElement("td");
+    const colunaCnpj = document.createElement("td");
+    const colunaNome = document.createElement("td");
+    const colunaEndereco = document.createElement("td");
+    const colunaCidade = document.createElement("td");
     const colunaQtd = document.createElement("td");
     linha.id = "linhas";
 
     colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
-    colunaDescricao.textContent = "DESCRIÇÂO";
-    colunaMarca.textContent = "MARCA";
-    colunaPreco.textContent = "PREÇO";
-    colunaQtd.textContent = "QUANTIDADE";
+    colunaCnpj.textContent = "Cnpj";
+    colunaNome.textContent = "DESCRIÇÂO";
+    colunaEndereco.textContent = "ENDEREÇO";
+    colunaCidade.textContent = "CIDADE";
 
     linha.appendChild(colunaItem);
-    linha.appendChild(colunaCodigo);
-    linha.appendChild(colunaDescricao);
-    linha.appendChild(colunaMarca);
-    linha.appendChild(colunaPreco);
+    linha.appendChild(colunaCnpj);
+    linha.appendChild(colunaNome);
+    linha.appendChild(colunaEndereco);
+    linha.appendChild(colunaCidade);
     linha.appendChild(colunaQtd);
 
     tabela.appendChild(linha);
@@ -76,40 +75,31 @@ function popularTabela(dados){
     for (const item of dados.results) {
         const linha = document.createElement("tr");
         const colunaItem = document.createElement("td");
-        const colunaCodigo = document.createElement("td");
-        const colunaDescricao = document.createElement("td");
-        const colunaMarca = document.createElement("td");
-        const colunaPreco = document.createElement("td");
+        const colunaCnpj = document.createElement("td");
+        const colunaNome = document.createElement("td");
+        const colunaEndereco = document.createElement("td");
+        const colunaCidade = document.createElement("td");
         const colunaQtd = document.createElement("td");
-        var qtd = document.createElement("input");
         var btn = document.createElement("button");
         btn.id = "preencher"
         linha.id = "linhas";
-        
-        qtd.type = "number";
-        qtd.value = "0";
-        qtd.min = "0";
-        qtd.id =  "q" + i;      
-
-        //var id = item.id; 
 
         btn.setAttribute("onclick", "preencherForm("+ JSON.stringify(item) +")");            
         
-        colunaQtd.appendChild(qtd);
         colunaQtd.appendChild(btn);
 
         colunaItem.textContent = i.toString();
-        colunaCodigo.textContent = item.cnpj;
-        colunaDescricao.textContent = item.nome;
-        colunaMarca.textContent = item.endereco;
-        colunaPreco.textContent = item.cidade;
-        btn.textContent = "adicionar ao orçamento";
+        colunaCnpj.textContent = item.cnpj;
+        colunaNome.textContent = item.nome;
+        colunaEndereco.textContent = item.endereco;
+        colunaCidade.textContent = item.cidade;
+        btn.textContent = "atulizar";
 
         linha.appendChild(colunaItem);
-        linha.appendChild(colunaCodigo);
-        linha.appendChild(colunaDescricao);
-        linha.appendChild(colunaMarca);
-        linha.appendChild(colunaPreco);
+        linha.appendChild(colunaCnpj);
+        linha.appendChild(colunaNome);
+        linha.appendChild(colunaEndereco);
+        linha.appendChild(colunaCidade);
         linha.appendChild(colunaQtd);
         
 
