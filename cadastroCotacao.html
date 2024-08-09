@@ -8,33 +8,33 @@
 </head>
 <body> 
     
-    <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
-        <option value="0">Selecione o Orçamento</option>
+<select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
+    <option value="0">Selecione o Orçamento</option>
+</select>
+
+<div class="campo">
+    <label for="fornecedor">Fornecedor:</label>
+    <select onchange="filtrarFornecedor(this.value)" width="800" id="dropDownFornecedor" name="fornecedor" required>
+        <option value="0">Selecione</option>
     </select>
+</div>
 
-    <div class="campo">
-        <label for="fornecedor">Fornecedor:</label>
-        <select onchange="filtrarFornecedor(this.value)" width="800" id="dropDownFornecedor" name="fornecedor" required>
-            <option value="0">Selecione</option>
-        </select>
-    </div>
+<div class="campo">
+    <label for="Pecas">Pedido:</label>
+    <select onchange="filtrarPecas(this.value)" width="800" id="dropDownPedidos" name="Pecas" required>
+        <option value="0">Selecione</option>
+    </select>
+</div>  
 
-    <div class="campo">
-        <label for="Pecas">Pedido:</label>
-        <select onchange="filtrarPecas(this.value)" width="800" id="dropDownPedidos" name="Pecas" required>
-            <option value="0">Selecione</option>
-        </select>
-    </div>  
-    
-    <div class = 'contanier' id = 'pecas'>
-        <div id = "tabela-pecas"></div>
-        <input hidden id="pagina" value="1">
-        <button type="button" onclick="proximaPagina()">Carregar mais >></button>   
-    </div>
+<div class='container' id='pecas'>
+    <div id="tabela-pecas"></div>
+    <input hidden id="pagina" value="1">
+    <button type="button" onclick="proximaPagina()">Carregar mais >></button>   
+</div>
 
-    <div class = 'contanier' id = 'pecas'>
-        <div id = "tabela-cotacoes"></div>  
-    </div>
+<div class='container' id='pecas'>
+    <div id="tabela-cotacoes"></div>  
+</div>
 
 </body>
 </html>

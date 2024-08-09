@@ -6,9 +6,21 @@ var pesoTotal = 0.0;
 var volumeTotal = 0.0;
 
 async function carregarDados() {
-        const resposta = await fetch(urlAPI);
+        const resposta = await fetch(urlAPI, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              //"Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();        
-        const respostaFornecedores = await fetch(urlFornecedor);
+        const respostaFornecedores = await fetch(urlFornecedor, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosFornecedores= await respostaFornecedores.json();
 
         popularDownFornecedores(dadosFornecedores);     

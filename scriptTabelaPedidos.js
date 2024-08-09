@@ -19,7 +19,14 @@ var volumeBruto = 0.0;
 var tipo = document.getElementById('pagina');
 
 async function carregarDados() {
-        const resposta = await fetch(urlAPI);
+        const resposta = await fetch(urlAPI, {
+            method: "GET",
+            //credentials: 'include',
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              //"Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
 
         if(tipo.value != 'packingList2'){
@@ -27,10 +34,22 @@ async function carregarDados() {
         }
 
         if (tipo.value == "fatura"){
-            const respostaNotificar = await fetch(urlNotificar);
+            const respostaNotificar = await fetch(urlNotificar, {
+                method: "GET",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                  //"Authorization": "token " + localStorage.tokenUsuario
+                }
+              });
             const dadosNotificar = await respostaNotificar.json();
 
-            const respostaCondicao = await fetch(urlCondicao);
+            const respostaCondicao = await fetch(urlCondicao, {
+                method: "GET",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                  //"Authorization": "token " + localStorage.tokenUsuario
+                }
+              });
             const dadosCondicao = await respostaCondicao.json();
 
             popularTabelaNotificar(dadosNotificar);
@@ -39,15 +58,29 @@ async function carregarDados() {
         }
 
         if (tipo.value == "packingList"  || tipo.value == 'packingList2'){
-            const respostaPacote = await fetch(urlPacote);
+            const respostaPacote = await fetch(urlPacote, {
+                method: "GET",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                  //"Authorization": "token " + localStorage.tokenUsuario
+                }
+              });
+
+            const respostaPecas = await fetch(urlPecas, {
+                method: "GET",
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8",
+                  //"Authorization": "token " + localStorage.tokenUsuario
+                }
+              });
+
             const dadosPacote = await respostaPacote.json();
+            const dadosPecas = await respostaPecas.json();
+            popularDownPecas(dadosPecas);
             if(tipo.value == 'packingList2'){
                 popularTabelaPacotesPutDelete(dadosPacote);
                 popularTabelaPedidos(dadosJSON, dadosPacote);
             }else{
-                const respostaPecas = await fetch(urlPecas);
-                const dadosPecas = await respostaPecas.json();
-                popularDownPecas(dadosPecas);
                 popularTabelaPacotes(dadosPacote);
             }    
         }
@@ -71,6 +104,7 @@ function formatarPreco(preco) {
 carregarDados();
     
 function popularTabelaCliente1(dados){
+    console.log(dados)
     const tabela = document.getElementById("tabela-cliente");
 
     const linhaComprador = document.createElement("td");

@@ -13,7 +13,13 @@ function proximaPagina(){
 var urlAPI = "http://127.0.0.1:8000/peca/?format=json&page="+ pagina;
 
 async function carregarDados() {   
-        const resposta = await fetch(urlAPI);
+        const resposta = await fetch(urlAPI, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              //"Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
         
         if(pagina == 1){
@@ -164,7 +170,13 @@ function pesquisar(){
 
 async function getClienteByOrcamentoId(orcamentoId){
     var urlAPI = "http://127.0.0.1:8000/orcamentos/" + orcamentoId + "/";
-        const resposta = await fetch(urlAPI);
+        const resposta = await fetch(urlAPI, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
     return dadosJSON.cliente
 }
@@ -203,7 +215,13 @@ async function criarPedido(idPeca, i){
 async function adicionarPecaFornec(idPeca, i){
     
     var url = "http://127.0.0.1:8000/peca/"+ idPeca + "/fornecedor/" + dropDownFornecedor.value;
-    const resposta = await fetch(url);
+    const resposta = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
     const dados = await resposta.json();
 
     if(dados.results[i-1] === undefined){

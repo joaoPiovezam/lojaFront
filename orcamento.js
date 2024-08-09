@@ -2,6 +2,7 @@ var pagina = 1;
 var i = 1;
 var str = "";
 var id = 0;
+var urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json&page="+ pagina;
 
 function loadScript(url)
 {    
@@ -19,10 +20,14 @@ function proximaPagina(){
 
 }
 
-var urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json&page="+ pagina;
-
 async function carregarDados() {
-        const resposta = await fetch(urlAPI);
+        const resposta = await fetch(urlAPI, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              //"Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
         loadScript("cliente.js")
         if(pagina == 1){

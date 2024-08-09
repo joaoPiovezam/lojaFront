@@ -24,9 +24,14 @@
         <button type="submit">Pesquisar</button>
     </div>
 
-    <div class="login-link">
-        <button style="border-radius: 10px;"><i class="fas fa-user"></i> Fazer Login</button>
+    <div class="login-link"  id = "login">
+        <button type="button" style="border-radius: 10px;" onclick="logIn()"><i class="fas fa-user" ></i> Fazer Login</button>
     </div>
+    
+    <div class="login-link" id = "logout">
+        <button type="button" style="border-radius: 10px;" onclick="logOut()"><i class="fas fa-user" ></i>Sair</button>
+    </div>
+
     <div class="navbar" id="navbar">
         <ul>
                 <a href="/pecas.html" >Peças</a>
@@ -34,7 +39,7 @@
                 <a href="/cadastroCotacao.html">Cotação</a>
                 <a href="/cadastroFatura.html">Fatura</a>
                 <a href="/cadastroPedidoCompra.html">Pedido de Compra</a>
-                <a href="/cadatroPacotes.html">Packing List</a>
+                <a href="/cadastroPacotes.html">Packing List</a>
                 <a href="/cadastroEstoque.html">Estoque</a>                
                 <a href="/fornecedores.html">Fornecedores</a>                
                 <a href="/cadastroTransportadora.html">Transportadoras</a>                

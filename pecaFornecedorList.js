@@ -22,6 +22,7 @@ function proximaPagina(){
 }
 
 function popularDropDownOrcamento(dados){
+    console.log(dados)
     const dropdownOrcamento = document.getElementById('dropdownOrcamento');
 
     for(const item of dados.results){
@@ -45,9 +46,21 @@ var urlCotacao = "http://127.0.0.1:8000/cotacaoOrcamento/"+ localStorage.orcamen
 var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
 
 async function carregarDados() { 
-        const respostaPecas = await fetch(urlPecaFornecedor);
+        const respostaPecas = await fetch(urlPecaFornecedor, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              //"Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSONPecas = await respostaPecas.json();
-        const respostaOrcamento = await fetch(urlOrcamento);
+        const respostaOrcamento = await fetch(urlOrcamento, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              //"Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosOrcamento = await respostaOrcamento.json();
         popularDropDownOrcamento(dadosOrcamento); 
         if(pagina == 1 ){
@@ -62,7 +75,13 @@ popularDropDownFornecedor();
 popularDropDownPedidos();
 
 async function popularDropDownFornecedor(){
-    const respostaFornecedor = await fetch(urlFornecedor);
+    const respostaFornecedor = await fetch(urlFornecedor, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          //"Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
     const dados = await respostaFornecedor.json();
     const dropDownFornecedores = document.getElementById('dropDownFornecedor');
     
@@ -78,7 +97,13 @@ async function popularDropDownFornecedor(){
 }
 
 async function popularDropDownPedidos(){
-    const respostaPedidos = await fetch(urlPedidos);
+    const respostaPedidos = await fetch(urlPedidos, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          //"Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
     const dados = await respostaPedidos.json();
     const dropDownpedido = document.getElementById('dropDownPedidos');
 
@@ -125,7 +150,13 @@ function carregarTabela(){
 }
 
 async function carregarTabelaCotacao(){
-    const resposta = await fetch(urlCotacao);
+    const resposta = await fetch(urlCotacao, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          //"Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
     const dados = await resposta.json();
 
     const tabela = document.getElementById("tabela-pecas");

@@ -12,6 +12,14 @@ async function carregarDados() {
     const respostaOrcamento = await fetch(urlOrcamento);
     const dadosOrcamento = await respostaOrcamento.json();
     popularDropDownOrcamento(dadosOrcamento); 
+
+    if(localStorage.emailUsuario == 'null'){
+        document.getElementById("login").setAttribute("hidden","false");
+        document.getElementById("logout").setAttribute("hidden","true");
+    }else{
+        document.getElementById("login").setAttribute("hidden","true");
+        document.getElementById("logout").setAttribute("hidden","false");
+    }
 }
 
 carregarDados()
@@ -30,4 +38,15 @@ function popularDropDownOrcamento(dados){
 
 function redirecionarFatura(){
     localStorage.orcamentoId
+}
+
+function logIn(){
+    location.href = "/login.html";
+}
+
+function logOut(){
+    console.log("teste")
+    localStorage.emailUsuario = null;
+    localStorage.tokenUsuario = null;
+    location.reload();
 }

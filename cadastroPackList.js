@@ -1,7 +1,13 @@
 var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
 
 async function carregarDados() {
-    const respostaOrcamento = await fetch(urlOrcamento);
+    const respostaOrcamento = await fetch(urlOrcamento, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
     const dadosOrcamento = await respostaOrcamento.json();
     popularDropDownOrcamento(dadosOrcamento); 
 }
@@ -18,6 +24,7 @@ function popularDropDownOrcamento(dados){
         console.log(item.id);
         dropdownOrcamento.appendChild(orcamento);
     }
+    dropdownOrcamento.value = localStorage.orcamentoId;
 }
 function atualizarOrcamento(orcamentoId){
     localStorage.orcamentoId = orcamentoId

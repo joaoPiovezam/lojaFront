@@ -26,7 +26,13 @@ async function carregarDados() {
 var urlAPI = "http://127.0.0.1:8000/fornecedor/";
 
 async function carregarDados() {
-        const resposta = await fetch(urlAPI);
+        const resposta = await fetch(urlAPI, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
         loadScript("pecasLista.js");
         popularTabela(dadosJSON); 

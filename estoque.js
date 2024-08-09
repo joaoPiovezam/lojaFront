@@ -2,9 +2,21 @@ var urlPedidos = "http://127.0.0.1:8000/pedidoPeca/";
 var urlEstoque = 'http://127.0.0.1:8000/estoquePecas/';
 
 async function carregarDados() {
-        const respostaPedidos = await fetch(urlPedidos);
+        const respostaPedidos = await fetch(urlPedidos, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosPedidos = await respostaPedidos.json();
-        const respostaEstoque = await fetch(urlEstoque);
+        const respostaEstoque = await fetch(urlEstoque, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosEstoque = await respostaEstoque.json();
         popularDropDown(dadosPedidos); 
         popularTabela(dadosEstoque); 
