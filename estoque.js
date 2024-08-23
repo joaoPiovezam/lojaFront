@@ -106,7 +106,7 @@ function popularDropDown(dados){
 function add(){
     const formularioEstoque = document.getElementById('formularioEstoque');
 
-    formularioEstoque.addEventListener('submit', function(event) {
+    formularioEstoque.addEventListener('submit', async function(event) {
         event.preventDefault(); // Evita o envio padrão do formulário
     
         const dadosEstoque = {
@@ -116,7 +116,7 @@ function add(){
         };
     
         console.log(dadosEstoque); // Exibe os dados do pedido no console
-        fetch("http://127.0.0.1:8000/estoque/", {
+        await fetch("http://127.0.0.1:8000/estoque/", {
             method: "POST",
             body: JSON.stringify({
                 "dataEntrada": dadosEstoque.dataEntrada,

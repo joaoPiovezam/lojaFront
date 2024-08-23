@@ -4,6 +4,8 @@ var str = "";
 var id = 0;
 var urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json&page="+ pagina;
 
+//var urlAPI = "http://127.0.0.1:8000/orc/";
+
 function loadScript(url)
 {    
     var head = document.getElementsByTagName('head')[0];
@@ -21,15 +23,16 @@ function proximaPagina(){
 }
 
 async function carregarDados() {
+        urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.email + "/";
         const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
-              //"Authorization": "token " + localStorage.tokenUsuario
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           });
         const dadosJSON = await resposta.json();
-        loadScript("cliente.js")
+        //loadScript("cliente.js")
         if(pagina == 1){
             carregarTabela();
         }
@@ -272,10 +275,10 @@ function preencherForm(Fornecedor){
 
 }
 
-function add(){
+async function add(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault();
     const dados = {
         codigo: document.getElementById('codigo').value,
@@ -292,9 +295,9 @@ function add(){
         paisEntrega: document.getElementById('paisEntrega').value,
         cliente: document.getElementById('dropDownClientes').value
     };
-    console.log('Dados do formulário:', dados);
+    //console.log('Dados do formulário:', dados);
 
-    fetch("http://127.0.0.1:8000/orcamentos/", {
+    await fetch("http://127.0.0.1:8000/orcamentos/", {
         method: "POST",
         body: JSON.stringify({
                 "codigo": dados.codigo,

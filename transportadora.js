@@ -165,7 +165,7 @@ function preencherForm(Transportadora){
 function add(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const dados = {
@@ -180,7 +180,7 @@ function add(){
         email: document.getElementById('email').value,
         detalhe: document.getElementById('detalhe').value
     };
-    fetch("http://127.0.0.1:8000/transportadora/", {
+    await fetch("http://127.0.0.1:8000/transportadora/", {
         method: "POST",
         body: JSON.stringify({
             "nome": dados.nome,
@@ -211,7 +211,7 @@ function addTranpostadora(){
 function update(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const dados = {
@@ -226,7 +226,7 @@ function update(){
         email: document.getElementById('email').value,
         detalhe: document.getElementById('detalhe').value
     };
-    fetch("http://127.0.0.1:8000/transportadora/" + id + "/", {
+    await fetch("http://127.0.0.1:8000/transportadora/" + id + "/", {
         method: "PUT",
         body: JSON.stringify({
             "id": id,

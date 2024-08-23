@@ -1,4 +1,4 @@
-var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
+var urlOrcamento = "http://127.0.0.1:8000/orcamento/";
 
 function myFunction() {
     var x = document.getElementById("navbar");
@@ -9,17 +9,22 @@ function myFunction() {
     }
 }
 async function carregarDados() {
-    const respostaOrcamento = await fetch(urlOrcamento);
-    const dadosOrcamento = await respostaOrcamento.json();
-    popularDropDownOrcamento(dadosOrcamento); 
-
-    if(localStorage.emailUsuario == 'null'){
-        document.getElementById("login").setAttribute("hidden","false");
-        document.getElementById("logout").setAttribute("hidden","true");
-    }else{
-        document.getElementById("login").setAttribute("hidden","true");
-        document.getElementById("logout").setAttribute("hidden","false");
+    login = document.getElementById('login');
+    logout = document.getElementById('logout');
+    if(localStorage.email == 'null'){
+        login.hidden = false;
+        logout.hidden = true;
+    }else{       
+        login.hidden = true;
+        logout.hidden = false;
     }
+    if (localStorage.tipo == 'cliente'){
+        document.getElementById('geral').hidden = true
+    }
+
+    //const respostaOrcamento = await fetch(urlOrcamento);
+   // const dadosOrcamento = await respostaOrcamento.json();
+    //popularDropDownOrcamento(dadosOrcamento); 
 }
 
 carregarDados()
@@ -45,8 +50,7 @@ function logIn(){
 }
 
 function logOut(){
-    console.log("teste")
-    localStorage.emailUsuario = null;
+    localStorage.email = 'null';
     localStorage.tokenUsuario = null;
     location.reload();
 }

@@ -50,7 +50,7 @@ async function carregarDados() {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
-              //"Authorization": "token " + localStorage.tokenUsuario
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           });
         const dadosJSONPecas = await respostaPecas.json();
@@ -58,7 +58,7 @@ async function carregarDados() {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
-              //"Authorization": "token " + localStorage.tokenUsuario
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           });
         const dadosOrcamento = await respostaOrcamento.json();
@@ -79,7 +79,7 @@ async function popularDropDownFornecedor(){
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          //"Authorization": "token " + localStorage.tokenUsuario
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       });
     const dados = await respostaFornecedor.json();
@@ -101,7 +101,7 @@ async function popularDropDownPedidos(){
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          //"Authorization": "token " + localStorage.tokenUsuario
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       });
     const dados = await respostaPedidos.json();
@@ -154,7 +154,7 @@ async function carregarTabelaCotacao(){
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          //"Authorization": "token " + localStorage.tokenUsuario
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       });
     const dados = await resposta.json();
@@ -317,10 +317,10 @@ function filtrarFornecedor(Fornececedor){
     //carregarDados()
 }
 
-function criarCotacao(){
+async function criarCotacao(){
     pedido =  document.getElementById("dropDownPedidos").value;
     fornecedor = document.getElementById("dropDownFornecedor").value;
-    fetch("http://127.0.0.1:8000/cotacao/", {
+    await fetch("http://127.0.0.1:8000/cotacao/", {
         method: "POST",
         body: JSON.stringify({
             "codigo": "1",
@@ -335,8 +335,8 @@ function criarCotacao(){
         .then((json) => console.log(json));
 }
 
-function removerCotacao(idCotacao){
-    fetch("http://127.0.0.1:8000/cotacao/"+idCotacao+"/", {
+async function removerCotacao(idCotacao){
+    await fetch("http://127.0.0.1:8000/cotacao/"+idCotacao+"/", {
         method: 'DELETE',
     })
     .then(res => res.text())

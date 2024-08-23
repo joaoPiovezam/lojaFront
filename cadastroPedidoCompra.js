@@ -16,7 +16,7 @@ async function carregarDados() {
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
-          //"Authorization": "token " + localStorage.tokenUsuario
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       });
     const dadosJSON = await resposta.json();

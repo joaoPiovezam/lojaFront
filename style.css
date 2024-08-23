@@ -175,3 +175,8 @@ button {
     width: 200px;
     padding: 20px;
 }
+
+#menu{
+    background-color: #ddd;
+    display: block;
+}

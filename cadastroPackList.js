@@ -43,7 +43,7 @@ loadScript("scriptTabelaPedidos.js");
 function add(){
     const formularioEncomenda = document.getElementById('formularioEncomenda');
 
-    formularioEncomenda.addEventListener('submit', function(event) {
+    formularioEncomenda.addEventListener('submit', async function(event) {
         event.preventDefault(); // Evita o envio padrão do formulário
 
         const dados = {
@@ -57,7 +57,7 @@ function add(){
 
         console.log(dados); 
 
-        fetch("http://127.0.0.1:8000/pack/", {
+        await fetch("http://127.0.0.1:8000/pack/", {
             method: "POST",
             body: JSON.stringify({
                     "volume": dados.volume,
@@ -69,7 +69,8 @@ function add(){
                     "orcamento": 2
             }),
             headers: {
-              "Content-type": "application/json; charset=UTF-8"
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           })
             .then((response) => response.json())

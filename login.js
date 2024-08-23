@@ -22,17 +22,23 @@ async function fazerLogin(){
       })
         .then((response) => response.json())
         .then(data => {
-          document.cookie = `jwt=${data.token}; Secure; HttpOnly`;
-          document.cookie = `email=${data.user.email};`;
-          console.log(data.user.email)
+          //document.cookie = `jwt=${data.token}; Secure; HttpOnly`;
+          //document.cookie = `email=${data.user.email};`;
+          //document.cookie = `tipo=${data.tipo}`;
+          localStorage.email = data.user.email
+          localStorage.tipo = data.tipo
+          localStorage.tokenUsuario = data.token;
+          console.log(data)
         })
-        .catch(error => console.error('Error:', error));        
-        
+        .catch(error => console.error('Error:', error));
 
-        if(cookie.email == null){
-          alert("usuario ou senha incorreta");
+        if (localStorage.email == 'null'){
+          document.getElementById('alert').classList.remove('d-none')
         }else{
-          location.href = "/index.html";
+          document.getElementById('alert').classList.add('d-none');
+          location.href('/index.html');
         }
+        
+        
 
 }

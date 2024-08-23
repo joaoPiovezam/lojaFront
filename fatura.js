@@ -30,7 +30,7 @@ function popularDropDownOrcamento(dados){
 function addCondicao(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault(); // Evita o envio padrão do formulário
 
     const dadosFatura = {
@@ -41,7 +41,7 @@ function addCondicao(){
     };
 
     console.log(dadosFatura); // Exibe os dados da fatura no console
-    fetch("http://127.0.0.1:8000/condicoes/", {
+    await fetch("http://127.0.0.1:8000/condicoes/", {
         method: "POST",
         body: JSON.stringify({
             "status": 1,
@@ -64,7 +64,7 @@ function addCondicao(){
 function addNotificar(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault(); // Evita o envio padrão do formulário
 
     const dadosNotificar = {
@@ -74,7 +74,7 @@ function addNotificar(){
     };
 
     console.log(dadosNotificar); // Exibe os dados da fatura no console
-    fetch("http://127.0.0.1:8000/notificar/", {
+    await fetch("http://127.0.0.1:8000/notificar/", {
         method: "POST",
         body: JSON.stringify({
             "nome": dadosNotificar.nome,

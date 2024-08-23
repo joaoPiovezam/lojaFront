@@ -174,7 +174,7 @@ function preencherForm(Fornecedor){
 function add(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const dados = {
@@ -196,7 +196,7 @@ function add(){
     }else{
         var p = "j"
     }
-    fetch("http://127.0.0.1:8000/fornecedores/", {
+    await fetch("http://127.0.0.1:8000/fornecedores/", {
         method: "POST",
         body: JSON.stringify({
             "tipoPessoa": p,
@@ -227,7 +227,7 @@ function addFornecedor(){
 function updateFornecedor(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', function(event) {
+    formularioCadastro.addEventListener('submit', async function(event) {
     event.preventDefault();
 
     const dados = {
@@ -249,7 +249,7 @@ function updateFornecedor(){
     }else{
         var p = "j"
     }
-    fetch("http://127.0.0.1:8000/fornecedores/" + id + "/", {
+    await fetch("http://127.0.0.1:8000/fornecedores/" + id + "/", {
         method: "PUT",
         body: JSON.stringify({
             "id": id,

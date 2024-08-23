@@ -17,7 +17,7 @@ async function carregarDados() {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
-              //"Authorization": "token " + localStorage.tokenUsuario
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           });
         const dadosJSON = await resposta.json();
@@ -188,7 +188,7 @@ async function criarPedido(idPeca, i){
     console.log("pedido adicionado" + qtd.value);
     var cliente = await getClienteByOrcamentoId(localStorage.orcamentoId);
 
-    fetch("http://127.0.0.1:8000/pedidos/", {
+    await fetch("http://127.0.0.1:8000/pedidos/", {
         method: "POST",
         body: JSON.stringify({
             "codigoPedido": 1,
@@ -231,9 +231,9 @@ async function adicionarPecaFornec(idPeca, i){
     }
 }
 
-function addPecaFornecedor(idPeca, i){
+async function addPecaFornecedor(idPeca, i){
     var preco = document.getElementById('preco'+i);
-    fetch("http://127.0.0.1:8000/pecasFornecedor/", {
+    await fetch("http://127.0.0.1:8000/pecasFornecedor/", {
         method: "POST",
         body: JSON.stringify({
                 "codigo": codigo.value,
@@ -249,9 +249,9 @@ function addPecaFornecedor(idPeca, i){
         .then((json) => console.log(json));
 }
 
-function updatePecaFornecedor(dados, idPeca, i){
+async function updatePecaFornecedor(dados, idPeca, i){
     var preco = document.getElementById('preco'+i);
-    fetch("http://127.0.0.1:8000/pecasFornecedor/" + dados.results[i-1].id + "/", {
+    await fetch("http://127.0.0.1:8000/pecasFornecedor/" + dados.results[i-1].id + "/", {
             method: "PUT",
             body: JSON.stringify({
                     "codigo": codigo.value,

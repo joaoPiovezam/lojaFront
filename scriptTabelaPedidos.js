@@ -24,7 +24,7 @@ async function carregarDados() {
             //credentials: 'include',
             headers: {
               "Content-type": "application/json; charset=UTF-8",
-              //"Authorization": "token " + localStorage.tokenUsuario
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           });
         const dadosJSON = await resposta.json();
@@ -38,7 +38,7 @@ async function carregarDados() {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json; charset=UTF-8",
-                  //"Authorization": "token " + localStorage.tokenUsuario
+                  "Authorization": "token " + localStorage.tokenUsuario
                 }
               });
             const dadosNotificar = await respostaNotificar.json();
@@ -47,7 +47,7 @@ async function carregarDados() {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json; charset=UTF-8",
-                  //"Authorization": "token " + localStorage.tokenUsuario
+                  "Authorization": "token " + localStorage.tokenUsuario
                 }
               });
             const dadosCondicao = await respostaCondicao.json();
@@ -62,7 +62,7 @@ async function carregarDados() {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json; charset=UTF-8",
-                  //"Authorization": "token " + localStorage.tokenUsuario
+                  "Authorization": "token " + localStorage.tokenUsuario
                 }
               });
 
@@ -70,19 +70,20 @@ async function carregarDados() {
                 method: "GET",
                 headers: {
                   "Content-type": "application/json; charset=UTF-8",
-                  //"Authorization": "token " + localStorage.tokenUsuario
+                  "Authorization": "token " + localStorage.tokenUsuario
                 }
               });
 
             const dadosPacote = await respostaPacote.json();
             const dadosPecas = await respostaPecas.json();
-            popularDownPecas(dadosPecas);
+            
             if(tipo.value == 'packingList2'){
                 popularTabelaPacotesPutDelete(dadosPacote);
                 popularTabelaPedidos(dadosJSON, dadosPacote);
             }else{
                 popularTabelaPacotes(dadosPacote);
-            }    
+            }  
+            popularDownPecas(dadosPecas);  
         }
 
         popularTabelaCliente1(dadosJSON);
@@ -578,12 +579,14 @@ function popularTabelaPedidos(dados, dadosPacote){
 
         i++;
       }
+      if (tipo.value != "packingList"  && tipo.value != 'packingList2'){
       const totalOrcado = document.getElementById("total-orcado");
       const totalPeso = document.getElementById("total-peso");
       const totalVolume = document.getElementById("total-volume");
       
       totalOrcado.append('PREÇO TOTAL  = ');
       totalOrcado.append(formatarPreco(precoTotal));
+      
       if (tipo.value != "fatura"){ 
 
         totalVolume.append('VOLUME TOTAL = ');
@@ -593,11 +596,11 @@ function popularTabelaPedidos(dados, dadosPacote){
         totalPeso.append(formatarPreco(pesoTotal));
 
       }
+    }
 }
 
 function popularDownPecas(dados){
     const coluna = document.getElementById("colunaCodigoS");
-
     for(const item of dados.results){        
         const opcaoCodigo = document.createElement("option");
         opcaoCodigo.textContent = item.peca.codigo;
@@ -780,8 +783,8 @@ function adicionarVolumePeca(pedido,sel ){
     updateVolumePeca(pedido, volume, pacote);
 }
 
-function updateVolumePeca(pedido, volume, pacote){
-    fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
+async function updateVolumePeca(pedido, volume, pacote){
+    await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
         method: "PUT",
         body: JSON.stringify({
             "codigoPedido": pedido.codigoPedido,
@@ -805,13 +808,13 @@ function updateVolumePeca(pedido, volume, pacote){
         .then((json) => console.log(json));
 }
 
-function atualizarPacote(pacote){
+async function atualizarPacote(pacote){
     var largura = document.getElementById(pacote.id+"largura").value
     var comprimento = document.getElementById(pacote.id+"comprimento").value
     var altura = document.getElementById(pacote.id+"altura").value
     var peso = document.getElementById(pacote.id+"peso").value
     
-    fetch("http://127.0.0.1:8000/pack/" + pacote.id + "/", {
+    await fetch("http://127.0.0.1:8000/pack/" + pacote.id + "/", {
         method: "PUT",
         body: JSON.stringify({
                 "volume": pacote.volume,
@@ -830,8 +833,8 @@ function atualizarPacote(pacote){
         .then((json) => console.log(json));
 }
 
-function excluirPacote(item){
-    fetch("http://127.0.0.1:8000/pack/"+item+"/", {
+async function excluirPacote(item){
+    await fetch("http://127.0.0.1:8000/pack/"+item+"/", {
         method: 'DELETE',
     })
     .then(res => res.text())
