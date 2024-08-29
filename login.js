@@ -28,6 +28,7 @@ async function fazerLogin(){
           localStorage.email = data.user.email
           localStorage.tipo = data.tipo
           localStorage.tokenUsuario = data.token;
+          localStorage.clienteId = data.user.id;
           console.log(data)
         })
         .catch(error => console.error('Error:', error));

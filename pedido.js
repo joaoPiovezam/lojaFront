@@ -6,7 +6,7 @@ if (localStorage.pecaCodigo == null){
 }
 var precoTotal = 0.0;
 
-const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/?search=" + pecaCodigo;
+const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/?search=" //+ pecaCodigo;
 const urlPacote = "http://127.0.0.1:8000/packOrcamento/" + orcamentoId;
 
 async function carregarDados() {

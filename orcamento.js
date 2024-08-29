@@ -3,6 +3,7 @@ var i = 1;
 var str = "";
 var id = 0;
 var urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json&page="+ pagina;
+var urlC = "http://127.0.0.1:8000/clientes/"
 
 //var urlAPI = "http://127.0.0.1:8000/orc/";
 
@@ -23,7 +24,7 @@ function proximaPagina(){
 }
 
 async function carregarDados() {
-        urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.email + "/";
+        urlAPI = "http://127.0.0.1:8000/orcamento/"
         const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
@@ -32,6 +33,15 @@ async function carregarDados() {
             }
           });
         const dadosJSON = await resposta.json();
+        const respostaC = await fetch(urlC, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
+        const dadosJSONC = await respostaC.json();
+        popularDropDown(dadosJSONC)
         //loadScript("cliente.js")
         if(pagina == 1){
             carregarTabela();
@@ -315,7 +325,8 @@ async function add(){
                 "cliente": dados.cliente
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())
@@ -402,4 +413,16 @@ function vizualizarPacotes(orcamentoId){
 function vizualizarPedidoCompra(orcamentoId){
     localStorage.orcamentoId = orcamentoId;
     window.open( '/pedidoCompra.html', '_blank').focus();
+}
+
+function popularDropDown(dados){
+    const dropDownClientes = document.getElementById('dropDownClientes');
+
+    for(const item of dados.results){
+        const cliente = document.createElement("option");
+        cliente.value = item.id;
+        cliente.textContent = item.nomeCliente + ' - ' + item.cpfCnpj;
+        console.log(item.nomeCliente + ' - ' + item.cpfCnpj);
+        dropDownClientes.appendChild(cliente);
+    }
 }

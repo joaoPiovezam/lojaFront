@@ -604,7 +604,7 @@ function popularDownPecas(dados){
     for(const item of dados.results){        
         const opcaoCodigo = document.createElement("option");
         opcaoCodigo.textContent = item.peca.codigo;
-        opcaoCodigo.value = item.peca.id;
+        opcaoCodigo.value = item.peca.codigo;
         coluna.append(opcaoCodigo);
     }
     coluna.value = localStorage.pecaCodigo;
@@ -784,6 +784,7 @@ function adicionarVolumePeca(pedido,sel ){
 }
 
 async function updateVolumePeca(pedido, volume, pacote){
+    console.log(pedido)
     await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
         method: "PUT",
         body: JSON.stringify({

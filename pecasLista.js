@@ -1,5 +1,6 @@
 var pagina = 1;
 var i = 1;
+var j = 1;
 var str = "";
 var tipo = document.getElementById('pagina');
 
@@ -11,6 +12,7 @@ function proximaPagina(){
 }
 
 var urlAPI = "http://127.0.0.1:8000/peca/?format=json&page="+ pagina;
+var urlOrcamento = "http://localhost:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/";
 
 async function carregarDados() {   
         const resposta = await fetch(urlAPI, {
@@ -20,12 +22,22 @@ async function carregarDados() {
               "Authorization": "token " + localStorage.tokenUsuario
             }
           });
+        const respostaOrcamento = await fetch(urlOrcamento, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
+        const dadosOrcamento = await respostaOrcamento.json();
         
         if(pagina == 1){
             carregarTabela();
+            carregarTabelaOrcamento();
         }
         popularTabelaPecas(dadosJSON);
+        popularTabelaOrcamento(dadosOrcamento);
     }
 
 function formatarPreco(preco) {
@@ -85,6 +97,47 @@ function carregarTabela(){
     tabela.appendChild(linha);
 }
 
+function carregarTabelaOrcamento(){
+    const tabela = document.getElementById("tabela-orcamento");
+
+    const btnOrc = document.createElement("button");
+
+    const linha = document.createElement("tr");
+    const colunaItem = document.createElement("td");
+    const colunaCodigo = document.createElement("td");
+    const colunaDescricao = document.createElement("td");
+    const colunaPreco = document.createElement("td");
+      
+    linha.id = "linhas";
+
+    btnOrc.textContent = "Ver Orcamento";
+    colunaItem.textContent = "ITEM";
+    colunaCodigo.textContent = "CODIGO";
+    colunaDescricao.textContent = "DESCRIÇÂO";
+    colunaPreco.textContent = "PREÇO";
+
+    linha.appendChild(colunaItem);
+    linha.appendChild(colunaCodigo);
+    linha.appendChild(colunaDescricao);
+    linha.appendChild(colunaPreco);
+
+    const colunaQtd = document.createElement("td");
+    colunaQtd.textContent = "QUANTIDADE";
+    linha.appendChild(colunaQtd);
+
+    btnOrc.setAttribute("onclick", "abrirOrcamento()")
+
+    tabela.append(btnOrc)
+    tabela.appendChild(linha);
+}
+
+function abrirOrcamento(){
+    window.open(
+        "/orcamento.html",
+        '_blank'
+      );  
+}
+
 function popularTabelaPecas(dados){
     tipo = document.getElementById('pagina').value;
     const tabela = document.getElementById("tabela-pecas");
@@ -98,6 +151,18 @@ function popularTabelaPecas(dados){
 
         var qtd = document.createElement("input");
         var btnQtd = document.createElement("button");
+        
+        const alerta = document.createElement("div");
+        alerta.id = "alert" + i;
+        alerta.setAttribute("class", "alert alert-success d-none")
+        alerta.role = "alert"
+        alerta.textContent = "peça adicionada ao orçamento"
+
+        const alertaQtd = document.createElement("div");
+        alertaQtd.id = "alertQtd" + i;
+        alertaQtd.setAttribute("class", "alert alert-success d-none")
+        alertaQtd.role = "alert"
+        alertaQtd.textContent = "quantidade de peça alterada"
 
         var preco = document.createElement("input");
         var btnPreco = document.createElement("button");
@@ -114,7 +179,7 @@ function popularTabelaPecas(dados){
         preco.min = "0";
         preco.id = "preco" + i;
 
-        var id = item.id; 
+        var id = item.codigo; 
 
         btnQtd.setAttribute("onclick", "criarPedido("+ id + "," + i +")");  
                  
@@ -145,11 +210,80 @@ function popularTabelaPecas(dados){
             colunaPrecoFornec.appendChild(btnPreco);
             linha.appendChild(colunaPrecoFornec);  
             btnPreco.setAttribute("onclick", "adicionarPecaFornec("+ id + "," + i +")");       
-        }        
+        }
+
+        linha.appendChild(alerta);
+        linha.appendChild(alertaQtd)
 
         tabela.appendChild(linha);
 
         i++;
+      }
+
+}
+
+function popularTabelaOrcamento(dados){
+    tipo = document.getElementById('pagina').value;
+    const tabela = document.getElementById("tabela-orcamento");
+    for (const item of dados.results) {
+        const linha = document.createElement("tr");
+        const colunaItem = document.createElement("td");
+        const colunaCodigo = document.createElement("td");
+        const colunaDescricao = document.createElement("td");
+        const colunaMarca = document.createElement("td");
+        const colunaPreco = document.createElement("td");
+
+        var qtd = document.createElement("input");
+        var btnQtd = document.createElement("button");
+
+        var preco = document.createElement("input");
+        var btnPreco = document.createElement("button");
+
+        linha.id = "linhas";
+        
+        qtd.type = "number";
+        qtd.value = "0";
+        qtd.min = "0";
+        qtd.id =  "qtdOrc" + j;      
+
+        preco.type = "number";
+        preco.value = "0";
+        preco.min = "0";
+        preco.id = "preco" + j;
+
+        const alertaQtd = document.createElement("div");
+        alertaQtd.id = "alertaQtd" + j;
+        alertaQtd.setAttribute("class", "alert alert-success d-none")
+        alertaQtd.role = "alert"
+        alertaQtd.textContent = "quantidade de peça alterada"
+
+        var id = item.peca.codigo; 
+
+        btnQtd.setAttribute("onclick", "updateQtdPeca("+ id + "," + j +")");  
+                 
+        colunaItem.textContent = j.toString();
+        colunaCodigo.textContent = item.peca.codigo;
+        colunaDescricao.textContent = item.peca.descricao;
+        colunaMarca.textContent = formatarPreco(item.peca.precoVenda * 1.2)
+        colunaPreco.textContent = item.quantidade ;
+        btnQtd.textContent = "alterar quantidade";
+        btnPreco.textContent = "adicionar";
+
+        linha.appendChild(alertaQtd);
+        linha.appendChild(colunaItem);
+        linha.appendChild(colunaCodigo);
+        linha.appendChild(colunaDescricao);
+        linha.appendChild(colunaMarca);
+        linha.appendChild(colunaPreco);
+
+            const colunaQtd = document.createElement("td");
+            colunaQtd.appendChild(qtd);
+            colunaQtd.appendChild(btnQtd);
+            linha.appendChild(colunaQtd);
+
+        tabela.appendChild(linha);
+
+        j++;
       }
 
 }
@@ -181,9 +315,29 @@ async function getClienteByOrcamentoId(orcamentoId){
     return dadosJSON.cliente
 }
 
+async function getPedidoId(pecaCodigo){
+    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/?search=" + pecaCodigo;
+
+    const resposta = await fetch(urlAPI, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
+
+    const dadosJSON = await resposta.json();
+    return dadosJSON
+}
+
 
 async function criarPedido(idPeca, i){
     var qtd = document.getElementById('q' + i);
+
+    pedidoId = await getPedidoId(idPeca)
+    if (pedidoId.count == 0){
+        console.log("testes")
+    
 
     console.log("pedido adicionado" + qtd.value);
     var cliente = await getClienteByOrcamentoId(localStorage.orcamentoId);
@@ -205,11 +359,80 @@ async function criarPedido(idPeca, i){
             "codigoCliente": cliente
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())
-        .then((json) => console.log(json));    
+        .then((json) => console.log(json));
+        
+        document.getElementById('alert' + i).classList.remove('d-none');
+    }else{
+        console.log("atualizar qtd" + pedidoId.results[0].id)
+        await updateQtdPedido(qtd.value, pedidoId.results[0], i)
+    }
+}
+
+async function updateQtdPedido(qtd, pedido, i){
+    console.log(pedido)
+    await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
+        method: "PUT",
+        body: JSON.stringify({
+            "codigoPedido": pedido.codigoPedido,
+            "dataCriacao": pedido.dataCriacao,
+            "dataEntrega": pedido.dataEntrega,
+            "quantidade": Number(qtd) + Number(pedido.quantidade),
+            "pesoBruto": pedido.pesoBruto,
+            "volumeBruto": pedido.volumeBruto,
+            "unidade": pedido.unidade,
+            "pacote": pedido.pacote,
+            "volume": pedido.volume,
+            "codigoPeca": pedido.codigoPeca,
+            "codigoOrcamento": pedido.codigoOrcamento,
+            "codigoCliente": pedido.codigoCliente
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+
+        document.getElementById('alertQtd' + i).classList.remove('d-none');
+}
+
+async function updateQtdPeca(idPeca ,j ){
+    var qtd = document.getElementById('qtdOrc' + j);
+    pedidoResult = await getPedidoId(idPeca);
+
+    pedido = pedidoResult.results[0];
+
+    await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
+        method: "PUT",
+        body: JSON.stringify({
+            "codigoPedido": pedido.codigoPedido,
+            "dataCriacao": pedido.dataCriacao,
+            "dataEntrega": pedido.dataEntrega,
+            "quantidade": qtd.value,
+            "pesoBruto": pedido.pesoBruto,
+            "volumeBruto": pedido.volumeBruto,
+            "unidade": pedido.unidade,
+            "pacote": pedido.pacote,
+            "volume": pedido.volume,
+            "codigoPeca": pedido.codigoPeca,
+            "codigoOrcamento": pedido.codigoOrcamento,
+            "codigoCliente": pedido.codigoCliente
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      })
+        .then((response) => response.json())
+        .then((json) => console.log(json));
+        document.getElementById('alertaQtd' + j).classList.remove('d-none');
+    
 }
 
 async function adicionarPecaFornec(idPeca, i){
@@ -242,7 +465,8 @@ async function addPecaFornecedor(idPeca, i){
                 "fonecedor": dropDownFornecedor.value
         }),
         headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "token " + localStorage.tokenUsuario
         }
     })
         .then((response) => response.json())
@@ -260,7 +484,8 @@ async function updatePecaFornecedor(dados, idPeca, i){
                     "fonecedor": dropDownFornecedor.value
             }),
             headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": "token " + localStorage.tokenUsuario
             }
         })
             .then((response) => response.json())
