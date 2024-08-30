@@ -32,6 +32,16 @@
     background-color: yellow;
 }
 
+#linhaDestinatario{
+    text-align:center;
+    background-color: yellow;
+}
+
+#marca-embarque{
+    text-align:center;
+    background-color: yellow;
+}
+
 #nome{
     font-size: 15px;
 }

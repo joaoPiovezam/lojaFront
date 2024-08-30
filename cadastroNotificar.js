@@ -27,40 +27,6 @@ function popularDropDownOrcamento(dados){
     }
 }
 
-function addCondicao(){
-    const formularioCadastro = document.getElementById('formularioCadastro');
-
-    formularioCadastro.addEventListener('submit', async function(event) {
-    event.preventDefault(); // Evita o envio padrão do formulário
-
-    const dadosFatura = {
-        cota: document.getElementById('cota').value,
-        porcentagem: parseFloat(document.getElementById('porcentagem').value),
-        data: document.getElementById('data').value,
-        total: parseFloat(document.getElementById('total').value),
-    };
-
-    console.log(dadosFatura); // Exibe os dados da fatura no console
-    await fetch("http://127.0.0.1:8000/condicoes/", {
-        method: "POST",
-        body: JSON.stringify({
-            "status": 1,
-            "cota": dadosFatura.cota,
-            "porcentagem": dadosFatura.porcentagem,
-            "data": dadosFatura.data,
-            "total": dadosFatura.total,
-            "orcamento": localStorage.orcamentoId
-        }),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
-    });
-
-}
-
 function addNotificar(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
@@ -83,7 +49,8 @@ function addNotificar(){
             "orcamento": localStorage.orcamentoId
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())
@@ -93,6 +60,5 @@ function addNotificar(){
 }
 
 function add(){
-    addCondicao();
     addNotificar();
 }

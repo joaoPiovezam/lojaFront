@@ -27,13 +27,24 @@ async function carregarDados() {
               "Authorization": "token " + localStorage.tokenUsuario
             }
           });
+
+        const respostaPacote = await fetch(urlPacote, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+        });
+
+        const dadosPacote = await respostaPacote.json();
+
         const dadosJSON = await resposta.json();
 
         if(tipo.value != 'packingList2'){
             popularTabelaPedidos(dadosJSON);
         }
 
-        if (tipo.value == "fatura"){
+        if (tipo.value == "fatura" || tipo.value == "orcamento"){
             const respostaNotificar = await fetch(urlNotificar, {
                 method: "GET",
                 headers: {
@@ -51,20 +62,18 @@ async function carregarDados() {
                 }
               });
             const dadosCondicao = await respostaCondicao.json();
-
-            popularTabelaNotificar(dadosNotificar);
+            
             popularTabelaCondicao(dadosCondicao);
-            popularTabelaPeso(dadosJSON);
+            
+            if(tipo.value != "orcamento"){
+                popularMarcaEmbarque(dadosJSON);
+                popularTabelaDestinatario(dadosJSON);
+                popularTabelaNotificar(dadosNotificar);            
+                popularTabelaPeso(dadosJSON, dadosPacote.count);
+            }
         }
 
         if (tipo.value == "packingList"  || tipo.value == 'packingList2'){
-            const respostaPacote = await fetch(urlPacote, {
-                method: "GET",
-                headers: {
-                  "Content-type": "application/json; charset=UTF-8",
-                  "Authorization": "token " + localStorage.tokenUsuario
-                }
-              });
 
             const respostaPecas = await fetch(urlPecas, {
                 method: "GET",
@@ -74,7 +83,7 @@ async function carregarDados() {
                 }
               });
 
-            const dadosPacote = await respostaPacote.json();
+            
             const dadosPecas = await respostaPecas.json();
             
             if(tipo.value == 'packingList2'){
@@ -110,7 +119,7 @@ function popularTabelaCliente1(dados){
 
     const linhaComprador = document.createElement("td");
     linhaComprador.textContent = "CLIENTE";
-    linhaComprador.colSpan = 5;
+    linhaComprador.colSpan = 6;
     linhaComprador.id = "linhaComprador";
     tabela.appendChild(linhaComprador);
 
@@ -120,18 +129,21 @@ function popularTabelaCliente1(dados){
     const colunaDataEmissao = document.createElement("td");
     const colunaDataValidade = document.createElement("td");
     const colunaTipoEntrega = document.createElement("td");
+    const colunaFrete = document.createElement("td");
     const colunaResponsavel = document.createElement("td");
     const colunaCodigo = document.createElement("td");
    
     colunaDataEmissao.textContent = "DATA DE EMISSÃO";
     colunaDataValidade.textContent = "DATA VALIDADE";
     colunaTipoEntrega.textContent = "INCOTERM";
+    colunaFrete.textContent = "FRETE";
     colunaResponsavel.textContent = "RESPONSÁVEL";
     colunaCodigo.textContent = "ORÇAMENTO";
 
     linha.appendChild(colunaDataEmissao);
     linha.appendChild(colunaDataValidade);
     linha.appendChild(colunaTipoEntrega);
+    linha.appendChild(colunaFrete);
     linha.appendChild(colunaResponsavel);
     linha.appendChild(colunaCodigo);
 
@@ -141,18 +153,21 @@ function popularTabelaCliente1(dados){
     const colunaDataEmissao1 = document.createElement("td");
     const colunaDataValidade1 = document.createElement("td");
     const colunaTipoEntrega1 = document.createElement("td");
+    const colunaFrete1 = document.createElement("td");
     const colunaResponsavel1 = document.createElement("td");
     const colunaCodigo1 = document.createElement("td");
 
     colunaDataEmissao1.textContent = formatarData(orcamento.dataEmissao);
     colunaDataValidade1.textContent = formatarData(orcamento.dataValidade);
     colunaTipoEntrega1.textContent = orcamento.tipoEntrega;
+    colunaFrete1.textContent = orcamento.frete;
     colunaResponsavel1.textContent = orcamento.responsavel;
     colunaCodigo1.textContent = orcamento.codigo;
 
     linha1.appendChild(colunaDataEmissao1);
     linha1.appendChild(colunaDataValidade1);
     linha1.appendChild(colunaTipoEntrega1);
+    linha1.appendChild(colunaFrete1);
     linha1.appendChild(colunaResponsavel1);
     linha1.appendChild(colunaCodigo1);
 
@@ -166,7 +181,7 @@ function popularTabelaCliente2(dados){
 
     const linha = document.createElement("tr");
     const colunaNome = document.createElement("td");
-    colunaNome.setAttribute('colspan', '5');
+    colunaNome.setAttribute('colspan', '6');
     
     colunaNome.textContent = "NOME CLINETE";
 
@@ -176,7 +191,7 @@ function popularTabelaCliente2(dados){
     
     const linha1 = document.createElement("tr");
     const colunaNome1 = document.createElement("td");
-    colunaNome1.setAttribute('colspan', '5');
+    colunaNome1.setAttribute('colspan', '6');
 
     colunaNome1.textContent = cliente.nomeCliente;
 
@@ -195,7 +210,7 @@ function popularTabelaCliente3(dados){
     const colunaCEP = document.createElement("td");
     const colunaCidade = document.createElement("td");
     const colunaPais = document.createElement("td");
-    colunaEndereco.setAttribute('colspan', '2');
+    colunaEndereco.setAttribute('colspan', '3');
     
     colunaEndereco.textContent = "ENDERECO";
     colunaCEP.textContent = "POSTAL CODE";
@@ -214,7 +229,7 @@ function popularTabelaCliente3(dados){
     const colunaCEP1 = document.createElement("td");
     const colunaCidade1 = document.createElement("td");
     const colunaPais1 = document.createElement("td");
-    colunaEndereco1.setAttribute('colspan', '2');
+    colunaEndereco1.setAttribute('colspan', '3');
 
     colunaEndereco1.textContent = cliente.endereco;
     colunaCEP1.textContent = cliente.cep;
@@ -237,7 +252,7 @@ function popularTabelaCliente4(dados){
     const linha = document.createElement("tr");
     const colunaTelefone = document.createElement("td");
     const colunaEmail = document.createElement("td");
-    colunaEmail.setAttribute('colspan', '4');
+    colunaEmail.setAttribute('colspan', '5');
 
     colunaTelefone.textContent = "TELEFONE";
     colunaEmail.textContent = "EMAIL";
@@ -250,7 +265,7 @@ function popularTabelaCliente4(dados){
     const linha1 = document.createElement("tr");
     const colunaTelefone1 = document.createElement("td");
     const colunaEmail1 = document.createElement("td");
-    colunaEmail1.setAttribute('colspan', '4');
+    colunaEmail1.setAttribute('colspan', '5');
 
     colunaTelefone1.textContent = cliente.telefone;
     colunaEmail1.textContent = cliente.email;
@@ -259,6 +274,87 @@ function popularTabelaCliente4(dados){
     linha1.appendChild(colunaEmail1);
 
     tabela.appendChild(linha1);
+}
+
+function popularTabelaDestinatario(dados){
+    const tabela = document.getElementById("tabela-destinatario");
+
+    const linhaDestinatario = document.createElement("td");
+
+    linhaDestinatario.textContent = "CONSIGNEE";
+    linhaDestinatario.colSpan = 5;
+    linhaDestinatario.id = "linhaDestinatario";
+
+    tabela.append(linhaDestinatario)
+
+    const destinatario = dados.results[0].orcamento;
+
+    const linha = document.createElement("tr");
+
+    const colunaNome = document.createElement("td");
+    const colunaCnpj = document.createElement("td");
+    const colunaEndereco = document.createElement("td");
+    const colunaCidade = document.createElement("td");
+    const colunaPais = document.createElement("td");
+
+    colunaNome.textContent = "Nome";
+    colunaCnpj.textContent = "CNPJ";
+    colunaEndereco.textContent = "Endereço";
+    colunaCidade.textContent = "Cidade";
+    colunaPais.textContent = "País";
+
+    linha.appendChild(colunaNome);
+    linha.appendChild(colunaCnpj);
+    linha.appendChild(colunaEndereco);
+    linha.appendChild(colunaCidade);
+    linha.appendChild(colunaPais);
+
+    const linha1 = document.createElement("tr");
+
+    const colunaNome1 = document.createElement("td");
+    const colunaCnpj1 = document.createElement("td");
+    const colunaEndereco1 = document.createElement("td");
+    const colunaCidade1 = document.createElement("td");
+    const colunaPais1 = document.createElement("td");
+
+    colunaNome1.textContent = destinatario.nomeEntrega;
+    colunaCnpj1.textContent = destinatario.cnpjEntrega;
+    colunaEndereco1.textContent = destinatario.enderecoEntrega;
+    colunaCidade1.textContent = destinatario.cidadeEntrega;
+    colunaPais1.textContent = destinatario.paisEntrega;
+
+    linha1.appendChild(colunaNome1);
+    linha1.appendChild(colunaCnpj1);
+    linha1.appendChild(colunaEndereco1);
+    linha1.appendChild(colunaCidade1);
+    linha1.appendChild(colunaPais1);
+
+
+    /*nomeEntrega": "jao",
+            "cnpjEntrega": "123",
+            "enderecoEntrega": "tamioios, 262",
+            "cidadeEntrega": "ribeiraõ",
+            "paisEntrega": "brasil",*/
+
+    tabela.append(linha)
+    tabela.append(linha1)
+
+}
+
+function popularMarcaEmbarque(dados){
+    const tabela = document.getElementById("tabela-marca-embarque");
+
+    const linha = document.createElement("td");
+    const marca = document.createElement("td");
+
+    linha.id = "marca-embarque"
+
+    linha.textContent = "Marcas de Embarque:";
+    marca.textContent = dados.results[0].orcamento.marcasEmbarque
+
+    tabela.append(linha)
+    tabela.append(marca)
+
 }
 
 function popularTabelaNotificar(dados){
@@ -359,7 +455,7 @@ function popularTabelaCondicao(dados){
 
 }
 
-function popularTabelaPeso(dados){
+function popularTabelaPeso(dados, qtdPacotes){
     tabela = document.getElementById("tabela-peso");
 
     const linhaPacote = document.createElement("td");
@@ -369,16 +465,19 @@ function popularTabelaPeso(dados){
     tabela.appendChild(linhaPacote);
 
     const linha = document.createElement("tr");
+    const colunaQtd = document.createElement("td");
     const colunaPesoLiq = document.createElement("td");
     const colunaPesoBruto = document.createElement("td");
     const colunaVolume = document.createElement("td");
     const colunaEntrega = document.createElement("td");
     
+    colunaQtd.textContent = "Qtd. Pacotes"
     colunaPesoLiq.textContent = "PESO LIQ."
     colunaPesoBruto.textContent = "PESO BRUTO";
     colunaVolume.textContent = "VOLUME";
     colunaEntrega.textContent = "ENTREGA";
 
+    linha.appendChild(colunaQtd);
     linha.appendChild(colunaPesoLiq);
     linha.appendChild(colunaPesoBruto);
     linha.appendChild(colunaVolume);
@@ -387,16 +486,19 @@ function popularTabelaPeso(dados){
     tabela.appendChild(linha);
 
     const linha1 = document.createElement("tr");
+    const colunaQtd1 = document.createElement("td");
     const colunaPesoLiq1 = document.createElement("td");
     const colunaPesoBruto1 = document.createElement("td");
     const colunaVolume1 = document.createElement("td");
     const colunaEntrega1 = document.createElement("td");
 
+    colunaQtd1.textContent = qtdPacotes;
     colunaPesoLiq1.textContent = pesoTotal;
     colunaPesoBruto1.textContent = pesoBruto;
     colunaVolume1.textContent = volumeBruto;
     colunaEntrega1.textContent = formatarData(dados.results[0].dataEntrega);
 
+    linha1.appendChild(colunaQtd1);
     linha1.appendChild(colunaPesoLiq1);
     linha1.appendChild(colunaPesoBruto1);
     linha1.appendChild(colunaVolume1);
@@ -802,7 +904,8 @@ async function updateVolumePeca(pedido, volume, pacote){
             "codigoCliente": pedido.codigoCliente
         }),
         headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())
@@ -827,7 +930,8 @@ async function atualizarPacote(pacote){
                 "orcamento": pacote.orcamento
         }),
         headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())
@@ -837,6 +941,9 @@ async function atualizarPacote(pacote){
 async function excluirPacote(item){
     await fetch("http://127.0.0.1:8000/pack/"+item+"/", {
         method: 'DELETE',
+        headers:{
+            "Authorization": "token " + localStorage.tokenUsuario
+        }
     })
     .then(res => res.text())
     .then(res => console.log(res));

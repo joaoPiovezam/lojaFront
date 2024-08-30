@@ -10,6 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
     <button onclick="gerarPDF()">Gerar PDF</button>
+    <button onclick="gerarFatura()">Gerar Fatura</button>
 
     <script>
         function gerarPDF() {
@@ -29,6 +30,13 @@
         html2pdf().from(element).set(options).save();
         }
     </script>
+    
+    <script>
+        function gerarFatura() {
+            location.href = '/fatura.html'
+        }
+    </script>
+
     <div class = 'contanier' id = 'orcamento'>
         <input hidden id="pagina" value="orcamento">
         <header>
@@ -55,6 +63,7 @@
 
         <table id = "tabela">
             <table id="tabela-cliente"></table>
+            <table id="tabela-condicao"></table>
             <table id="tabela-pedidos"></table>
         </table>
         <script src="scriptTabelaPedidos.js"></script>
