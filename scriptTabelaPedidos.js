@@ -1,12 +1,17 @@
 var orcamentoId = localStorage.orcamentoId;
 var pecaCodigo = localStorage.pecaCodigo;
+var volume = localStorage.volume;
 
 if (localStorage.pecaCodigo == null){
     pecaCodigo = '';
 }
 
-const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/?search=" + pecaCodigo;
-const urlPecas = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/";
+if (localStorage.volume == null){
+    volume = 0;
+}
+
+const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/?search=" + pecaCodigo;
+const urlPecas = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/";
 const urlNotificar = "http://127.0.0.1:8000/notificacao/"+ orcamentoId + "/";
 const urlCondicao = "http://127.0.0.1:8000/condicao/"+ orcamentoId + "/";
 const urlPacote = "http://127.0.0.1:8000/packOrcamento/" + orcamentoId;
@@ -91,8 +96,10 @@ async function carregarDados() {
                 popularTabelaPedidos(dadosJSON, dadosPacote);
             }else{
                 popularTabelaPacotes(dadosPacote);
+                popularTabelaPeso(dadosJSON, dadosPacote.count);
             }  
             popularDownPecas(dadosPecas);  
+            popularDownVolume(dadosPacote)
         }
 
         popularTabelaCliente1(dadosJSON);
@@ -121,7 +128,7 @@ function popularTabelaCliente1(dados){
     linhaComprador.textContent = "CLIENTE";
     linhaComprador.colSpan = 6;
     linhaComprador.id = "linhaComprador";
-    tabela.appendChild(linhaComprador);
+    
 
     const orcamento = dados.results[0].orcamento;
 
@@ -146,6 +153,7 @@ function popularTabelaCliente1(dados){
     linha.appendChild(colunaFrete);
     linha.appendChild(colunaResponsavel);
     linha.appendChild(colunaCodigo);
+    
 
     tabela.appendChild(linha);
     
@@ -172,6 +180,7 @@ function popularTabelaCliente1(dados){
     linha1.appendChild(colunaCodigo1);
 
     tabela.appendChild(linha1);
+    tabela.appendChild(linhaComprador);
 }
 
 function popularTabelaCliente2(dados){
@@ -586,10 +595,41 @@ function popularTabelaPedidos(dados, dadosPacote){
         linha.appendChild(colunaPesoTotal);
     }
 
-    if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
+    if (tipo.value == 'packingList2' ){
         const colunaVolume = document.createElement("td");
         colunaVolume.textContent = 'VOLUME';
+        colunaVolume.id = "volumePdf"
         linha.appendChild(colunaVolume);
+    }
+
+    if (tipo.value == 'packingList'){
+/*        const colunaCodigoS = document.createElement("select");
+        colunaCodigoS.id = "colunaCodigoS";
+        colunaCodigoS.value = "0";
+        colunaCodigoS.setAttribute("onchange","filtrarCodigo()");
+        linha.appendChild(colunaCodigoS);
+
+        const opcaoCodigo = document.createElement("option");
+        opcaoCodigo.textContent = "CODIGO";
+        opcaoCodigo.value = '';
+        colunaCodigoS.append(opcaoCodigo);*/
+        const colunaVolumeS = document.createElement("td");
+        colunaVolumeS.textContent = 'VOLUME';
+        colunaVolumeS.id = "volumePdf"
+        linha.appendChild(colunaVolumeS);
+        colunaVolumeS.hidden = true
+
+        const colunaVolume = document.createElement("select");
+        colunaVolume.id = "volume";
+        colunaVolume.value = "0"
+        colunaVolume.setAttribute("onchange", "filtrarVolume()");
+        linha.appendChild(colunaVolume);
+
+        const opcao = document.createElement("option")
+        opcao.textContent = 'VOLUME';
+        opcao.value = "0"
+        colunaVolume.append(opcao)
+        
     }
 
     tabela.appendChild(linha);
@@ -710,6 +750,17 @@ function popularDownPecas(dados){
         coluna.append(opcaoCodigo);
     }
     coluna.value = localStorage.pecaCodigo;
+}
+
+function popularDownVolume(dados){
+    const coluna = document.getElementById("volume");
+    for(const item of dados.results){        
+        const opcaoCodigo = document.createElement("option");
+        opcaoCodigo.textContent = item.volume;
+        opcaoCodigo.value = item.volume;
+        coluna.append(opcaoCodigo);
+    }
+    coluna.value = localStorage.volume;
 }    
 
 function popularTabelaPacotes(dados){
@@ -876,6 +927,12 @@ function popularTabelaPacotesPutDelete(dados){
 function filtrarCodigo(){
     codigoPeca = document.getElementById("colunaCodigoS").value;
     localStorage.pecaCodigo = codigoPeca;
+    location.reload();
+}
+
+function filtrarVolume(){
+    volume = document.getElementById("volume").value;
+    localStorage.volume = volume;
     location.reload();
 }
 

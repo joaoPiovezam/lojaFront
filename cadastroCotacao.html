@@ -26,15 +26,22 @@
     </select>
 </div>  
 
-<div class='container' id='pecas'>
-    <div id="tabela-pecas"></div>
-    <input hidden id="pagina" value="1">
-    <button type="button" onclick="proximaPagina()">Carregar mais >></button>   
+
+<div style="justify-content: space-between; display: flex;">
+
+    <div class='container' id='pecas'>
+        <div id="tabela-pecas" style=" margin-right: 20px; border: 1px solid black;"></div>
+        <input hidden id="pagina" value="1">
+        <button type="button" onclick="proximaPagina()">Carregar mais >></button>   
+    </div>
+
+    <div class='container' id='pecas'>
+        <div id="tabela-remover"  style="border: 1px solid black;"></div>  
+        <div id="tabela-cotacoes"></div>  
+    </div>
+    
 </div>
 
-<div class='container' id='pecas'>
-    <div id="tabela-cotacoes"></div>  
-</div>
 
 </body>
 </html>

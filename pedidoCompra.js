@@ -1,27 +1,45 @@
-var urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/"+ localStorage.idFornececedor;
+var idFornececedor = localStorage.idFornececedor
+console.log(idFornececedor)
+if (localStorage.idFornececedor == ""){
+    idFornececedor = 0;
+}
+
+var urlAPI = "http://127.0.0.1:8000/pedidoCompra/"+ localStorage.orcamentoId +"/"+ idFornececedor;
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
+var urlPedidoCompra = "http://127.0.0.1:8000/pedidoCompraOrcamento/" + localStorage.orcamentoId +"/"+ idFornececedor;
 
 var precoTotal = 0.0;
 var pesoTotal = 0.0;
 var volumeTotal = 0.0;
 
 async function carregarDados() {
-        const resposta = await fetch(urlAPI, {
-            method: "GET",
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-              //"Authorization": "token " + localStorage.tokenUsuario
-            }
-          });
-        const dadosJSON = await resposta.json();        
-        const respostaFornecedores = await fetch(urlFornecedor, {
+    const respostaFornecedores = await fetch(urlFornecedor, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
+    const dadosFornecedores= await respostaFornecedores.json();    
+    
+    const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
               "Authorization": "token " + localStorage.tokenUsuario
             }
           });
-        const dadosFornecedores= await respostaFornecedores.json();
+    const dadosJSON = await resposta.json();        
+
+    const respostaPedidoCompra = await fetch(urlPedidoCompra, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
+    const dadosPedidoCompraJSON = await respostaPedidoCompra.json();        
+
 
         popularDownFornecedores(dadosFornecedores);     
         popularTabelaCliente1(dadosJSON);
@@ -29,6 +47,7 @@ async function carregarDados() {
         /*popularTabelaCliente3(dadosJSON);
         popularTabelaCliente4(dadosJSON);*/
         popularTabelaPedidos(dadosJSON);
+        popularTabelaPedidosCompra(dadosPedidoCompraJSON);
     }
 // Função para formatar data
 function formatarData(data) {
@@ -64,7 +83,7 @@ function atualizarFonecedor(fornecedorId){
 function popularTabelaCliente1(dados){
     const tabela = document.getElementById("tabela-cliente");
 
-    const fornecedor = dados.results[0].cotacao.pecaFornecedor.fornecedor;
+    const fornecedor = dados.results[0].pecasFornecedor.fornecedor;
 
     const linha = document.createElement("tr");
     const colunacpfCnpj = document.createElement("td");
@@ -107,7 +126,7 @@ function popularTabelaCliente1(dados){
 function popularTabelaCliente2(dados){
     const tabela = document.getElementById("tabela-cliente");
 
-    const fornecedor = dados.results[0].cotacao.pecaFornecedor.fornecedor;
+    const fornecedor = dados.results[0].pecasFornecedor.fornecedor;
 
     const linha = document.createElement("tr");
     const colunaCep = document.createElement("td");
@@ -276,19 +295,19 @@ function popularTabelaPedidos(dados){
         const colunaPeso = document.createElement("td");
 
         colunaItem.textContent = i.toString();
-        colunaCodigo.textContent = item.cotacao.pecaFornecedor.peca.codigo;
-        colunaDescricao.textContent = item.cotacao.pecaFornecedor.peca.descricao;
-        colunaQuantidade.textContent = item.cotacao.pedido.quantidade;
+        colunaCodigo.textContent = item.pecasFornecedor.peca.codigo;
+        colunaDescricao.textContent = item.pecasFornecedor.peca.descricao;
+        colunaQuantidade.textContent = item.pedido.quantidade;
         //colunaDataEntrega.textContent = formatarData(item.dataEntrega);
-        colulaPrecoUnit.textContent = formatarPreco(item.cotacao.pecaFornecedor.preco *1);
-        colunaPreco.textContent = formatarPreco(item.cotacao.pecaFornecedor.preco * item.cotacao.pedido.quantidade);
-        colunaNcm.textContent = item.cotacao.pecaFornecedor.peca.ncm;
+        colulaPrecoUnit.textContent = formatarPreco(item.pecasFornecedor.preco *1);
+        colunaPreco.textContent = formatarPreco(item.pecasFornecedor.preco * item.pedido.quantidade);
+        colunaNcm.textContent = item.pecasFornecedor.peca.ncm;
         //colunaVolume.textContent = item.peca.volume;
-        colunaPeso.textContent = item.cotacao.pecaFornecedor.peca.peso
+        colunaPeso.textContent = item.pecasFornecedor.peca.peso
 
-        precoTotal  += item.cotacao.pecaFornecedor.preco * item.cotacao.pedido.quantidade;
-        //volumeTotal += item.cotacao.pecaFornecedor.peca.volume     * item.cotacao.pedido.quantidade;
-        pesoTotal   += item.cotacao.pecaFornecedor.peca.peso       * item.cotacao.pedido.quantidade;        
+        precoTotal  += item.pecasFornecedor.preco * item.pedido.quantidade;
+        //volumeTotal += item.pecasFornecedor.peca.volume     * item.pedido.quantidade;
+        pesoTotal   += item.pecasFornecedor.peca.peso       * item.pedido.quantidade;        
 
         linha.appendChild(colunaItem);
         linha.appendChild(colunaCodigo);
@@ -307,14 +326,6 @@ function popularTabelaPedidos(dados){
       }
       const totalOrcado = document.getElementById("total-orcado");
       const totalPeso = document.getElementById("total-peso");
-      const comprador = document.getElementById("comprador");
-      //const totalVolume = document.getElementById("total-volume");
-      const operacaoFiscal = document.getElementById("opercaoFiscal");
-      const vencimento = document.getElementById("vencimento");
-      const transportadora = document.getElementById("transportadora");
-      const transportadoraFone = document.getElementById("traportadoraFone");
-      const frete = document.getElementById("frete");
-
       
       totalOrcado.append('PREÇO TOTAL  = ');
       totalOrcado.append(formatarPreco(precoTotal));
@@ -322,25 +333,37 @@ function popularTabelaPedidos(dados){
       /*totalVolume.append('VOLUME TOTAL = ');
       totalVolume.append(formatarPreco(volumeTotal));*/
 
-      vencimento.append("VENCIMENTOS:    ");
-      vencimento.append(dados.results[0].vencimento);
 
-      operacaoFiscal.append('OPERAÇÂO FISCAL:    ');
-      operacaoFiscal.append(dados.results[0].operacaoFiscal);
 
       totalPeso.append('PESO TOTAL     = ');
-      totalPeso.append(formatarPreco(pesoTotal));
+      totalPeso.append(formatarPreco(pesoTotal)); 
 
-      comprador.append('COMPRADOR: ');
-      comprador.append(dados.results[0].comprador);
+}
 
-      transportadora.append('TRASPORTADORA: ');
-      transportadora.append(dados.results[0].transportadora.nome);
+function popularTabelaPedidosCompra(dados){
+    const comprador = document.getElementById("comprador");
+    const operacaoFiscal = document.getElementById("opercaoFiscal");
+    const vencimento = document.getElementById("vencimento");
+    const transportadora = document.getElementById("transportadora");
+    const transportadoraFone = document.getElementById("traportadoraFone");
+    const frete = document.getElementById("frete");
 
-      transportadoraFone.append("FONE(Transportadora): ");
-      transportadoraFone.append(dados.results[0].transportadora.telefone);
 
-      frete.append("FRETE: ");
-      frete.append(dados.results[0].frete);
+    vencimento.append("VENCIMENTOS:    ");
+    vencimento.append(dados.results[0].vencimento);
 
+    operacaoFiscal.append('OPERAÇÂO FISCAL:    ');
+    operacaoFiscal.append(dados.results[0].operacaoFiscal);
+
+    comprador.append('COMPRADOR: ');
+    comprador.append(dados.results[0].comprador);
+
+    transportadora.append('TRASPORTADORA: ');
+    transportadora.append(dados.results[0].transportadora.nome);
+
+    transportadoraFone.append("FONE(Transportadora): ");
+    transportadoraFone.append(dados.results[0].transportadora.telefone);
+
+    frete.append("FRETE: ");
+    frete.append(dados.results[0].frete);
 }

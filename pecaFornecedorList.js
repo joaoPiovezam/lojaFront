@@ -40,8 +40,10 @@ function atualizarOrcamento(orcamentoId){
 }
 
 var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco";
-var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/";
+var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/";
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
+var urlPedidoCompra = 'http://127.0.0.1:8000/pedidoCompra/' + localStorage.orcamentoId + '/' + localStorage.idFornececedor;
+var urlPedidosCompra = 'http://127.0.0.1:8000/pedidosCompra/';
 var urlCotacao = "http://127.0.0.1:8000/cotacaoOrcamento/"+ localStorage.orcamentoId + "/";
 var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
 
@@ -73,6 +75,7 @@ carregarDados();
 carregarTabelaCotacao();
 popularDropDownFornecedor();
 popularDropDownPedidos();
+dropDownPedidoCompra();
 
 async function popularDropDownFornecedor(){
     const respostaFornecedor = await fetch(urlFornecedor, {
@@ -94,6 +97,28 @@ async function popularDropDownFornecedor(){
         dropDownFornecedores.appendChild(fornecedor);
     }
     dropDownFornecedores.value = localStorage.idFornececedor;
+}
+
+async function dropDownPedidoCompra(){
+    const respostaPedidoCompra = await fetch(urlPedidoCompra, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
+    const dados = await respostaPedidoCompra.json();
+    const dropDownPedidoCompra = document.getElementById('dropDownPedidoCompra');
+    
+
+    for(const item of dados.results){
+        const PedidoCompra = document.createElement("option");
+        PedidoCompra.value = item.id;
+        PedidoCompra.textContent = item.nomePedidoCompra + ' - ' + item.cpfCnpj;
+        console.log(item.nomePedidoCompra + ' - ' + item.cpfCnpj);
+        dropDownPedidoCompra.appendChild(PedidoCompra);
+    }
+    dropDownPedidoCompra.value = localStorage.idFornececedor;
 }
 
 async function popularDropDownPedidos(){
@@ -158,8 +183,9 @@ async function carregarTabelaCotacao(){
         }
       });
     const dados = await resposta.json();
+    console.log(dados)
 
-    const tabela = document.getElementById("tabela-pecas");
+    const tabela = document.getElementById("tabela-remover");
 
     const linha = document.createElement("tr");
     const colunaItem = document.createElement("td");
@@ -208,11 +234,11 @@ async function carregarTabelaCotacao(){
         btnQtd.setAttribute("onclick", "removerCotacao("+ idCotacao +")");  
                  
         colunaItem.textContent = iC.toString();
-        colunaCodigo.textContent = item.pecaFornecedor.peca.codigo;
-        colunaDescricao.textContent = item.pecaFornecedor.peca.descricao;
-        colunaMarca.textContent = item.pecaFornecedor.peca.marca;
-        colunaPreco.textContent = item.pecaFornecedor.preco;
-        colulaFornecedor.textContent = item.pecaFornecedor.fornecedor.nomeFornecedor;
+        colunaCodigo.textContent = item.pecasFornecedor.peca.codigo;
+        colunaDescricao.textContent = item.pecasFornecedor.peca.descricao;
+        colunaMarca.textContent = item.pecasFornecedor.peca.marca;
+        colunaPreco.textContent = item.pecasFornecedor.preco;
+        colulaFornecedor.textContent = item.pecasFornecedor.fornecedor.nomeFornecedor;
         btnQtd.textContent = "remover da cotação";
 
         linha.appendChild(colunaItem);
@@ -258,7 +284,7 @@ function popularTabela(dados){
 
         var id = item.peca.id; 
 
-        btnQtd.setAttribute("onclick", "criarCotacao()");  
+        btnQtd.setAttribute("onclick", "criarCotacao("+ item.peca.codigo + "," + item.fornecedor.id +")");  
                  
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.peca.codigo;
@@ -317,18 +343,34 @@ function filtrarFornecedor(Fornececedor){
     //carregarDados()
 }
 
-async function criarCotacao(){
-    pedido =  document.getElementById("dropDownPedidos").value;
-    fornecedor = document.getElementById("dropDownFornecedor").value;
-    await fetch("http://127.0.0.1:8000/cotacao/", {
+async function getPedidoId(pecaCodigo){
+    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/0/?search=" + pecaCodigo;
+    console.log(pecaCodigo)
+    const resposta = await fetch(urlAPI, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
+        }
+      });
+
+    const dadosJSON = await resposta.json();
+    return dadosJSON
+}
+
+async function criarCotacao(pecaCodigo, fornecedor){
+    pedido =  await getPedidoId(pecaCodigo)
+    console.log(pedido,fornecedor)
+    //fornecedor = document.getElementById("dropDownFornecedor").value;
+    await fetch("http://127.0.0.1:8000/cotacoes/", {
         method: "POST",
         body: JSON.stringify({
-            "codigo": "1",
-            "codigoPedido": pedido,
+            "codigoPedido": pedido.results[0].id,
             "codigoPecaFornecedor": fornecedor
         }),
         headers: {
-        "Content-type": "application/json; charset=UTF-8"
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "token " + localStorage.tokenUsuario
         }
     })
         .then((response) => response.json())
@@ -338,6 +380,9 @@ async function criarCotacao(){
 async function removerCotacao(idCotacao){
     await fetch("http://127.0.0.1:8000/cotacao/"+idCotacao+"/", {
         method: 'DELETE',
+        headers: {
+            "Authorization": "token " + localStorage.tokenUsuario
+        }
     })
     .then(res => res.text())
     .then(res => console.log(res));

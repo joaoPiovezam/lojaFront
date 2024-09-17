@@ -10,6 +10,13 @@
 <body>
     <h1>Cadastro de Pedido de Compra</h1>
 
+    <div class="campo">
+        <label for="fornecedor">Fornecedor:</label>
+        <select onchange="filtrarFornecedor(this.value)" width="800" id="fornecedor" name="fornecedor" required>
+            <option value="0">Selecione</option>
+        </select>
+    </div>
+
     <form id="formularioCadastro">
         <div class="campo">
             <label for="operacaoFiscal">Operação Fiscal:</label>
@@ -39,11 +46,6 @@
         <div class="campo">
             <label for="frete">Frete:</label>
             <input type="number" id="frete" name="frete">
-        </div>
-
-        <div class="campo">
-            <label for="cotacao">Cotação:</label>
-            <input type="number" id="cotacao" name="cotacao">
         </div>
 
         <div class="campo">

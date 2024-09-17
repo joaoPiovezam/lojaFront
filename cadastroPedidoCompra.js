@@ -10,9 +10,13 @@ function proximaPagina(){
 }
 
 var urlAPI = "http://127.0.0.1:8000/pedidosCompra/?format=json&page="+ pagina;
+var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
 
 async function carregarDados() {
-    const resposta = await fetch(urlAPI, {
+
+    await popularDropDownFornecedor();
+
+    const resposta = await fetch(urlFornecedor, {
         method: "GET",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -29,6 +33,33 @@ async function carregarDados() {
 
 carregarDados()
 
+async function popularDropDownFornecedor(){
+  const respostaFornecedor = await fetch(urlFornecedor, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "token " + localStorage.tokenUsuario
+      }
+    });
+  const dados = await respostaFornecedor.json();
+  const dropDownFornecedores = document.getElementById('fornecedor');
+  
+
+  for(const item of dados.results){
+      const fornecedor = document.createElement("option");
+      fornecedor.value = item.id;
+      fornecedor.textContent = item.nomeFornecedor + ' - ' + item.cpfCnpj;
+      console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
+      dropDownFornecedores.appendChild(fornecedor);
+  }
+  dropDownFornecedores.value = localStorage.idFornececedor;
+}
+
+function filtrarFornecedor(Fornececedor){
+  localStorage.idFornececedor = Fornececedor;
+  location.reload();
+}
+
 function addPedido(){
     const formularioCadastro = document.getElementById('formularioCadastro');
 
@@ -36,13 +67,13 @@ function addPedido(){
       //  event.preventDefault();
     
         const dados = {
+            fornecedor: document.getElementById('fornecedor').value,
             operacaoFiscal: document.getElementById('operacaoFiscal').value,
             vencimento: document.getElementById('vencimento').value,
             comprador: document.getElementById('comprador').value,
             email: document.getElementById('email').value,
             observacoes: document.getElementById('observacoes').value,
             frete: document.getElementById('frete').value,
-            cotacao: document.getElementById('cotacao').value,
             transportadora: document.getElementById('transportadora').value,
         };
         fetch("http://127.0.0.1:8000/pedidosCompra/", {
@@ -54,11 +85,12 @@ function addPedido(){
                     "email": dados.email,
                     "observacoes": dados.observacoes,
                     "frete": dados.frete,
-                    "cotacao": dados.cotacao,
-                    "transportadora": dados.transportadora
+                    "transportadora": dados.transportadora,
+                    "fornecedor": dados.fornecedor
             }),
             headers: {
-              "Content-type": "application/json; charset=UTF-8"
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           })
             .then((response) => response.json())

@@ -1,15 +1,15 @@
-var urlPedidos = "http://127.0.0.1:8000/pedidoPeca/";
+var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
 var urlEstoque = 'http://127.0.0.1:8000/estoquePecas/';
 
 async function carregarDados() {
-        const respostaPedidos = await fetch(urlPedidos, {
+        const respostaOrcamento = await fetch(urlOrcamento, {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
               "Authorization": "token " + localStorage.tokenUsuario
             }
           });
-        const dadosPedidos = await respostaPedidos.json();
+        const dadosOrcamento = await respostaOrcamento.json();
         const respostaEstoque = await fetch(urlEstoque, {
             method: "GET",
             headers: {
@@ -18,7 +18,7 @@ async function carregarDados() {
             }
           });
         const dadosEstoque = await respostaEstoque.json();
-        popularDropDown(dadosPedidos); 
+        popularDropDown(dadosOrcamento); 
         popularTabela(dadosEstoque); 
     }
 
@@ -34,6 +34,7 @@ function popularTabela(dados){
     const tabela = document.getElementById("tabela");
     const linha = document.createElement("tr");
     const colunaItem = document.createElement("td");
+    const colunaQuantidade = document.createElement("td");
     const colunaCodigo = document.createElement("td");
     const colunaDescricao = document.createElement("td");
     const colunaCliente = document.createElement("td");
@@ -42,6 +43,7 @@ function popularTabela(dados){
     const colunaDataSaida = document.createElement("td");
 
     colunaItem.textContent = "Item";
+    colunaQuantidade.textContent = "Quantidade";
     colunaCodigo.textContent = "Codigo";
     colunaDescricao.textContent = "Descricao";
     colunaCliente.textContent = "Cliente";
@@ -50,6 +52,7 @@ function popularTabela(dados){
     colunaDataSaida.textContent = 'Data Saida';
 
     linha.appendChild(colunaItem);
+    linha.appendChild(colunaQuantidade);
     linha.appendChild(colunaCodigo);
     linha.appendChild(colunaDescricao);
     linha.appendChild(colunaCliente);
@@ -62,6 +65,7 @@ function popularTabela(dados){
     for(const item of dados.results){
         const linha = document.createElement("tr");
         const colunaItem = document.createElement("td");
+        const colunaQuantidade = document.createElement("td");
         const colunaCodigo = document.createElement("td");
         const colunaDescricao = document.createElement("td");
         const colunaCliente = document.createElement("td");
@@ -70,8 +74,13 @@ function popularTabela(dados){
         const colunaDataSaida = document.createElement("td");
     
         colunaItem.textContent = i;
-        console.log(item);
+        //console.log(item);
         colunaCodigo.textContent = item.pedido.peca.codigo;
+        if (item.estado == "1"){
+          colunaQuantidade.textContent =  "-" + item.pedido.quantidade.toString();
+        }else{
+          colunaQuantidade.textContent = item.pedido.quantidade;
+        }        
         colunaDescricao.textContent = item.pedido.peca.descricao;
         colunaCliente.textContent = item.pedido.orcamento.client.nomeCliente;
         colunaOrcamento.textContent = item.pedido.orcamento.codigo;
@@ -79,6 +88,7 @@ function popularTabela(dados){
         colunaDataSaida.textContent = formatarData(item.dataSaida);
     
         linha.appendChild(colunaItem);
+        linha.appendChild(colunaQuantidade);
         linha.appendChild(colunaCodigo);
         linha.appendChild(colunaDescricao);
         linha.appendChild(colunaCliente);
@@ -92,14 +102,14 @@ function popularTabela(dados){
 }
 
 function popularDropDown(dados){
-    const dropDownPecas = document.getElementById('dropDownPecas');
+    const dropDownOrcamento = document.getElementById('dropDownOrcamento');
 
     for(const item of dados.results){
-        const cliente = document.createElement("option");
-        cliente.value = item.id;
-        cliente.textContent = item.orcamento.codigo + ' - ' + item.peca.codigo + ' - ' + item.peca.descricao;
+        const opcao = document.createElement("option");
+        opcao.value = item.id;
+        opcao.textContent = item.codigo + ' - ' + item.client.nomeCliente;
         console.log(item.id);
-        dropDownPecas.appendChild(cliente);
+        dropDownOrcamento.appendChild(opcao);
     }
 }
 
@@ -109,22 +119,13 @@ function add(){
     formularioEstoque.addEventListener('submit', async function(event) {
         event.preventDefault(); // Evita o envio padrão do formulário
     
-        const dadosEstoque = {
-            codigoPedido: document.getElementById('dropDownPecas').value,
-            dataEntrada: document.getElementById('dataEntrada').value,
-            dataSaida: document.getElementById('dataSaida').value
-        };
-    
-        console.log(dadosEstoque); // Exibe os dados do pedido no console
-        await fetch("http://127.0.0.1:8000/estoque/", {
-            method: "POST",
-            body: JSON.stringify({
-                "dataEntrada": dadosEstoque.dataEntrada,
-                "dataSaida": dadosEstoque.dataSaida,
-                "codigoPedido": dadosEstoque.codigoPedido
-            }),
+        codigoOrcamento =  document.getElementById('dropDownOrcamento').value,
+
+        await fetch("http://127.0.0.1:8000/addEstoque/" + codigoOrcamento, {
+            method: "GET",
             headers: {
-              "Content-type": "application/json; charset=UTF-8"
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
             }
           })
             .then((response) => response.json())

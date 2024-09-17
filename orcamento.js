@@ -283,17 +283,31 @@ function preencherForm(Fornecedor){
     botaoCad.style.display = "none";
     botaoAtu.style.display = "block";
 
+}        
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
 }
+
 
 async function add(){
     const formularioCadastro = document.getElementById('formularioCadastro');
-
-    formularioCadastro.addEventListener('submit', async function(event) {
-    event.preventDefault();
+    var data = new Date();
+    
+    
+    ano = data.getFullYear();
+    mes = data.getMonth()+1;
+    dia = data.getDate();
+    var data2 = new Date(data.setDate(data.getDate() +15));
+    console.log(data2);
+    ano2 = data2.getFullYear();
+    mes2 = data2.getMonth()+1;
+    dia2 = data2.getDate();
     const dados = {
-        codigo: document.getElementById('codigo').value,
-        dataEmissao: document.getElementById('dataEmissao').value,
-        dataValidade: document.getElementById('dataValidade').value,
+        dataEmissao: ano + "-" + addZero(mes) + "-" + dia,
+        dataValidade: ano2 + "-" + addZero(mes2) + "-" + addZero(dia2),
         tipoEntrega: document.getElementById('tipoEntrega').value,
         responsavel: document.getElementById('responsavel').value,
         frete: document.getElementById('frete').value,
@@ -305,12 +319,11 @@ async function add(){
         paisEntrega: document.getElementById('paisEntrega').value,
         cliente: document.getElementById('dropDownClientes').value
     };
-    //console.log('Dados do formulário:', dados);
+    console.log('Dados do formulário:', dados);
 
-    await fetch("http://127.0.0.1:8000/orcamentos/", {
+     await fetch("http://127.0.0.1:8000/orcamento/", {
         method: "POST",
         body: JSON.stringify({
-                "codigo": dados.codigo,
                 "dataEmissao": dados.dataEmissao,
                 "dataValidade": dados.dataValidade,
                 "tipoEntrega": dados.tipoEntrega,
@@ -331,7 +344,6 @@ async function add(){
       })
         .then((response) => response.json())
         .then((json) => console.log(json));
-    });
     
 }
 
@@ -381,7 +393,8 @@ function updateFornecedor(){
             "detalhe": dados.detalhe
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())

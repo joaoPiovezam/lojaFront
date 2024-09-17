@@ -195,7 +195,8 @@ function add(){
             "detalhe": dados.detalhe
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())
@@ -242,7 +243,8 @@ function update(){
             "detalhe": dados.detalhe
         }),
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
+          "Authorization": "token " + localStorage.tokenUsuario
         }
       })
         .then((response) => response.json())

@@ -27,11 +27,7 @@ function popularDropDownOrcamento(dados){
     }
 }
 
-function addCondicao(){
-    const formularioCadastro = document.getElementById('formularioCadastro');
-
-    formularioCadastro.addEventListener('submit', async function(event) {
-    event.preventDefault(); // Evita o envio padrão do formulário
+async function addCondicao(){
 
     const dadosFatura = {
         cota: document.getElementById('cota').value,
@@ -58,7 +54,6 @@ function addCondicao(){
       })
         .then((response) => response.json())
         .then((json) => console.log(json));
-    });
 
 }
 
