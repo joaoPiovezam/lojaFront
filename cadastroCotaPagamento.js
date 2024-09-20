@@ -44,7 +44,7 @@ async function addCondicao(){
             "cota": dadosFatura.cota,
             "porcentagem": dadosFatura.porcentagem,
             "data": dadosFatura.data,
-            "total": dadosFatura.total,
+            "total": 0,
             "orcamento": localStorage.orcamentoId
         }),
         headers: {

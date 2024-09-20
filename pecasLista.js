@@ -12,7 +12,7 @@ function proximaPagina(){
 }
 
 var urlAPI = "http://127.0.0.1:8000/peca/?format=json&page="+ pagina;
-var urlOrcamento = "http://localhost:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/";
+var urlOrcamento = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";
 
 async function carregarDados() {   
         const resposta = await fetch(urlAPI, {
@@ -132,6 +132,8 @@ function carregarTabelaOrcamento(){
 }
 
 function abrirOrcamento(){
+  localStorage.pecaCodigo = 0;
+  localStorage.volume = 0;
     window.open(
         "/orcamento.html",
         '_blank'
@@ -181,7 +183,7 @@ function popularTabelaPecas(dados){
 
         var id = item.codigo; 
 
-        btnQtd.setAttribute("onclick", "criarPedido("+ id + "," + i +")");  
+        btnQtd.setAttribute("onclick", "criarPedido("+ item.id + "," + i +")");  
                  
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.codigo;
@@ -267,8 +269,8 @@ function popularTabelaOrcamento(dados){
 
         var id = item.peca.codigo; 
 
-        btnQtd.setAttribute("onclick", "updateQtdPeca("+ id + "," + j +")");  
-        btnDelete.setAttribute("onclick", "deletePeca("+ id + "," + j +")");  
+        btnQtd.setAttribute("onclick", "updateQtdPeca("+ item.peca.id + "," + j +")");  
+        btnDelete.setAttribute("onclick", "deletePeca("+ item.peca.id + "," + j +")");  
                  
         colunaItem.textContent = j.toString();
         colunaCodigo.textContent = item.peca.codigo;
@@ -331,7 +333,7 @@ async function getClienteByOrcamentoId(orcamentoId){
 }
 
 async function getPedidoId(pecaCodigo){
-    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/0/?search=" + pecaCodigo;
+    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/0/" + pecaCodigo + "/";
     console.log(pecaCodigo)
     const resposta = await fetch(urlAPI, {
         method: "GET",
@@ -422,6 +424,7 @@ async function updateQtdPeca(idPeca ,j ){
     pedidoResult = await getPedidoId(idPeca);
 
     pedido = pedidoResult.results[0];
+    console.log(pedido)
 
     await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
         method: "PUT",

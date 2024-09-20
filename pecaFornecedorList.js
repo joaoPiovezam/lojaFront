@@ -40,7 +40,7 @@ function atualizarOrcamento(orcamentoId){
 }
 
 var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco";
-var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/";
+var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
 var urlPedidoCompra = 'http://127.0.0.1:8000/pedidoCompra/' + localStorage.orcamentoId + '/' + localStorage.idFornececedor;
 var urlPedidosCompra = 'http://127.0.0.1:8000/pedidosCompra/';
@@ -75,7 +75,7 @@ carregarDados();
 carregarTabelaCotacao();
 popularDropDownFornecedor();
 popularDropDownPedidos();
-dropDownPedidoCompra();
+//dropDownPedidoCompra();
 
 async function popularDropDownFornecedor(){
     const respostaFornecedor = await fetch(urlFornecedor, {
@@ -134,7 +134,7 @@ async function popularDropDownPedidos(){
 
     for(const item of dados.results){
         const pedido = document.createElement("option");
-        pedido.value = item.id;
+        pedido.value = item.peca.id;
         pedido.textContent = item.peca.codigo + ' - ' + item.peca.descricao;
         console.log(item.nomepedido + ' - ' + item.cpfCnpj);
         dropDownpedido.appendChild(pedido);
@@ -259,7 +259,7 @@ async function carregarTabelaCotacao(){
 
 function popularTabela(dados){
     const tabela = document.getElementById('tabela-pecas');
-
+    console.log(dados)
     for (const item of dados.results) {
         const linha = document.createElement("tr");
         const colunaItem = document.createElement("td");
@@ -284,7 +284,7 @@ function popularTabela(dados){
 
         var id = item.peca.id; 
 
-        btnQtd.setAttribute("onclick", "criarCotacao("+ item.peca.codigo + "," + item.fornecedor.id +")");  
+        btnQtd.setAttribute("onclick", "criarCotacao("+ item.peca.id + "," + item.id +")");  
                  
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.peca.codigo;
@@ -344,7 +344,7 @@ function filtrarFornecedor(Fornececedor){
 }
 
 async function getPedidoId(pecaCodigo){
-    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/0/?search=" + pecaCodigo;
+    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/0/" + pecaCodigo +"/";
     console.log(pecaCodigo)
     const resposta = await fetch(urlAPI, {
         method: "GET",
@@ -360,7 +360,6 @@ async function getPedidoId(pecaCodigo){
 
 async function criarCotacao(pecaCodigo, fornecedor){
     pedido =  await getPedidoId(pecaCodigo)
-    console.log(pedido,fornecedor)
     //fornecedor = document.getElementById("dropDownFornecedor").value;
     await fetch("http://127.0.0.1:8000/cotacoes/", {
         method: "POST",

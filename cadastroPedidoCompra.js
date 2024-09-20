@@ -11,6 +11,7 @@ function proximaPagina(){
 
 var urlAPI = "http://127.0.0.1:8000/pedidosCompra/?format=json&page="+ pagina;
 var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
+var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
 
 async function carregarDados() {
 
@@ -24,6 +25,15 @@ async function carregarDados() {
         }
       });
     const dadosJSON = await resposta.json();
+    const respostaOrcamento = await fetch(urlOrcamento, {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+        "Authorization": "token " + localStorage.tokenUsuario
+      }
+    });
+  const dadosOrcamento = await respostaOrcamento.json();
+  popularDropDownOrcamento(dadosOrcamento);
     
     /*if(pagina == 1){
         carregarTabela();
@@ -32,6 +42,24 @@ async function carregarDados() {
 }
 
 carregarDados()
+
+function popularDropDownOrcamento(dados){
+  console.log(dados)
+  const dropdownOrcamento = document.getElementById('dropdownOrcamento');
+
+  for(const item of dados.results){
+      const orcamento = document.createElement("option");
+      orcamento.value = item.id;
+      orcamento.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+      console.log(item.id);
+      dropdownOrcamento.appendChild(orcamento);
+  }
+  dropdownOrcamento.value = localStorage.orcamentoId;
+}
+function atualizarOrcamento(orcamentoId){
+  localStorage.orcamentoId = orcamentoId;
+  location.reload();
+}
 
 async function popularDropDownFornecedor(){
   const respostaFornecedor = await fetch(urlFornecedor, {
@@ -67,6 +95,7 @@ function addPedido(){
       //  event.preventDefault();
     
         const dados = {
+            orcamento: document.getElementById('dropdownOrcamento').value,
             fornecedor: document.getElementById('fornecedor').value,
             operacaoFiscal: document.getElementById('operacaoFiscal').value,
             vencimento: document.getElementById('vencimento').value,
@@ -86,7 +115,8 @@ function addPedido(){
                     "observacoes": dados.observacoes,
                     "frete": dados.frete,
                     "transportadora": dados.transportadora,
-                    "fornecedor": dados.fornecedor
+                    "fornecedor": dados.fornecedor,
+                    "orcamento": dados.orcamento
             }),
             headers: {
               "Content-type": "application/json; charset=UTF-8",

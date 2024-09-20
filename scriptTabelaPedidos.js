@@ -3,15 +3,15 @@ var pecaCodigo = localStorage.pecaCodigo;
 var volume = localStorage.volume;
 
 if (localStorage.pecaCodigo == null){
-    pecaCodigo = '';
+    pecaCodigo = 0;
 }
 
 if (localStorage.volume == null){
     volume = 0;
 }
 
-const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/?search=" + pecaCodigo;
-const urlPecas = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/";
+const urlAPI = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/" + pecaCodigo + "/";
+const urlPecas = "http://127.0.0.1:8000/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/0/";
 const urlNotificar = "http://127.0.0.1:8000/notificacao/"+ orcamentoId + "/";
 const urlCondicao = "http://127.0.0.1:8000/condicao/"+ orcamentoId + "/";
 const urlPacote = "http://127.0.0.1:8000/packOrcamento/" + orcamentoId;
@@ -549,7 +549,7 @@ function popularTabelaPedidos(dados, dadosPacote){
 
         const opcaoCodigo = document.createElement("option");
         opcaoCodigo.textContent = "CODIGO";
-        opcaoCodigo.value = '';
+        opcaoCodigo.value = '0';
         colunaCodigoS.append(opcaoCodigo);
         colunaCodigo.id = "colunaCodigo";
         colunaCodigo.hidden = true;
@@ -746,7 +746,7 @@ function popularDownPecas(dados){
     for(const item of dados.results){        
         const opcaoCodigo = document.createElement("option");
         opcaoCodigo.textContent = item.peca.codigo;
-        opcaoCodigo.value = item.peca.codigo;
+        opcaoCodigo.value = item.peca.id;
         coluna.append(opcaoCodigo);
     }
     coluna.value = localStorage.pecaCodigo;
