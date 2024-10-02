@@ -9,10 +9,16 @@
 </head>
 <body> 
     <div>
-        <label for="myfile">Select a file:</label>
+        <label for="myfile">Select a file Orçamento:</label>
         <input type="file" id="myFile" name="myfile">
-        <button type="button" onclick="addPecasOrcamendo()">Adicionar Pecas</button>
+        <button type="button" onclick="addPecasOrcamendo()">Adicionar Pecas Orçamento</button>
         <div id = "alertaCsv" class="alert alert-warning d-none" role="alert"></div>
+    </div>
+    <div>
+        <label for="myfile">Select a file Catalogo:</label>
+        <input type="file" id="myFileCatalogo" name="myfile">
+        <button type="button" onclick="addPecasCatalogo()">Adicionar Peças Catalogo</button>
+        <div id = "alertaCatalogo" class="alert alert-success d-none" role="alert"></div>
     </div>
     <div style="justify-content: space-between; display: flex;">
         <div class = 'contanier' id = 'pecas'>

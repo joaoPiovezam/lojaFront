@@ -548,3 +548,43 @@ async function addPecasOrcamendo() {
   }
 
 }
+
+async function addCatalogo(json) {
+  const resposta = await fetch("http://127.0.0.1:8000/AddPeca/" + json  +"/", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      "Authorization": "token " + localStorage.tokenUsuario
+    }
+  });
+  const dados = await resposta.json();
+  const alerta = document.getElementById('alertaCatalogo')
+  alerta.textContent = dados
+  alerta.classList.remove('d-none'); 
+  console.log(dados)
+}
+
+async function addPecasCatalogo() {
+  const input = document.getElementById('myFileCatalogo');
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      const content = e.target.result;
+      console.log(content);
+      const pecas = content.replace(/['\n']/g,";")
+      console.log(pecas)
+      await addCatalogo(pecas)
+    };
+
+    reader.onerror = (e) => {
+      console.error('Erro ao ler o arquivo:', e);
+    };
+
+    reader.readAsText(file);
+  } else {
+    console.log('Nenhum arquivo selecionado');
+  }
+
+}
