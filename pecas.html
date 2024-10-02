@@ -5,9 +5,15 @@
     <title>Adicionar Peças ao Orçamento</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script  src="pecasLista.js"></script>
+    <script src="pecasLista.js"></script>
 </head>
 <body> 
+    <div>
+        <label for="myfile">Select a file:</label>
+        <input type="file" id="myFile" name="myfile">
+        <button type="button" onclick="addPecasOrcamendo()">Adicionar Pecas</button>
+        <div id = "alertaCsv" class="alert alert-warning d-none" role="alert"></div>
+    </div>
     <div style="justify-content: space-between; display: flex;">
         <div class = 'contanier' id = 'pecas'>
             <div id="tabela-pecas" style=" margin-right: 20px; border: 1px solid black;"></div>

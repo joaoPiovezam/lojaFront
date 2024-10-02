@@ -52,7 +52,8 @@ function add(){
             comprimento: parseInt(document.getElementById('comprimento').value),
             largura: parseInt(document.getElementById('largura').value),
             altura: parseInt(document.getElementById('altura').value),
-            peso: parseFloat(document.getElementById('peso').value)
+            peso: parseFloat(document.getElementById('peso').value),
+            orcamento: document.getElementById("dropdownOrcamento").value
         };
 
         console.log(dados); 
@@ -66,7 +67,7 @@ function add(){
                     "largura": dados.largura,
                     "altura": dados.altura,
                     "peso": dados.peso,
-                    "orcamento": 2
+                    "orcamento": dados.orcamento
             }),
             headers: {
               "Content-type": "application/json; charset=UTF-8",

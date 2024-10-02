@@ -12,27 +12,19 @@
     <div class="container">
     <form id="formularioCadastro" action="/#" onsubmit="window.location.reload();">
 
+
         <div class="campo">
-            <label for="tipoEntrega">Tipo de Entrega:</label>
-            <select id="tipoEntrega" name="tipoEntrega" required>
+            <label for="cliente">Cliente:</label>
+            <select width="800" id="dropDownClientes" name="cliente" required>
                 <option value="">Selecione</option>
-                <option value="3">Transportadora</option>
             </select>
         </div>
+        
+
 
         <div class="campo">
             <label for="responsavel">Responsável:</label>
             <input type="text" id="responsavel" name="responsavel" required>
-        </div>
-
-        <div class="campo">
-            <label for="frete">Valor do Frete:</label>
-            <input type="number" id="frete" name="frete" step="0.01" required>
-        </div>
-
-        <div class="campo">
-            <label for="marcasEmbarque">Marcas de Embarque:</label>
-            <input type="text" id="marcasEmbarque" name="marcasEmbarque" required>
         </div>
 
         <div class="campo">
@@ -65,11 +57,24 @@
         </div>
 
         <div class="campo">
-            <label for="cliente">Cliente:</label>
-            <select width="800" id="dropDownClientes" name="cliente" required>
+            <label for="tipoEntrega">Incoterm:</label>
+            <select id="tipoEntrega" name="tipoEntrega" required>
                 <option value="">Selecione</option>
+                <option value="1">EXW</option>
+                <option value="2">FCA</option>
+                <option value="3">FAS</option>
+                <option value="4">FOB</option>
+                <option value="5">CIF</option>
+                <option value="6">CFR</option>
+                <option value="7">CTP</option>
+                <option value="8">CIP</option>
+                <option value="9">DAT</option>
+                <option value="10">DAP</option>
+                <option value="11">DDP</option>
             </select>
         </div>
+
+
 
         <button onclick="addOrcamento()" type="button">Cadastrar</button>
     </form>

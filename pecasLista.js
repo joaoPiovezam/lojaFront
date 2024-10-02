@@ -393,20 +393,9 @@ async function criarPedido(idPeca, i){
 async function updateQtdPedido(qtd, pedido, i){
     console.log(pedido)
     await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({
-            "codigoPedido": pedido.codigoPedido,
-            "dataCriacao": pedido.dataCriacao,
-            "dataEntrega": pedido.dataEntrega,
-            "quantidade": Number(qtd) + Number(pedido.quantidade),
-            "pesoBruto": pedido.pesoBruto,
-            "volumeBruto": pedido.volumeBruto,
-            "unidade": pedido.unidade,
-            "pacote": pedido.pacote,
-            "volume": pedido.volume,
-            "codigoPeca": pedido.codigoPeca,
-            "codigoOrcamento": pedido.codigoOrcamento,
-            "codigoCliente": pedido.codigoCliente
+            "quantidade": Number(qtd) + Number(pedido.quantidade)
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -427,20 +416,9 @@ async function updateQtdPeca(idPeca ,j ){
     console.log(pedido)
 
     await fetch("http://127.0.0.1:8000/pedidos/" + pedido.id + "/", {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({
-            "codigoPedido": pedido.codigoPedido,
-            "dataCriacao": pedido.dataCriacao,
-            "dataEntrega": pedido.dataEntrega,
-            "quantidade": qtd.value,
-            "pesoBruto": pedido.pesoBruto,
-            "volumeBruto": pedido.volumeBruto,
-            "unidade": pedido.unidade,
-            "pacote": pedido.pacote,
-            "volume": pedido.volume,
-            "codigoPeca": pedido.codigoPeca,
-            "codigoOrcamento": pedido.codigoOrcamento,
-            "codigoCliente": pedido.codigoCliente
+            "quantidade": qtd.value
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -528,3 +506,45 @@ async function updatePecaFornecedor(dados, idPeca, i){
             .then((response) => response.json())
             .then((json) => console.log(json));
     }
+
+
+
+async function addPecas(json) {
+  const resposta = await fetch("http://127.0.0.1:8000/AddPedidoOrcamentoView/" + json +"/" + "1" + "/" + localStorage.orcamentoId +"/", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+      "Authorization": "token " + localStorage.tokenUsuario
+    }
+  });
+  const dados = await resposta.json();
+  const alerta = document.getElementById('alertaCsv')
+  alerta.textContent = dados
+  alerta.classList.remove('d-none'); 
+  console.log(dados)
+}
+
+async function addPecasOrcamendo() {
+  const input = document.getElementById('myFile');
+  const file = input.files[0];
+  if (file) {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      const content = e.target.result;
+      console.log(content);
+      const pecas = content.replace(/['\n']/g,";")
+      console.log(pecas)
+      await addPecas(pecas)
+    };
+
+    reader.onerror = (e) => {
+      console.error('Erro ao ler o arquivo:', e);
+    };
+
+    reader.readAsText(file);
+  } else {
+    console.log('Nenhum arquivo selecionado');
+  }
+
+}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <form id="formularioCadastro" action="/#" onsubmit="window.location.reload();">
+
+            <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
+                <option value="">Selecione o Orçamento</option>
+            </select>
+
+            <div class="campo">
+                <label for="frete">Preço do Frete:</label>
+                <input type="text" id="frete" name="frete" required>
+            </div>
+    
+            <div class="campo">
+                <label for="marcasEmbarque">Marcas de Embarque:</label>
+                <input type="text" id="marcasEmbarque" name="marcasEmbarque" required>
+            </div>
+
+            <button onclick="patch()" type="button">Cadastrar</button>
+        </form>
+   </div>
+
+
+    <script src="/cadastroFatura.js"></script>
+</body>
+</html>
