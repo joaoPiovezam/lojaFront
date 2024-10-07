@@ -9,37 +9,37 @@
     font-size: 15px;
 }
 #linhaNotificar{
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #linhaComprador{
     text-align:center;
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #linhaCondicao{
     text-align:center;
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #linhaPacote{
     text-align:center;
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #linhaPecas{
     text-align:center;
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #linhaDestinatario{
     text-align:center;
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #marca-embarque{
     text-align:center;
-    background-color: yellow;
+    background-color: rgba(111, 255, 0, 0.761);
 }
 
 #nome{
@@ -189,4 +189,8 @@ button {
 #menu{
     background-color: #ddd;
     display: block;
+}
+
+.atrasado{
+    background-color: rgba(255, 0, 0, 0.393)
 }

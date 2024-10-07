@@ -6,13 +6,14 @@ var tipo = document.getElementById('pagina');
 
 function proximaPagina(){
     pagina += 1;
-    urlAPI = "http://127.0.0.1:8000/peca/?page="+ pagina +"&search="+str;
+    urlAPI = "http://127.0.0.1:8000/peca/0/?page="+ pagina +"&search="+str;
     carregarDados()
 
 }
 
-var urlAPI = "http://127.0.0.1:8000/peca/?format=json&page="+ pagina;
+var urlAPI = "http://127.0.0.1:8000/peca/0/?format=json&page="+ pagina;
 var urlOrcamento = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";
+var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/0/"+ localStorage.idFornececedor+"/?search="+str;
 
 async function carregarDados() {   
         const resposta = await fetch(urlAPI, {
@@ -29,20 +30,43 @@ async function carregarDados() {
               "Authorization": "token " + localStorage.tokenUsuario
             }
           });
+        const respostaPecaFornecedor = await fetch(urlPecaFornecedor, {
+            method: "GET",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+              "Authorization": "token " + localStorage.tokenUsuario
+            }
+          });
         const dadosJSON = await resposta.json();
         const dadosOrcamento = await respostaOrcamento.json();
+        const dadosPecaFornecedor = await respostaPecaFornecedor.json();
         
         if(pagina == 1){
             carregarTabela();
-            carregarTabelaOrcamento();
+            if(tipo == "1"){
+              carregarTabelaOrcamento();
+            }
+            if(tipo == "2"){
+              carregarTabelaCatalogoFornec();
+            }
         }
         popularTabelaPecas(dadosJSON);
-        popularTabelaOrcamento(dadosOrcamento);
+        if(tipo == "1"){
+          popularTabelaOrcamento(dadosOrcamento);
+        }
+        if(tipo == "2"){
+          popularPecaFornecedor(dadosPecaFornecedor)
+        }
     }
 
 function formatarPreco(preco) {
     return ` ${preco.toFixed(2).replace(".", ",")}`;
 }  
+
+function formatarData(data) {
+  const dataFormatada = new Date(data);
+  return `${dataFormatada.getDate()}/${dataFormatada.getMonth() + 1}/${dataFormatada.getFullYear()}`;
+}
 
 carregarDados();
 
@@ -89,9 +113,13 @@ function carregarTabela(){
         linha.appendChild(colunaQtd);
     }
     if (tipo == "2"){
+        const colunaCodigoFornec = document.createElement("td");
+        colunaCodigoFornec.textContent = "Codigo no FORNECEDOR";
+        linha.appendChild(colunaCodigoFornec); 
+
         const colunaPrecoFornec = document.createElement("td");
         colunaPrecoFornec.textContent = "PREÇO do FORNECEDOR";
-        linha.appendChild(colunaPrecoFornec);        
+        linha.appendChild(colunaPrecoFornec);       
     }
 
     tabela.appendChild(linha);
@@ -131,6 +159,80 @@ function carregarTabelaOrcamento(){
     tabela.appendChild(linha);
 }
 
+function carregarTabelaCatalogoFornec(){
+  tabela = document.getElementById("tabela-catalogo");
+  const linha = document.createElement("tr");
+    const colunaItem = document.createElement("td");
+    const colunaCodigo = document.createElement("td");
+    const colunaCodigoF = document.createElement("td");
+    const colunaDescricao = document.createElement("td");
+    const colunaPreco = document.createElement("td");
+    const colunaData = document.createElement("td");
+      
+    linha.id = "linhas";
+
+    colunaItem.textContent = "ITEM";
+    colunaCodigo.textContent = "CODIGO";
+    colunaCodigoF.textContent = "CODIGO no Fornecedor";
+    colunaDescricao.textContent = "DESCRIÇÂO";
+    colunaPreco.textContent = "PREÇO";
+    colunaData.textContent = "DATA ATUALIZAÇÃO";
+
+    linha.appendChild(colunaItem);
+    linha.appendChild(colunaCodigo);
+    linha.appendChild(colunaCodigoF);
+    linha.appendChild(colunaDescricao);
+    linha.appendChild(colunaPreco);
+    linha.appendChild(colunaData);
+
+    tabela.appendChild(linha);
+
+}
+
+function popularPecaFornecedor(dados){
+  tabela = document.getElementById("tabela-catalogo");
+  var data = new Date();
+  var data2 = new Date(data.setDate(data.getDate() - 90));
+
+  for(const item of dados.results){
+
+    var data3 = new Date(item.data_atualizacao)
+
+    const linha = document.createElement("tr");
+    const colunaItem = document.createElement("td");
+    const colunaCodigo = document.createElement("td");
+    const colunaCodigoF = document.createElement("td");
+    const colunaDescricao = document.createElement("td");
+    const colunaPreco = document.createElement("td");
+    const colunaData = document.createElement("td");
+
+    linha.id = "linhas";
+
+    colunaItem.textContent = j;
+    colunaCodigo.textContent = item.peca.codigo;
+    colunaCodigoF.textContent = item.codigo;
+    colunaDescricao.textContent = item.peca.descricao;
+    colunaPreco.textContent = item.preco;
+    colunaData.textContent = formatarData(item.data_atualizacao);
+
+    if(data2.getTime() > data3.getTime()){
+      colunaData.setAttribute("class", "atrasado")
+    }
+
+    linha.appendChild(colunaItem);
+    linha.appendChild(colunaCodigo);
+    linha.appendChild(colunaCodigoF);
+    linha.appendChild(colunaDescricao);
+    linha.appendChild(colunaPreco);
+    linha.appendChild(colunaData);
+
+
+
+    tabela.appendChild(linha);
+    j++
+  }
+}
+
 function abrirOrcamento(){
   localStorage.pecaCodigo = 0;
   localStorage.volume = 0;
@@ -168,6 +270,7 @@ function popularTabelaPecas(dados){
 
         var preco = document.createElement("input");
         var btnPreco = document.createElement("button");
+        var codigoF = document.createElement("input");
 
         linha.id = "linhas";
         
@@ -180,6 +283,8 @@ function popularTabelaPecas(dados){
         preco.value = "0";
         preco.min = "0";
         preco.id = "preco" + i;
+
+        codigoF.id = "codigoF" + i;
 
         var id = item.codigo; 
 
@@ -207,11 +312,18 @@ function popularTabelaPecas(dados){
         }
 
         if (tipo == "2"){
+            const colunaCodigoFornec = document.createElement("td");
+            colunaCodigoFornec.appendChild(codigoF)
+            linha.appendChild(colunaCodigoFornec);
+
             const colunaPrecoFornec = document.createElement("td");
             colunaPrecoFornec.appendChild(preco);
             colunaPrecoFornec.appendChild(btnPreco);
-            linha.appendChild(colunaPrecoFornec);  
-            btnPreco.setAttribute("onclick", "adicionarPecaFornec("+ id + "," + i +")");       
+            linha.appendChild(colunaPrecoFornec);
+            console.log(id)  
+            btnPreco.setAttribute("onclick", "adicionarPecaFornec("+ item.id + "," + i +")");
+            
+ 
         }
 
         linha.appendChild(alerta);
@@ -307,12 +419,13 @@ function popularTabelaOrcamento(dados){
 
 function pesquisar(){
     pagina = 1
-    for(var j = 1; j<=i; j++ ){
+    for(var m = 1; m<=i+j; m++ ){
         var linhas = document.getElementById("linhas");
         linhas.remove();
     }
     str = document.getElementById("pesquisa").value;
-    urlAPI = "http://127.0.0.1:8000/peca/?page="+ pagina +"&search="+str;
+    urlAPI = "http://127.0.0.1:8000/peca/0/?page="+ pagina +"&search="+str;
+    urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/0/"+ localStorage.idFornececedor+"/?search="+str;
     var p = document.getElementById("pesquisa");
     p.remove();
     i=1;
@@ -462,7 +575,7 @@ async function adicionarPecaFornec(idPeca, i){
       });
     const dados = await resposta.json();
 
-    if(dados.results[i-1] === undefined){
+    if(dados.results[0] === undefined){
         addPecaFornecedor(idPeca, i)
     }else{
         updatePecaFornecedor(dados, idPeca, i)
@@ -471,13 +584,15 @@ async function adicionarPecaFornec(idPeca, i){
 
 async function addPecaFornecedor(idPeca, i){
     var preco = document.getElementById('preco'+i);
+    var codigo = document.getElementById("codigoF"+i);
+    var fornecedor  = document.getElementById("dropDownFornecedor")
     await fetch("http://127.0.0.1:8000/pecasFornecedor/", {
         method: "POST",
         body: JSON.stringify({
                 "codigo": codigo.value,
                 "preco": preco.value,
                 "peca": idPeca,
-                "fonecedor": dropDownFornecedor.value
+                "fornecedor": fornecedor.value
         }),
         headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -490,13 +605,12 @@ async function addPecaFornecedor(idPeca, i){
 
 async function updatePecaFornecedor(dados, idPeca, i){
     var preco = document.getElementById('preco'+i);
-    await fetch("http://127.0.0.1:8000/pecasFornecedor/" + dados.results[i-1].id + "/", {
-            method: "PUT",
+    console.log(dados)
+    await fetch("http://127.0.0.1:8000/pecasFornecedor/" + dados.results[0].id + "/", {
+            method: "PATCH",
             body: JSON.stringify({
-                    "codigo": codigo.value,
-                    "preco": preco.value,
-                    "peca": idPeca,
-                    "fonecedor": dropDownFornecedor.value
+                    "codigo": dados.results[0].codigo,
+                    "preco": preco.value
             }),
             headers: {
             "Content-type": "application/json; charset=UTF-8",
