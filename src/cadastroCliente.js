@@ -70,7 +70,8 @@ async function cadastrarUsuario(){
                     "detalhe": dados.detalhe
             }),
             headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json; charset=UTF-8",
+            "Authorization": "token " + localStorage.tokenUsuario
             }
         })
             .then((response) => response.json())
