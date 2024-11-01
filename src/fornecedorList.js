@@ -106,8 +106,8 @@ function popularTabela(dados){
         colunaQtd.appendChild(btn);
 
         colunaItem.textContent = i.toString();
-        colunaCnpj.textContent = item.cpfCnpj;
-        colunaNome.textContent = item.nomeFornecedor;
+        colunaCnpj.textContent = item.cpfcnpj;
+        colunaNome.textContent = item.nome_fornecedor;
         colunaPais.textContent = item.pais;
         colunaCidade.textContent = item.cidade;
         btn.textContent = "atualizar";
@@ -164,8 +164,8 @@ function preencherForm(Fornecedor){
     }else{
         tipoPessoa.value = "juridica";
     }
-    nomeFornecedor.value = Fornec.nomeFornecedor;
-    cpfCnpj.value = Fornec.cpfCnpj;
+    nomeFornecedor.value = Fornec.nome_fornecedor;
+    cpfCnpj.value = Fornec.cpfcnpj;
     endereco.value = Fornec.endereco;
     cep.value = Fornec.cep;
     cidade.value = Fornec.cidade;
@@ -242,8 +242,8 @@ async function updateFornecedor(){
     urlA = await carregarUrl()
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', async function(event) {
-    event.preventDefault();
+    //formularioCadastro.addEventListener('submit', async function(event) {
+    //event.preventDefault();
 
     const dados = {
         tipoPessoa: document.getElementById('tipoPessoa').value,
@@ -269,8 +269,8 @@ async function updateFornecedor(){
         body: JSON.stringify({
             "id": id,
             "tipoPessoa": p,
-            "nomeFornecedor": dados.nomeFornecedor,
-            "cpfCnpj": dados.cpfCnpj,
+            "nome_fornecedor": dados.nomeFornecedor,
+            "cpfcnpj": dados.cpfCnpj,
             "endereco": dados.endereco,
             "cep": dados.cep,
             "cidade": dados.cidade,
@@ -287,5 +287,5 @@ async function updateFornecedor(){
       })
         .then((response) => response.json())
         .then((json) => console.log(json));
-    });
+    //});
 }
