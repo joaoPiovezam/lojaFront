@@ -1,9 +1,8 @@
-# Use a imagem base do Nginx
+# Use a imagem oficial do NGINX
 FROM nginx:alpine
 
-# Copiar os arquivos estáticos para o diretório padrão do Nginx
-COPY . /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+# Copie os arquivos da aplicação para o diretório padrão do NGINX
+COPY src /usr/share/nginx/html
 
-# Expor a porta 80
+# Exponha a porta 80 para acessar a aplicação
 EXPOSE 80
