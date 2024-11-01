@@ -27,7 +27,7 @@ function popularDropDownOrcamento(dados){
     for(const item of dados.results){
         const orcamento = document.createElement("option");
         orcamento.value = item.id;
-        orcamento.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+        orcamento.textContent = item.codigo + ' - ' + item.client.nome_cliente;
         console.log(item.id);
         dropdownOrcamento.appendChild(orcamento);
     }
@@ -53,7 +53,7 @@ async function patch(){
         method: "PATCH",
         body: JSON.stringify({
                 "frete": dados.frete,
-                "marcasEmbarque": dados.marcasEmbarque
+                "marcas_embarque": dados.marcasEmbarque
         }),
         headers: {
           "Content-type": "application/json; charset=UTF-8",

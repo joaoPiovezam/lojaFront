@@ -56,16 +56,16 @@ async function cadastrarUsuario(){
         await fetch(urlA + "/clientes/", {
             method: "POST",
             body: JSON.stringify({
-                    "nomeCliente": dados.username,
+                    "nome_cliente": dados.username,
                     "empresa": dados.empresa,
                     "email":  dados.email,
-                    "cpfCnpj": dados.cpf,
+                    "cpfcnpj": dados.cpf,
                     "endereco": dados.endereco,
                     "cep": dados.cep,
                     "cidade": dados.cidade,
                     "pais": dados.pais,
                     "telefone": dados.pais,
-                    "tipoPessoa": dados.tipoPessoa,
+                    "tipo_pessoa": dados.tipoPessoa,
                     "site": dados.site,
                     "detalhe": dados.detalhe
             }),

@@ -28,8 +28,8 @@ function popularTabela(dados){
     for(const item of dados.results){
         const cliente = document.createElement("option");
         cliente.value = item.id;
-        cliente.textContent = item.nomeCliente + ' - ' + item.cpfCnpj;
-        console.log(item.nomeCliente + ' - ' + item.cpfCnpj);
+        cliente.textContent = item.nome_cliente + ' - ' + item.cpfcnpj;
+        console.log(item.nome_cliente + ' - ' + item.cpfcnpj);
         dropDownClientes.appendChild(cliente);
     }
 }

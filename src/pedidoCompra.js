@@ -80,8 +80,8 @@ function popularDownFornecedores(dados){
     for(const item of dados.results){
         const fornecedor = document.createElement("option");
         fornecedor.value = item.id;
-        fornecedor.textContent = item.nomeFornecedor + ' - ' + item.cpfCnpj;
-        console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
+        fornecedor.textContent = item.nome_fornecedor + ' - ' + item.cpfcnpj;
+        console.log(item.nome_fornecedor + ' - ' + item.cpfcnpj);
         dropDownFornecedores.appendChild(fornecedor);
     }
     dropDownFornecedores.value = localStorage.idFornececedor;
@@ -306,19 +306,19 @@ function popularTabelaPedidos(dados){
         const colunaPeso = document.createElement("td");
 
         colunaItem.textContent = i.toString();
-        colunaCodigo.textContent = item.pecasFornecedor.peca.codigo;
-        colunaDescricao.textContent = item.pecasFornecedor.peca.descricao;
+        colunaCodigo.textContent = item.pecasfornecedor.peca.codigo;
+        colunaDescricao.textContent = item.pecasfornecedor.peca.descricao;
         colunaQuantidade.textContent = item.pedido.quantidade;
         //colunaDataEntrega.textContent = formatarData(item.dataEntrega);
-        colulaPrecoUnit.textContent = formatarPreco(item.pecasFornecedor.preco *1);
-        colunaPreco.textContent = formatarPreco(item.pecasFornecedor.preco * item.pedido.quantidade);
-        colunaNcm.textContent = item.pecasFornecedor.peca.ncm;
+        colulaPrecoUnit.textContent = formatarPreco(item.pecasfornecedor.preco *1);
+        colunaPreco.textContent = formatarPreco(item.pecasfornecedor.preco * item.pedido.quantidade);
+        colunaNcm.textContent = item.pecasfornecedor.peca.ncm;
         //colunaVolume.textContent = item.peca.volume;
-        colunaPeso.textContent = item.pecasFornecedor.peca.peso
+        colunaPeso.textContent = item.pecasfornecedor.peca.peso
 
-        precoTotal  += item.pecasFornecedor.preco * item.pedido.quantidade;
+        precoTotal  += item.pecasfornecedor.preco * item.pedido.quantidade;
         //volumeTotal += item.pecasFornecedor.peca.volume     * item.pedido.quantidade;
-        pesoTotal   += item.pecasFornecedor.peca.peso       * item.pedido.quantidade;        
+        pesoTotal   += item.pecasfornecedor.peca.peso       * item.pedido.quantidade;        
 
         linha.appendChild(colunaItem);
         linha.appendChild(colunaCodigo);

@@ -126,7 +126,7 @@ function popularTabelaPedidos(dados, dadosPacote){
         linha.appendChild(colunaQuantidade); 
 
             const colunaDataEntrega = document.createElement("td");
-            colunaDataEntrega.textContent = formatarData(item.dataEntrega);
+            colunaDataEntrega.textContent = formatarData(item.data_entrega);
             linha.appendChild(colunaDataEntrega);
 
             const colulaPrecoUnit = document.createElement("td");

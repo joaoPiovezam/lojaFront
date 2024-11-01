@@ -156,15 +156,15 @@ function popularTabela(dados){
 
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.codigo;
-        colunaDataEmissao.textContent = item.dataEmissao;
-        colunaDataValidade.textContent = item.dataValidade;
-        colunaTipoEntrega.textContent = item.tipoEntrega;
+        colunaDataEmissao.textContent = item.data_emissao;
+        colunaDataValidade.textContent = item.data_validade;
+        colunaTipoEntrega.textContent = item.tipo_entrega;
         colunaFrete.textContent = item.frete;
-        colunaMarcasEmbarque.textContent = item.marcasEmbarque;
-        colunaNomeEntrega.textContent = item.nomeEntrega;
-        colunaCnpjEntrega.textContent = item.cnpjEntrega;
-        colunaEnderecoEntrega.textContent = item.enderecoEntrega;
-        colunaCidadeEntrega.textContent = item.cidadeEntrega;
+        colunaMarcasEmbarque.textContent = item.marcas_embarque;
+        colunaNomeEntrega.textContent = item.nome_entrega;
+        colunaCnpjEntrega.textContent = item.cnpj_entrega;
+        colunaEnderecoEntrega.textContent = item.endereco_entrega;
+        colunaCidadeEntrega.textContent = item.cidade_entrega;
         colunaPaisEntrega.textContent = item.paisEntrega;
         btn.textContent = "adicionar ao orçamento";
 

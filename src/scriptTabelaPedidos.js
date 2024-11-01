@@ -371,7 +371,7 @@ function popularMarcaEmbarque(dados){
     linha.id = "marca-embarque"
 
     linha.textContent = "Marcas de Embarque:";
-    marca.textContent = dados.results[0].orcamento.marcasEmbarque
+    marca.textContent = dados.results[0].orcamento.marcas_embarque
 
     tabela.append(linha)
     tabela.append(marca)
@@ -661,8 +661,8 @@ function popularTabelaPedidos(dados, dadosPacote){
 
         precoTotal  += item.peca.precoVenda * item.quantidade;
         volumeTotal += item.peca.volume     * item.quantidade;
-        volumeBruto += item.volumeBruto     * item.quantidade;
-        pesoBruto   += item.pesoBruto       * item.quantidade;
+        volumeBruto += item.volume_bruto     * item.quantidade;
+        pesoBruto   += item.peso_bruto       * item.quantidade;
         pesoTotal   += item.peca.peso       * item.quantidade;        
 
         linha.appendChild(colunaItem);
@@ -676,7 +676,7 @@ function popularTabelaPedidos(dados, dadosPacote){
             linha.appendChild(colunaUnid);
         }else{
             const colunaDataEntrega = document.createElement("td");
-            colunaDataEntrega.textContent = formatarData(item.dataEntrega);
+            colunaDataEntrega.textContent = formatarData(item.data_entrega);
             linha.appendChild(colunaDataEntrega);
         }
 
@@ -685,8 +685,8 @@ function popularTabelaPedidos(dados, dadosPacote){
             const colunaPreco = document.createElement("td");
             const colunaNcm = document.createElement("td");
     
-            colulaPrecoUnit.textContent = formatarPreco(item.peca.precoVenda * 1.2);
-            colunaPreco.textContent = formatarPreco(item.peca.precoVenda * item.quantidade * 1.2);
+            colulaPrecoUnit.textContent = formatarPreco(item.peca.preco_venda * 1.2);
+            colunaPreco.textContent = formatarPreco(item.peca.preco_venda * item.quantidade * 1.2);
             colunaNcm.textContent = item.peca.ncm;
     
             linha.appendChild(colunaNcm);
@@ -960,18 +960,18 @@ async function updateVolumePeca(pedido, volume, pacote){
     await fetch(urlA + "/pedidos/" + pedido.id + "/", {
         method: "PUT",
         body: JSON.stringify({
-            "codigoPedido": pedido.codigoPedido,
-            "dataCriacao": pedido.dataCriacao,
-            "dataEntrega": pedido.dataEntrega,
+            "codigo_pedido": pedido.pedido,
+            "data_criacao": pedido.data_criacao,
+            "data_entrega": pedido.data_entrega,
             "quantidade": pedido.quantidade,
-            "pesoBruto": pedido.pesoBruto,
-            "volumeBruto": pedido.volumeBruto,
+            "peso_bruto": pedido.peso_bruto,
+            "volume_bruto": pedido.volume_bruto,
             "unidade": pedido.unidade,
             "pacote": pacote,
             "volume": volume,
-            "codigoPeca": pedido.codigoPeca,
-            "codigoOrcamento": pedido.codigoOrcamento,
-            "codigoCliente": pedido.codigoCliente
+            "peca": pedido.peca,
+            "orcamento": pedido.orcamento,
+            "cliente": pedido.cliente
         }),
         headers: {
             "Content-type": "application/json; charset=UTF-8",

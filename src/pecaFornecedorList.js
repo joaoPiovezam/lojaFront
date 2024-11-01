@@ -291,7 +291,7 @@ function popularTabela(dados){
         colunaDescricao.textContent = item.peca.descricao;
         colunaMarca.textContent = item.peca.marca;
         colunaPreco.textContent = item.preco;
-        colulaFornecedor.textContent = item.fornecedor.nomeFornecedor;
+        colulaFornecedor.textContent = item.fornecedor.nome_fornecedor;
         btnQtd.textContent = "adicionar à cotação";
         btnPreco.textContent = "adicionar";
 
@@ -364,8 +364,8 @@ async function criarCotacao(pecaCodigo, fornecedor){
     await fetch("http://127.0.0.1:8000/cotacoes/", {
         method: "POST",
         body: JSON.stringify({
-            "codigoPedido": pedido.results[0].id,
-            "codigoPecaFornecedor": fornecedor
+            "pedido": pedido.results[0].id,
+            "pecafornecedor": fornecedor
         }),
         headers: {
         "Content-type": "application/json; charset=UTF-8",

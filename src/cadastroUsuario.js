@@ -57,7 +57,7 @@ async function cadastrarUsuario(){
                     "nome": dados.username,
                     "empresa": "JP",
                     "email":  dados.email,
-                    "cpfCnpj": dados.cpf,
+                    "cpfcnpj": dados.cpf,
                     "endereco": dados.endereco,
                     "cep": dados.cep,
                     "cidade": dados.cidade,

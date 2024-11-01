@@ -191,17 +191,17 @@ function popularTabela(dados){
 
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.codigo;
-        colunaDataEmissao.textContent = item.dataEmissao;
-        colunaDataValidade.textContent = item.dataValidade;
-        colunaTipoEntrega.textContent = item.tipoEntrega;
+        colunaDataEmissao.textContent = item.data_emissao;
+        colunaDataValidade.textContent = item.data_validade;
+        colunaTipoEntrega.textContent = item.tipo_entrega;
         colunaResponsavel.textContent = item.responsavel;
         colunaFrete.textContent = item.frete;
-        colunaMarcasEmbarque.textContent = item.marcasEmbarque;
-        colunaNomeEntrega.textContent = item.nomeEntrega;
-        colunaCnpjEntrega.textContent = item.cnpjEntrega;
-        colunaEnderecoEntrega.textContent = item.enderecoEntrega;
-        colunaCidadeEntrega.textContent = item.cidadeEntrega;
-        colunaPaisEntrega.textContent = item.paisEntrega;
+        colunaMarcasEmbarque.textContent = item.marcas_embarque;
+        colunaNomeEntrega.textContent = item.nome_entrega;
+        colunaCnpjEntrega.textContent = item.cnpj_entrega;
+        colunaEnderecoEntrega.textContent = item.endereco_entrega;
+        colunaCidadeEntrega.textContent = item.cidade_entrega;
+        colunaPaisEntrega.textContent = item.pais_entrega;
         colunaCliente.textContent = item.cliente;
         btn.textContent = "adicionar ao orçamento";
 
@@ -322,17 +322,17 @@ async function add(){
      await fetch("http://127.0.0.1:8000/orcamento/", {
         method: "POST",
         body: JSON.stringify({
-                "dataEmissao": dados.dataEmissao,
-                "dataValidade": dados.dataValidade,
-                "tipoEntrega": dados.tipoEntrega,
+                "data_emissao": dados.dataEmissao,
+                "data_validade": dados.dataValidade,
+                "tipo_entrega": dados.tipoEntrega,
                 "responsavel": dados.responsavel,
                 "frete": 0,
-                "marcasEmbarque": "0",
-                "nomeEntrega": dados.nomeEntrega,
-                "cnpjEntrega": dados.cnpjEntrega,
-                "enderecoEntrega": dados.enderecoEntrega,
-                "cidadeEntrega": dados.cidadeEntrega,
-                "paisEntrega": dados.paisEntrega,
+                "marcas_embarque": "0",
+                "nome_entrega": dados.nomeEntrega,
+                "cnpj_entrega": dados.cnpjEntrega,
+                "endereco_entrega": dados.enderecoEntrega,
+                "cidade_entrega": dados.cidadeEntrega,
+                "pais_entrega": dados.paisEntrega,
                 "cliente": dados.cliente
         }),
         headers: {
@@ -379,8 +379,8 @@ function updateFornecedor(){
         body: JSON.stringify({
             "id": id,
             "tipoPessoa": p,
-            "nomeFornecedor": dados.nomeFornecedor,
-            "cpfCnpj": dados.cpfCnpj,
+            "nome_fornecedor": dados.nomeFornecedor,
+            "cpfcnpj": dados.cpfCnpj,
             "endereco": dados.endereco,
             "cep": dados.cep,
             "cidade": dados.cidade,

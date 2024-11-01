@@ -91,10 +91,10 @@ function popularTabela(dados){
           colunaQuantidade.textContent = item.pedido.quantidade;
         }        
         colunaDescricao.textContent = item.pedido.peca.descricao;
-        colunaCliente.textContent = item.pedido.orcamento.client.nomeCliente;
+        colunaCliente.textContent = item.pedido.orcamento.client.nome_cliente;
         colunaOrcamento.textContent = item.pedido.orcamento.codigo;
-        colunaDataEntrada.textContent = formatarData(item.dataEntrada);
-        colunaDataSaida.textContent = formatarData(item.dataSaida);
+        colunaDataEntrada.textContent = formatarData(item.data_entrada);
+        colunaDataSaida.textContent = formatarData(item.data_saida);
     
         linha.appendChild(colunaItem);
         linha.appendChild(colunaQuantidade);
@@ -116,7 +116,7 @@ function popularDropDown(dados){
     for(const item of dados.results){
         const opcao = document.createElement("option");
         opcao.value = item.id;
-        opcao.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+        opcao.textContent = item.codigo + ' - ' + item.client.nome_cliente;
         console.log(item.id);
         dropDownOrcamento.appendChild(opcao);
     }

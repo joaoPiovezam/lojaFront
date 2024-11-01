@@ -496,18 +496,18 @@ async function criarPedido(idPeca, i){
       await fetch(urlA + "/pedidos/", {
           method: "POST",
           body: JSON.stringify({
-              "codigoPedido": 1,
-              "dataCriacao": "2024-03-19",
-              "dataEntrega": "2024-01-01",
+              "pedido": 1,
+              "data_criacao": "2024-03-19",
+              "data_entrega": "2024-01-01",
               "quantidade": qtd.value,
-              "pesoBruto": "20.000",
-              "volumeBruto": "20.000",
+              "peso_bruto": "20.000",
+              "volume_bruto": "20.000",
               "unidade": "unit",
               "pacote": "caixa de madeira",
               "volume": 0,
-              "codigoPeca": idPeca,
-              "codigoOrcamento": localStorage.orcamentoId,
-              "codigoCliente": cliente
+              "peca": idPeca,
+              "orcamento": localStorage.orcamentoId,
+              "cliente": cliente
           }),
           headers: {
             "Content-type": "application/json; charset=UTF-8",

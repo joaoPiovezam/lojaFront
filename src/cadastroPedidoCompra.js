@@ -60,7 +60,7 @@ function popularDropDownOrcamento(dados){
   for(const item of dados.results){
       const orcamento = document.createElement("option");
       orcamento.value = item.id;
-      orcamento.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+      orcamento.textContent = item.codigo + ' - ' + item.client.nome_cliente;
       console.log(item.id);
       dropdownOrcamento.appendChild(orcamento);
   }
@@ -87,8 +87,8 @@ async function popularDropDownFornecedor(){
   for(const item of dados.results){
       const fornecedor = document.createElement("option");
       fornecedor.value = item.id;
-      fornecedor.textContent = item.nomeFornecedor + ' - ' + item.cpfCnpj;
-      console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
+      fornecedor.textContent = item.nome_fornecedor + ' - ' + item.cpfcnpj;
+      console.log(item.nome_fornecedor + ' - ' + item.cpfcnpj);
       dropDownFornecedores.appendChild(fornecedor);
   }
   dropDownFornecedores.value = localStorage.idFornececedor;
@@ -120,7 +120,7 @@ async function addPedido(){
         fetch(urlA + "/pedidosCompra/", {
             method: "POST",
             body: JSON.stringify({
-                    "operacaoFiscal": dados.operacaoFiscal,
+                    "operacao_fiscal": dados.operacaoFiscal,
                     "vencimento": dados.vencimento,
                     "comprador": dados.comprador,
                     "email": dados.email,
