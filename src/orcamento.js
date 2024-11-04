@@ -2,8 +2,8 @@ var pagina = 1;
 var i = 1;
 var str = "";
 var id = 0;
-var urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json&page="+ pagina;
-var urlC = "http://127.0.0.1:8000/clientes/"
+var urlAPI = "";
+var urlC = ""
 
 //var urlAPI = "http://127.0.0.1:8000/orc/";
 
@@ -18,13 +18,15 @@ function loadScript(url)
 
 function proximaPagina(){
     pagina += 1;
-    urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json/?page="+ pagina +"&search="+str;
+    //urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json/?page="+ pagina +"&search="+str;
     carregarDados()
 
 }
 
 async function carregarDados() {
-        urlAPI = "http://127.0.0.1:8000/orcamento/"
+    urlA = await carregarUrl()
+    urlC =  urlA + "/clientes/"
+        urlAPI =  urlA + "/orcamento/?page="+ pagina +"&search="+str;
         const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
@@ -239,7 +241,7 @@ function pesquisar(){
         linhas.remove();
     }
     str = document.getElementById("pesquisa").value;
-    urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json/?page="+ pagina //+"&search="+str;
+    //urlAPI = "http://127.0.0.1:8000/orcamentos/?format=json/?page="+ pagina //+"&search="+str;
     var p = document.getElementById("pesquisa");
     p.remove();
     i=1;
@@ -293,6 +295,7 @@ function addZero(i) {
 
 
 async function add(){
+    urlA = await carregarUrl()
     const formularioCadastro = document.getElementById('formularioCadastro');
     var data = new Date();
     
@@ -319,7 +322,7 @@ async function add(){
     };
     console.log('Dados do formulário:', dados);
 
-     await fetch("http://127.0.0.1:8000/orcamento/", {
+     await fetch( urlA + "/orcamento/", {
         method: "POST",
         body: JSON.stringify({
                 "data_emissao": dados.dataEmissao,
@@ -349,7 +352,8 @@ async function addOrcamento(){
      await add();
 }
 
-function updateFornecedor(){
+async function updateFornecedor(){
+    urlA = await carregarUrl()
     const formularioCadastro = document.getElementById('formularioCadastro');
 
     formularioCadastro.addEventListener('submit', function(event) {
@@ -374,7 +378,7 @@ function updateFornecedor(){
     }else{
         var p = "j"
     }
-    fetch("http://127.0.0.1:8000/orcamentos/" + id + "/", {
+    fetch( urlA + "/orcamentos/" + id + "/", {
         method: "PUT",
         body: JSON.stringify({
             "id": id,

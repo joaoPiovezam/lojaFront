@@ -23,10 +23,18 @@ async function carregarDados() {
     popularTabela(dadosJSON);
     
 }*/
-var urlAPI = "http://127.0.0.1:8000/fornecedor/";
+
+async function  carregarUrl(){
+  const urlA = await fetch('./rotaBack.json')
+  dados = await urlA.json()
+  return dados.API_URL
+}
+
+var urlAPI = "";
 
 async function carregarDados() {
-        const resposta = await fetch(urlAPI, {
+    urlA = await carregarUrl()
+        const resposta = await fetch(urlA + '/fornecedor/', {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
@@ -55,8 +63,9 @@ function popularTabela(dados){
 
 
 async function addCatalogoFornec(json) {
+  urlA = await carregarUrl()
     fornecedor = document.getElementById("dropDownFornecedor").value
-    const resposta = await fetch("http://127.0.0.1:8000/addPecaFornecedor/" + json  +"/" + fornecedor + "/", {
+    const resposta = await fetch(urlA + "/addPecaFornecedor/" + json  +"/" + fornecedor + "/", {
       method: "GET",
       headers: {
         "Content-type": "application/json; charset=UTF-8",

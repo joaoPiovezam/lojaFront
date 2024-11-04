@@ -14,9 +14,15 @@ function loadScript(url){
     head.appendChild(script);
 }
 
+async function  carregarUrl(){
+    const urlA = await fetch('./rotaBack.json')
+    dados = await urlA.json()
+    return dados.API_URL
+  }
+
 function proximaPagina(){
     pagina += 1;
-    urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco&page=" + pagina + "&search=" + str;
+    //urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco&page=" + pagina + "&search=" + str;
     carregarDados();
 
 }
@@ -39,15 +45,23 @@ function atualizarOrcamento(orcamentoId){
     location.reload();
 }
 
-var urlPecaFornecedor = "http://127.0.0.1:8000/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco";
-var urlPedidos = "http://127.0.0.1:8000/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";
-var urlFornecedor = "http://127.0.0.1:8000/fornecedor/";
-var urlPedidoCompra = 'http://127.0.0.1:8000/pedidoCompra/' + localStorage.orcamentoId + '/' + localStorage.idFornececedor;
-var urlPedidosCompra = 'http://127.0.0.1:8000/pedidosCompra/';
-var urlCotacao = "http://127.0.0.1:8000/cotacaoOrcamento/"+ localStorage.orcamentoId + "/";
-var urlOrcamento = "http://127.0.0.1:8000/orcamentos/";
+var urlPecaFornecedor = "";
+var urlPedidos = "";
+var urlFornecedor = "";
+var urlPedidoCompra = '';
+var urlPedidosCompra = '';
+var urlCotacao = "";
+var urlOrcamento = "";
 
-async function carregarDados() { 
+async function carregarDados() {
+    urlA = await carregarUrl() 
+    urlPecaFornecedor = urlA + "/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco&page=" + pagina + "&search=" + str;
+    urlPedidos = urlA + "/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";
+    urlFornecedor = urlA + "/fornecedor/";
+    urlPedidoCompra = urlA + '/pedidoCompra/' + localStorage.orcamentoId + '/' + localStorage.idFornececedor;
+    urlPedidosCompra = urlA + '/pedidosCompra/';
+    urlCotacao = urlA + "/cotacaoOrcamento/"+ localStorage.orcamentoId + "/";
+    urlOrcamento = urlA + "/orcamentos/";
         const respostaPecas = await fetch(urlPecaFornecedor, {
             method: "GET",
             headers: {
@@ -344,7 +358,8 @@ function filtrarFornecedor(Fornececedor){
 }
 
 async function getPedidoId(pecaCodigo){
-    var urlAPI = "http://127.0.0.1:8000/orcamento/" + localStorage.orcamentoId + "/pedidos/0/" + pecaCodigo +"/";
+    urlA = await carregarUrl()
+    var urlAPI =  urlA + "/orcamento/" + localStorage.orcamentoId + "/pedidos/0/" + pecaCodigo +"/";
     console.log(pecaCodigo)
     const resposta = await fetch(urlAPI, {
         method: "GET",
@@ -359,9 +374,10 @@ async function getPedidoId(pecaCodigo){
 }
 
 async function criarCotacao(pecaCodigo, fornecedor){
+    urlA = await carregarUrl()
     pedido =  await getPedidoId(pecaCodigo)
     //fornecedor = document.getElementById("dropDownFornecedor").value;
-    await fetch("http://127.0.0.1:8000/cotacoes/", {
+    await fetch( urlA + "/cotacoes/", {
         method: "POST",
         body: JSON.stringify({
             "pedido": pedido.results[0].id,
@@ -377,7 +393,8 @@ async function criarCotacao(pecaCodigo, fornecedor){
 }
 
 async function removerCotacao(idCotacao){
-    await fetch("http://127.0.0.1:8000/cotacao/"+idCotacao+"/", {
+    urlA = carregarUrl()
+    await fetch(urlA + "/cotacao/"+idCotacao+"/", {
         method: 'DELETE',
         headers: {
             "Authorization": "token " + localStorage.tokenUsuario
