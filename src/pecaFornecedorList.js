@@ -34,7 +34,7 @@ function popularDropDownOrcamento(dados){
     for(const item of dados.results){
         const orcamento = document.createElement("option");
         orcamento.value = item.id;
-        orcamento.textContent = item.codigo + ' - ' + item.client.nomeCliente;
+        orcamento.textContent = item.codigo + ' - ' + item.client.nome_cliente;
         console.log(item.id);
         dropdownOrcamento.appendChild(orcamento);
     }
@@ -106,8 +106,8 @@ async function popularDropDownFornecedor(){
     for(const item of dados.results){
         const fornecedor = document.createElement("option");
         fornecedor.value = item.id;
-        fornecedor.textContent = item.nomeFornecedor + ' - ' + item.cpfCnpj;
-        console.log(item.nomeFornecedor + ' - ' + item.cpfCnpj);
+        fornecedor.textContent = item.nome_fornecedor + ' - ' + item.cpfcnpj;
+        console.log(item.nome_fornecedor + ' - ' + item.cpfcnpj);
         dropDownFornecedores.appendChild(fornecedor);
     }
     dropDownFornecedores.value = localStorage.idFornececedor;
@@ -128,8 +128,8 @@ async function dropDownPedidoCompra(){
     for(const item of dados.results){
         const PedidoCompra = document.createElement("option");
         PedidoCompra.value = item.id;
-        PedidoCompra.textContent = item.nomePedidoCompra + ' - ' + item.cpfCnpj;
-        console.log(item.nomePedidoCompra + ' - ' + item.cpfCnpj);
+        PedidoCompra.textContent = item.nomePedidoCompra + ' - ' + item.cpfcnpj;
+        console.log(item.nomepedidocompra + ' - ' + item.cpfcnpj);
         dropDownPedidoCompra.appendChild(PedidoCompra);
     }
     dropDownPedidoCompra.value = localStorage.idFornececedor;
@@ -150,7 +150,7 @@ async function popularDropDownPedidos(){
         const pedido = document.createElement("option");
         pedido.value = item.peca.id;
         pedido.textContent = item.peca.codigo + ' - ' + item.peca.descricao;
-        console.log(item.nomepedido + ' - ' + item.cpfCnpj);
+        console.log(item.nomepedido + ' - ' + item.cpfcnpj);
         dropDownpedido.appendChild(pedido);
     }
     dropDownpedido.value = localStorage.idPeca;
@@ -252,7 +252,7 @@ async function carregarTabelaCotacao(){
         colunaDescricao.textContent = item.pecasFornecedor.peca.descricao;
         colunaMarca.textContent = item.pecasFornecedor.peca.marca;
         colunaPreco.textContent = item.pecasFornecedor.preco;
-        colulaFornecedor.textContent = item.pecasFornecedor.fornecedor.nomeFornecedor;
+        colulaFornecedor.textContent = item.pecasFornecedor.fornecedor.nome_fornecedor;
         btnQtd.textContent = "remover da cotação";
 
         linha.appendChild(colunaItem);
