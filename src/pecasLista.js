@@ -496,7 +496,7 @@ async function criarPedido(idPeca, i){
       await fetch(urlA + "/pedidos/", {
           method: "POST",
           body: JSON.stringify({
-              "pedido": 1,
+              "codigo_pedido": 1,
               "data_criacao": "2024-03-19",
               "data_entrega": "2024-01-01",
               "quantidade": qtd.value,
