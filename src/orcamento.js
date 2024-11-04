@@ -4,6 +4,11 @@ var str = "";
 var id = 0;
 var urlAPI = "";
 var urlC = ""
+async function  carregarUrl(){
+    const urlA = await fetch('./rotaBack.json')
+    dados = await urlA.json()
+    return dados.API_URL
+  }
 
 //var urlAPI = "http://127.0.0.1:8000/orc/";
 
