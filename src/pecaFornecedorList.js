@@ -53,6 +53,14 @@ var urlPedidosCompra = '';
 var urlCotacao = "";
 var urlOrcamento = "";
 
+if (localStorage.idPeca == null){
+    localStorage.idPeca = 0;
+}
+
+if(localStorage.idFornececedor == null){
+    localStorage.idFornececedor = 0
+}
+
 async function carregarDados() {
     urlA = await carregarUrl() 
     urlPecaFornecedor = urlA + "/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco&page=" + pagina + "&search=" + str;
@@ -83,12 +91,15 @@ async function carregarDados() {
             carregarTabela();
         }
         popularTabela(dadosJSONPecas); 
+         carregarTabelaCotacao();
+         popularDropDownFornecedor();
+         popularDropDownPedidos();
     }
 
 carregarDados();
-carregarTabelaCotacao();
+/*carregarTabelaCotacao();
 popularDropDownFornecedor();
-popularDropDownPedidos();
+popularDropDownPedidos();*/
 //dropDownPedidoCompra();
 
 async function popularDropDownFornecedor(){
@@ -393,7 +404,7 @@ async function criarCotacao(pecaCodigo, fornecedor){
 }
 
 async function removerCotacao(idCotacao){
-    urlA = carregarUrl()
+    urlA = await carregarUrl()
     await fetch(urlA + "/cotacao/"+idCotacao+"/", {
         method: 'DELETE',
         headers: {

@@ -117,7 +117,7 @@ async function addPedido(){
             frete: document.getElementById('frete').value,
             transportadora: document.getElementById('transportadora').value,
         };
-        fetch(urlA + "/pedidosCompra/", {
+        await fetch(urlA + "/pedidosCompra/", {
             method: "POST",
             body: JSON.stringify({
                     "operacao_fiscal": dados.operacaoFiscal,
@@ -137,7 +137,7 @@ async function addPedido(){
           })
             .then((response) => response.json())
             .then((json) => console.log(json)); 
-        formularioCadastro.reset();
+        //formularioCadastro.reset();
     //});
 
    

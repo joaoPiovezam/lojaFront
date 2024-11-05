@@ -17,7 +17,7 @@ var urlPacote = "";
 
 async function carregarDados() {
     urlA = await carregarUrl()
-    urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/?search="
+    urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/0/0/?search="
     urlPacote =  urlA + "/packOrcamento/" + orcamentoId;
     const resposta = await fetch(urlAPI, {
         method: "GET",
@@ -132,8 +132,8 @@ function popularTabelaPedidos(dados, dadosPacote){
             const colulaPrecoUnit = document.createElement("td");
             const colunaPreco = document.createElement("td");
     
-            colulaPrecoUnit.textContent = formatarPreco(item.peca.precoVenda * 1.2);
-            colunaPreco.textContent = formatarPreco(item.peca.precoVenda * item.quantidade * 1.2);
+            colulaPrecoUnit.textContent = formatarPreco(item.peca.preco_venda * 1.2);
+            colunaPreco.textContent = formatarPreco(item.peca.preco_venda * item.quantidade * 1.2);
     
             linha.appendChild(colulaPrecoUnit);
             linha.appendChild(colunaPreco); 

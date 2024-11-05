@@ -5,7 +5,7 @@ async function  carregarUrl(){
 }
 
 var urlAPI = "";
-const urlCondicao = "";
+var urlCondicao = "";
 var total = 0.0;
 
 async function carregarDados() {

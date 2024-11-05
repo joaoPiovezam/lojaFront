@@ -165,7 +165,7 @@ function popularTabela(dados){
         colunaCnpjEntrega.textContent = item.cnpj_entrega;
         colunaEnderecoEntrega.textContent = item.endereco_entrega;
         colunaCidadeEntrega.textContent = item.cidade_entrega;
-        colunaPaisEntrega.textContent = item.paisEntrega;
+        colunaPaisEntrega.textContent = item.pais_entrega;
         btn.textContent = "adicionar ao orçamento";
 
         linha.appendChild(colunaItem);

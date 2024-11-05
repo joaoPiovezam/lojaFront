@@ -93,6 +93,7 @@ function atualizarFonecedor(fornecedorId){
 
 function popularTabelaCliente1(dados){
     const tabela = document.getElementById("tabela-cliente");
+    console.log(dados)
 
     const fornecedor = dados.results[0].pecasFornecedor.fornecedor;
 
@@ -306,19 +307,19 @@ function popularTabelaPedidos(dados){
         const colunaPeso = document.createElement("td");
 
         colunaItem.textContent = i.toString();
-        colunaCodigo.textContent = item.pecasfornecedor.peca.codigo;
-        colunaDescricao.textContent = item.pecasfornecedor.peca.descricao;
+        colunaCodigo.textContent = item.pecasFornecedor.peca.codigo;
+        colunaDescricao.textContent = item.pecasFornecedor.peca.descricao;
         colunaQuantidade.textContent = item.pedido.quantidade;
         //colunaDataEntrega.textContent = formatarData(item.dataEntrega);
-        colulaPrecoUnit.textContent = formatarPreco(item.pecasfornecedor.preco *1);
-        colunaPreco.textContent = formatarPreco(item.pecasfornecedor.preco * item.pedido.quantidade);
-        colunaNcm.textContent = item.pecasfornecedor.peca.ncm;
+        colulaPrecoUnit.textContent = formatarPreco(item.pecasFornecedor.preco *1);
+        colunaPreco.textContent = formatarPreco(item.pecasFornecedor.preco * item.pedido.quantidade);
+        colunaNcm.textContent = item.pecasFornecedor.peca.ncm;
         //colunaVolume.textContent = item.peca.volume;
-        colunaPeso.textContent = item.pecasfornecedor.peca.peso
+        colunaPeso.textContent = item.pecasFornecedor.peca.peso
 
-        precoTotal  += item.pecasfornecedor.preco * item.pedido.quantidade;
+        precoTotal  += item.pecasFornecedor.preco * item.pedido.quantidade;
         //volumeTotal += item.pecasFornecedor.peca.volume     * item.pedido.quantidade;
-        pesoTotal   += item.pecasfornecedor.peca.peso       * item.pedido.quantidade;        
+        pesoTotal   += item.pecasFornecedor.peca.peso       * item.pedido.quantidade;        
 
         linha.appendChild(colunaItem);
         linha.appendChild(colunaCodigo);

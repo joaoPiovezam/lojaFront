@@ -172,8 +172,8 @@ async function add(){
     urlA = await carregarUrl()
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', async function(event) {
-    event.preventDefault();
+    //formularioCadastro.addEventListener('submit', async function(event) {
+    //event.preventDefault();
 
     const dados = {
         nome: document.getElementById('nome').value,
@@ -208,7 +208,7 @@ async function add(){
       })
         .then((response) => response.json())
         .then((json) => console.log(json));
-    });
+    //});
 }
 
 function addTranpostadora(){
