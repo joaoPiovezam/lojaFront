@@ -177,9 +177,9 @@ function popularTabelaCliente1(dados){
     const colunaResponsavel1 = document.createElement("td");
     const colunaCodigo1 = document.createElement("td");
 
-    colunaDataEmissao1.textContent = formatarData(orcamento.dataEmissao);
-    colunaDataValidade1.textContent = formatarData(orcamento.dataValidade);
-    colunaTipoEntrega1.textContent = orcamento.tipoEntrega;
+    colunaDataEmissao1.textContent = formatarData(orcamento.data_emissao);
+    colunaDataValidade1.textContent = formatarData(orcamento.data_validade);
+    colunaTipoEntrega1.textContent = orcamento.tipo_entrega;
     colunaFrete1.textContent = orcamento.frete;
     colunaResponsavel1.textContent = orcamento.responsavel;
     colunaCodigo1.textContent = orcamento.codigo;
@@ -214,7 +214,7 @@ function popularTabelaCliente2(dados){
     const colunaNome1 = document.createElement("td");
     colunaNome1.setAttribute('colspan', '6');
 
-    colunaNome1.textContent = cliente.nomeCliente;
+    colunaNome1.textContent = cliente.nome_cliente;
 
     linha1.appendChild(colunaNome1);
 
@@ -338,11 +338,11 @@ function popularTabelaDestinatario(dados){
     const colunaCidade1 = document.createElement("td");
     const colunaPais1 = document.createElement("td");
 
-    colunaNome1.textContent = destinatario.nomeEntrega;
-    colunaCnpj1.textContent = destinatario.cnpjEntrega;
-    colunaEndereco1.textContent = destinatario.enderecoEntrega;
-    colunaCidade1.textContent = destinatario.cidadeEntrega;
-    colunaPais1.textContent = destinatario.paisEntrega;
+    colunaNome1.textContent = destinatario.nome_entrega;
+    colunaCnpj1.textContent = destinatario.cnpj_entrega;
+    colunaEndereco1.textContent = destinatario.endereco_entrega;
+    colunaCidade1.textContent = destinatario.cidade_entrega;
+    colunaPais1.textContent = destinatario.pais_entrega;
 
     linha1.appendChild(colunaNome1);
     linha1.appendChild(colunaCnpj1);
@@ -659,7 +659,7 @@ function popularTabelaPedidos(dados, dadosPacote){
         colunaDescricao.textContent = item.peca.descricao;
         colunaQuantidade.textContent = item.quantidade;                 
 
-        precoTotal  += item.peca.precoVenda * item.quantidade;
+        precoTotal  += item.peca.preco_venda * item.quantidade;
         volumeTotal += item.peca.volume     * item.quantidade;
         volumeBruto += item.volume_bruto     * item.quantidade;
         pesoBruto   += item.peso_bruto       * item.quantidade;
