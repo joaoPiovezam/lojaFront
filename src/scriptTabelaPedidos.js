@@ -517,7 +517,7 @@ function popularTabelaPeso(dados, qtdPacotes){
     colunaPesoLiq1.textContent = pesoTotal;
     colunaPesoBruto1.textContent = pesoBruto;
     colunaVolume1.textContent = volumeBruto;
-    colunaEntrega1.textContent = formatarData(dados.results[0].dataEntrega);
+    colunaEntrega1.textContent = formatarData(dados.results[0].data_entrega);
 
     linha1.appendChild(colunaQtd1);
     linha1.appendChild(colunaPesoLiq1);
