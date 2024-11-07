@@ -8,7 +8,17 @@ var urlAPI = "";
 var urlCondicao = "";
 var total = 0.0;
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 async function carregarDados() {
+      loadScript("header.js");
         urlA = await carregarUrl()
         urlAPI = urlA + "/orcamentos/"
         urlCondicao = urlA + "/condicao/"+ localStorage.orcamentoId + "/";

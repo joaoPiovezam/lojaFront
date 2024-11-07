@@ -6,104 +6,106 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header id="header"></header>
+    <div class="container">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+        <button onclick="gerarPDF()">Gerar PDF</button>
+        <button onclick="gerarFatura()">Gerar Fatura</button>
 
-    <button onclick="gerarPDF()">Gerar PDF</button>
-    <button onclick="gerarFatura()">Gerar Fatura</button>
+        <script>
+            function gerarPDF() {
+            var element = document.getElementById('orcamento');
+            var options = {
+                margin: 10,
+                filename: 'meu-pdf.pdf',
+                image: {
+                type: 'pdf',
+                quality: 1
+                },
+                html2canvas: {
+                scale: 2
+                }
+            };
 
-    <script>
-        function gerarPDF() {
-        var element = document.getElementById('orcamento');
-        var options = {
-            margin: 10,
-            filename: 'meu-pdf.pdf',
-            image: {
-            type: 'pdf',
-            quality: 1
-            },
-            html2canvas: {
-            scale: 2
+            html2pdf().from(element).set(options).save();
             }
-        };
+        </script>
+        
+        <script>
+            function gerarFatura() {
+                location.href = '/fatura.html'
+            }
+        </script>
 
-        html2pdf().from(element).set(options).save();
-        }
-    </script>
-    
-    <script>
-        function gerarFatura() {
-            location.href = '/fatura.html'
-        }
-    </script>
+        <div class = 'contanier' id = 'orcamento'>
+            <input hidden id="pagina" value="orcamento">
+            <header>
+                <table id="cabecalho">
+                    <td>
+                        <img src="logo.png" alt="" width="100px">
+                    </td>
+                    <td>
+                        <div id="nome"> JP Trading LTDA. </div>
+                        <div id="rua"> Tamoios, 262 </div>
+                        <div id="cidade"> Ribeirão/SP </div>
+                        <div id="pais"> Brasil </div>
+                        <div id="cnpj"> 49.465.446/0007-76 </div>
+                    </td>
+                    <td>
+                        <div id="celular"> +55 (16) 99999-9999</div>
+                    </td>
+                    <td>
+                        <div id="data" ></div>
+                        <div id="hora"></div>
+                    </td>
+                </table>            
+            </header>
 
-    <div class = 'contanier' id = 'orcamento'>
-        <input hidden id="pagina" value="orcamento">
-        <header>
-            <table id="cabecalho">
-                <td>
-                    <img src="logo.png" alt="" width="100px">
-                </td>
-                <td>
-                    <div id="nome"> JP Trading LTDA. </div>
-                    <div id="rua"> Tamoios, 262 </div>
-                    <div id="cidade"> Ribeirão/SP </div>
-                    <div id="pais"> Brasil </div>
-                    <div id="cnpj"> 49.465.446/0007-76 </div>
-                </td>
-                <td>
-                    <div id="celular"> +55 (16) 99999-9999</div>
-                </td>
-                <td>
-                    <div id="data" ></div>
-                    <div id="hora"></div>
-                </td>
-            </table>            
-        </header>
+            <table id = "tabela">
+                <table id="tabela-cliente"></table>
+                <table id="tabela-condicao"></table>
+                <table id="tabela-pedidos"></table>
+            </table>
+            <script src="scriptTabelaPedidos.js"></script>
+            <table id="tabela-total">
+                <tr>
+                    <td>
+                        <div id="total-orcado"></div>
+                    </td>
+                    <td>
+                        <div id="total-volume"></div>
+                    </td>
+                    <td>
+                        <div id="total-peso"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <script>
+            function addZero(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+            const displayDateTime = () => {
+                const now = new Date();
+                const date = addZero(now.getDate());
+                const month = addZero(now.getMonth() + 1);
+                const year = now.getFullYear();
+                const hours = addZero(now.getHours());
+                const minutes = addZero(now.getMinutes());
 
-        <table id = "tabela">
-            <table id="tabela-cliente"></table>
-            <table id="tabela-condicao"></table>
-            <table id="tabela-pedidos"></table>
-        </table>
-        <script src="scriptTabelaPedidos.js"></script>
-        <table id="tabela-total">
-            <tr>
-                <td>
-                    <div id="total-orcado"></div>
-                </td>
-                <td>
-                    <div id="total-volume"></div>
-                </td>
-                <td>
-                    <div id="total-peso"></div>
-                </td>
-            </tr>
-        </table>
+                const formattedDateTime = `${date}/${month}/${year}`;
+                const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+                document.getElementById('data').innerText = "data: " + formattedDateTime;
+                document.getElementById('hora').innerText = "hora: " + formattedTime;
+            };
+
+            displayDateTime();
+        </script>
     </div>
-    <script>
-        function addZero(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        }
-        const displayDateTime = () => {
-            const now = new Date();
-            const date = addZero(now.getDate());
-            const month = addZero(now.getMonth() + 1);
-            const year = now.getFullYear();
-            const hours = addZero(now.getHours());
-            const minutes = addZero(now.getMinutes());
-
-            const formattedDateTime = `${date}/${month}/${year}`;
-            const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-            document.getElementById('data').innerText = "data: " + formattedDateTime;
-            document.getElementById('hora').innerText = "hora: " + formattedTime;
-        };
-
-        displayDateTime();
-    </script>
 
 </body>
 </html>

@@ -29,6 +29,7 @@ function proximaPagina(){
 }
 
 async function carregarDados() {
+    loadScript("header.js");
     urlA = await carregarUrl()
     urlC =  urlA + "/clientes/"
         urlAPI =  urlA + "/orcamento/?page="+ pagina +"&search="+str;

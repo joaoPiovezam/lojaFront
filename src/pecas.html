@@ -8,30 +8,38 @@
     <script src="pecasLista.js"></script>
 </head>
 <body> 
-    <div>
-        <label for="myfile">Select a file Orçamento:</label>
-        <input type="file" id="myFile" name="myfile">
-        <button type="button" onclick="addPecasOrcamendo()">Adicionar Pecas Orçamento</button>
-        <div id = "alertaCsv" class="alert alert-warning d-none" role="alert"></div>
-    </div>
-    <div>
-        <label for="myfile">Select a file Catalogo:</label>
-        <input type="file" id="myFileCatalogo" name="myfile">
-        <button type="button" onclick="addPecasCatalogo()">Adicionar Peças Catalogo</button>
-        <div id = "alertaCatalogo" class="alert alert-success d-none" role="alert"></div>
-    </div>
-    <div style="justify-content: space-between; display: flex;">
-        <div class = 'contanier' id = 'pecas'>
-            <div id="tabela-pecas" style=" margin-right: 20px; border: 1px solid black;"></div>
-            <input hidden id="pagina" value="1">
-            <button type="button" onclick="proximaPagina()">Carregar mais >></button>      
-        </div>
+    <header id="header"></header>
 
-        <div class = 'contanier' id = 'orcamento'>
-            <div id="tabela-orcamento"  style="border: 1px solid black;" ></div>
-            <input hidden id="pagina" value="1">
-            <button type="button" onclick="proximaPagina()">Carregar mais >></button>      
+    <div class="containerPecas">
+        <div style="justify-content: space-between; display: flex;">
+            <div class = 'contanier' id = 'pecas'>
+
+                <div>
+                    <label for="myfile">Select a file Catalogo:</label>
+                    <input type="file" id="myFileCatalogo" name="myfile">
+                    <button type="button" onclick="addPecasCatalogo()">Adicionar Peças Catalogo</button>
+                    <div id = "alertaCatalogo" class="alert alert-success d-none" role="alert"></div>
+                </div>
+
+                <div id="tabela-pecas" style=" margin-right: 20px; border: 1px solid black;"></div>
+                <input hidden id="pagina" value="1">
+                <button type="button" onclick="proximaPagina()">Carregar mais >></button>      
+            </div>
+
+            <div class = 'contanier' id = 'orcamento'>
+                
+                <div>
+                    <label for="myfile">Select a file Orçamento:</label>
+                    <input type="file" id="myFile" name="myfile">
+                    <button type="button" onclick="addPecasOrcamendo()">Adicionar Pecas Orçamento</button>
+                    <div id = "alertaCsv" class="alert alert-warning d-none" role="alert"></div>
+                </div>
+
+                <div id="tabela-orcamento"  style="border: 1px solid black;" ></div>
+                <input hidden id="pagina" value="1">
+                <button type="button" onclick="proximaPagina()">Carregar mais >></button>      
+            </div>
         </div>
-    </div>
+</div>
 </body>
 </html>

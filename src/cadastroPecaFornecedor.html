@@ -9,6 +9,7 @@
     <script src="pecaFornecedor.js"></script>
 </head>
 <body>
+    <header id="header"></header>
     <h1>Catalogo Fornecedor</h1>
     <input hidden id="pagina" value="2">
 
@@ -26,16 +27,17 @@
 
     <div style="justify-content: space-between; display: flex;">
         <div class = 'contanier' id = 'pecas'>
-            <div id="tabela-pecas" style=" margin-right: 20px; border: 1px solid black;"></div>
+            <div id="tabela-pecas" style=" margin-left: 20px; border: 1px solid black;"></div>
             <input hidden id="pagina" value="1">
             <button type="button" onclick="proximaPagina()">Carregar mais >></button>      
         </div>
 
         <div class = 'contanier' id = 'catalogo'>
-            <div id="tabela-catalogo"  style="border: 1px solid black;" ></div>
+            <div id="tabela-catalogo"  style="border: 1px solid black; margin-right: 20px;" ></div>
             <input hidden id="pagina" value="1">
             <button type="button" onclick="proximaPagina()">Carregar mais >></button>      
         </div>
     </div>
+
 </body>
 </html>

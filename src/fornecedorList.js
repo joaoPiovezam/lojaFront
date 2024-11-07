@@ -3,6 +3,15 @@ var i = 1;
 var str = "";
 var id = 0;
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 async function  carregarUrl(){
     const urlA = await fetch('./rotaBack.json')
     dados = await urlA.json()
@@ -20,6 +29,7 @@ async function proximaPagina(){
 var urlAPI = ""
 
 async function carregarDados() {
+        loadScript("header.js");
         urlA = await carregarUrl()
         urlAPI = urlA + "/fornecedores/?format=json&page="+ pagina;
         const resposta = await fetch(urlAPI, {

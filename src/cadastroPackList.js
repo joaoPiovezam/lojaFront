@@ -7,6 +7,7 @@ async function  carregarUrl(){
 var urlOrcamento = "";
 
 async function carregarDados() {
+  loadScript("header.js");
     urlA = await carregarUrl()
     urlOrcamento = urlA + "/orcamentos/";
     const respostaOrcamento = await fetch(urlOrcamento, {

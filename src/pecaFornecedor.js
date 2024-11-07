@@ -33,6 +33,7 @@ async function  carregarUrl(){
 var urlAPI = "";
 
 async function carregarDados() {
+  loadScript("header.js");
     urlA = await carregarUrl()
         const resposta = await fetch(urlA + '/fornecedor/', {
             method: "GET",

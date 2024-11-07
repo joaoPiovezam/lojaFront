@@ -2,6 +2,15 @@ var orcamentoId = localStorage.orcamentoId;
 var pecaCodigo = localStorage.pecaCodigo;
 var volume = localStorage.volume;
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 if (localStorage.pecaCodigo == null){
     pecaCodigo = 0;
 }
@@ -30,12 +39,16 @@ var volumeBruto = 0.0;
 var tipo = document.getElementById('pagina');
 
 async function carregarDados() {
+    loadScript("header.js");
     urlA = await carregarUrl()
+
     urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/" + pecaCodigo + "/";
     urlPecas = urlA + "/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/0/";
     urlNotificar = urlA + "/notificacao/"+ orcamentoId + "/";
     urlCondicao = urlA + "/condicao/"+ orcamentoId + "/";
     urlPacote = urlA + "/packOrcamento/" + orcamentoId;
+
+
         const resposta = await fetch(urlAPI, {
             method: "GET",
             //credentials: 'include',
@@ -55,7 +68,7 @@ async function carregarDados() {
 
         const dadosPacote = await respostaPacote.json();
 
-        const dadosJSON = await resposta.json();
+        var dadosJSON = await resposta.json();
 
         if(tipo.value != 'packingList2'){
             popularTabelaPedidos(dadosJSON);
@@ -101,7 +114,31 @@ async function carregarDados() {
               });
 
             
-            const dadosPecas = await respostaPecas.json();
+            var dadosPecas = await respostaPecas.json();
+
+            if(dadosPecas.count == 0){
+                urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/"+ 0 + "/" + pecaCodigo + "/";
+                urlPecas = urlA + "/orcamento/" + orcamentoId + "/pedidos/"+ 0 + "/0/";
+                const respostaPecas2 = await fetch(urlPecas, {
+                    method: "GET",
+                    headers: {
+                      "Content-type": "application/json; charset=UTF-8",
+                      "Authorization": "token " + localStorage.tokenUsuario
+                    }
+                  });
+
+                  const resposta = await fetch(urlAPI, {
+                    method: "GET",
+                    //credentials: 'include',
+                    headers: {
+                      "Content-type": "application/json; charset=UTF-8",
+                      "Authorization": "token " + localStorage.tokenUsuario
+                    }
+                  });
+    
+                dadosJSON = await resposta.json();
+                dadosPecas = await respostaPecas2.json();
+            }
             
             if(tipo.value == 'packingList2'){
                 popularTabelaPacotesPutDelete(dadosPacote);
@@ -126,10 +163,87 @@ function formatarData(data) {
     return `${dataFormatada.getDate()}/${dataFormatada.getMonth() + 1}/${dataFormatada.getFullYear()}`;
 }
 
-// Função para formatar preço
-function formatarPreco(preco) {
-    return ` ${preco.toFixed(2).replace(".", ",")}`;
-}    
+async function converterDolar(){
+    resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dados = await resposta.json();
+    return dados.BRLUSD.ask
+  }
+  
+  async function converterColon(){
+    respostaReal =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dadosReal = await respostaReal.json();
+  
+    respostaColon =  await fetch("https://economia.awesomeapi.com.br/json/last/USD-CRC", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dadosColon = await respostaColon.json();
+  
+  
+    return dadosColon.USDCRC.ask * dadosReal.BRLUSD.ask
+  }
+  
+  async function converterEuro(){
+    resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-EUR", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dados = await resposta.json();
+    return dados.BRLEUR.ask
+  }
+  
+  async function converterMoeda(valor){
+    valorConvertido = 0
+    switch(localStorage.Moeda) {
+      case 'USD':
+        valorConvertido = await converterDolar() * valor;
+        break;
+      case 'EUR':
+        valorConvertido = await converterEuro() * valor;
+        break;
+      case 'CRC':
+        valorConvertido = await converterColon() * valor;
+        break;
+      case 'BRL':
+        valorConvertido = valor;
+        break;
+    }
+    return valorConvertido
+  }
+  
+  async function formatarPreco(preco) {
+      var precoConvertido = await converterMoeda(preco)
+      switch(localStorage.Moeda){
+        case 'USD':
+          return ` US$ ${precoConvertido.toFixed(2).replace(",", ".")}`;
+        case 'EUR':
+          return ` € ${precoConvertido.toFixed(2).replace(".", ",")}`;
+        case 'CRC':
+          return ` ₡ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+        case 'BRL':
+          return ` R$ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+      }
+  
+  }  
+
+function  formatarPeso(peso){
+    return `  ${peso.toFixed(2).replace(".", ",")}`;
+}
+
 carregarDados();
     
 function popularTabelaCliente1(dados){
@@ -419,7 +533,7 @@ function popularTabelaNotificar(dados){
 
 }
 
-function popularTabelaCondicao(dados){
+async function popularTabelaCondicao(dados){
     const tabela = document.getElementById("tabela-condicao");
 
     const linhaCondicao = document.createElement("td");
@@ -457,7 +571,7 @@ function popularTabelaCondicao(dados){
         colunaCondicao.textContent = item.cota;
         colunaPorcetagem.textContent = item.porcentagem;
         colunaData.textContent =  formatarData(item.data);
-        colunaTotal.textContent = formatarPreco(precoTotal * item.porcentagem / 100);     
+        colunaTotal.textContent = await formatarPreco(precoTotal * item.porcentagem / 100);     
 
         linha.appendChild(colunaCondicao);
         linha.appendChild(colunaPorcetagem);
@@ -470,7 +584,7 @@ function popularTabelaCondicao(dados){
       const linhna1 = document.createElement("tr");
       const colunaTotal1 = document.createElement("td");
 
-      colunaTotal1.textContent = "TOTAL = " + formatarPreco(precoTotal);
+      colunaTotal1.textContent = "TOTAL = " + await formatarPreco(precoTotal);
       linhna1.appendChild(colunaTotal1);
       tabela.appendChild(linhna1);
 
@@ -528,7 +642,7 @@ function popularTabelaPeso(dados, qtdPacotes){
     tabela.appendChild(linha1);
 }
 
-function popularTabelaPedidos(dados, dadosPacote){
+async function popularTabelaPedidos(dados, dadosPacote){
     const tabela = document.getElementById("tabela-pedidos");
 
     const linhaPecas = document.createElement("td");
@@ -685,8 +799,8 @@ function popularTabelaPedidos(dados, dadosPacote){
             const colunaPreco = document.createElement("td");
             const colunaNcm = document.createElement("td");
     
-            colulaPrecoUnit.textContent = formatarPreco(item.peca.preco_venda * 1.2);
-            colunaPreco.textContent = formatarPreco(item.peca.preco_venda * item.quantidade * 1.2);
+            colulaPrecoUnit.textContent = await formatarPreco(item.peca.preco_venda * 1.2);
+            colunaPreco.textContent = await formatarPreco(item.peca.preco_venda * item.quantidade * 1.2);
             colunaNcm.textContent = item.peca.ncm;
     
             linha.appendChild(colunaNcm);
@@ -696,11 +810,11 @@ function popularTabelaPedidos(dados, dadosPacote){
 
         if (tipo.value != "fatura"){ 
             const colunaPeso = document.createElement("td");
-            colunaPeso.textContent = formatarPreco(item.peca.peso*1);
+            colunaPeso.textContent = formatarPeso(item.peca.peso*1);
             linha.appendChild(colunaPeso);
 
             const colunaPesoTotal = document.createElement("td");
-            colunaPesoTotal.textContent = formatarPreco(item.peca.peso * item.quantidade);
+            colunaPesoTotal.textContent = formatarPeso(item.peca.peso * item.quantidade);
             linha.appendChild(colunaPesoTotal);
         }
         
@@ -739,15 +853,15 @@ function popularTabelaPedidos(dados, dadosPacote){
       const totalVolume = document.getElementById("total-volume");
       
       totalOrcado.append('PREÇO TOTAL  = ');
-      totalOrcado.append(formatarPreco(precoTotal));
+      totalOrcado.append(await formatarPreco(precoTotal));
       
       if (tipo.value != "fatura"){ 
 
         totalVolume.append('VOLUME TOTAL = ');
-        totalVolume.append(formatarPreco(volumeTotal));
+        totalVolume.append(formatarPeso(volumeTotal));
 
         totalPeso.append('PESO TOTAL     = ');
-        totalPeso.append(formatarPreco(pesoTotal));
+        totalPeso.append(formatarPeso(pesoTotal));
 
       }
     }
@@ -958,20 +1072,9 @@ async function updateVolumePeca(pedido, volume, pacote){
     urlA = await carregarUrl()
     console.log(pedido)
     await fetch(urlA + "/pedidos/" + pedido.id + "/", {
-        method: "PUT",
+        method: "PATCH",
         body: JSON.stringify({
-            "codigo_pedido": pedido.pedido,
-            "data_criacao": pedido.data_criacao,
-            "data_entrega": pedido.data_entrega,
-            "quantidade": pedido.quantidade,
-            "peso_bruto": pedido.peso_bruto,
-            "volume_bruto": pedido.volume_bruto,
-            "unidade": pedido.unidade,
-            "pacote": pacote,
             "volume": volume,
-            "peca": pedido.peca,
-            "orcamento": pedido.orcamento,
-            "cliente": pedido.cliente
         }),
         headers: {
             "Content-type": "application/json; charset=UTF-8",

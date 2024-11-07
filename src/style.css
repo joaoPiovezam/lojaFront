@@ -84,14 +84,22 @@ body {
     background-color: #f0f0f0;
 }
 .container {
-    max-width: 700px;
-    margin: 50px auto;
+    max-width: 95%;
+    margin: 150px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-input[type="text"], input[type="email"], input[type="password"], input[type="tel"]{
+.containerPecas {
+    width: 95%;
+    margin: 150px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="tel"]{
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -116,9 +124,15 @@ button {
     color: #343a40;
     
 }
+
+select#dropDownMoeda option[value="BRL"]   { background-image:url(br_flag.png);   }
+
 .navbar {
     background-color: #333;
     overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 .navbar a {
@@ -193,4 +207,70 @@ button {
 
 .atrasado{
     background-color: rgba(255, 0, 0, 0.393)
+}
+
+#dropDownMoeda{
+    width: 5%;
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+
+#dropdownOrcamento{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#dropDownOrcamento{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#dropDownFornecedor{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#fornecedor{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#dropDownPedidos{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#dropDownClientes{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#tipoEntrega{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
+}
+#vencimento{
+        padding: 10px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box;
 }

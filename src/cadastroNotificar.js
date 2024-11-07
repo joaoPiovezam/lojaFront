@@ -4,9 +4,19 @@ async function  carregarUrl(){
     return dados.API_URL
   }
 
+  function loadScript(url)
+  {    
+      var head = document.getElementsByTagName('head')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = url;
+      head.appendChild(script);
+  }
+
 var urlAPI = "";
 
 async function carregarDados() {
+  loadScript("header.js");
     urlA = await carregarUrl()
     urlAPI = urlA + "/orcamentos/"
         const resposta = await fetch(urlAPI, {

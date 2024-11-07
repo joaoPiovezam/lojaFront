@@ -1,5 +1,14 @@
 var urlOrcamento = "http://127.0.0.1:8000/orcamento/";
 
+ function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 function myFunction() {
     var x = document.getElementById("navbar");
     if (x.className === "navbar") {
@@ -9,7 +18,8 @@ function myFunction() {
     }
 }
 async function carregarDados() {
-    login = document.getElementById('login');
+    loadScript("header.js");
+    /*login = document.getElementById('login');
     logout = document.getElementById('logout');
     if(localStorage.email == 'null'){
         login.hidden = false;
@@ -20,7 +30,7 @@ async function carregarDados() {
     }
     if (localStorage.tipo == 'cliente'){
         document.getElementById('geral').hidden = true
-    }
+    }*/
 
     //const respostaOrcamento = await fetch(urlOrcamento);
    // const dadosOrcamento = await respostaOrcamento.json();

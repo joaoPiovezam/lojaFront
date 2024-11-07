@@ -2,6 +2,15 @@ var pagina = 1;
 var i = 1;
 var str = "";
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 async function  carregarUrl(){
   const urlA = await fetch('./rotaBack.json')
   dados = await urlA.json()
@@ -21,6 +30,7 @@ var urlFornecedor = "";
 var urlOrcamento = "";
 
 async function carregarDados() {
+  loadScript("header.js");
   urlA = await carregarUrl()
   urlAPI = urlA + "/pedidosCompra/?format=json&page="+ pagina
   urlFornecedor = urlA + "/fornecedor/"

@@ -2,106 +2,107 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Tabela de dados JSON</title>
+    <title>Peido de Compra</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header id="header"></header>
+    <div class="container">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+        <button onclick="gerarPDF()">Gerar PDF</button>
 
-    <button onclick="gerarPDF()">Gerar PDF</button>
+        <script>
+            function gerarPDF() {
+            var element = document.getElementById('orcamento');
+            var options = {
+                margin: 10,
+                filename: 'meu-pdf.pdf',
+                image: {
+                type: 'jpeg',
+                quality: 1
+                },
+                html2canvas: {
+                scale: 2
+                }
+            };
 
-    <script>
-        function gerarPDF() {
-        var element = document.getElementById('orcamento');
-        var options = {
-            margin: 10,
-            filename: 'meu-pdf.pdf',
-            image: {
-            type: 'jpeg',
-            quality: 1
-            },
-            html2canvas: {
-            scale: 2
+            html2pdf().from(element).set(options).save();
             }
-        };
+        </script>
+        <select id="dropDownFornecedor" onchange="atualizarFonecedor(this.value)">
+            <option value="">Selecione o Fornecedor</option>
+        </select>
+        <div class = 'contanier' id = 'orcamento'>
+            <header>
+                <table id="cabecalho">
+                    <td>
+                        <img src="logo.png" alt="" width="100px">
+                    </td>
+                    <td>
+                        <div id="nome"> JP Trading LTDA. </div>
+                        <div id="rua"> Tamoios, 262 </div>
+                        <div id="cidade"> Ribeirão/SP </div>
+                        <div id="pais"> Brasil </div>
+                        <div id="cnpj"> 49.465.446/0007-76 </div>
+                    </td>
+                    <td>
+                        <div id="celular"> +55 (16) 99999-9999</div>
+                    </td>
+                    <td>
+                        <div id="data" ></div>
+                        <div id="hora"></div>
+                    </td>
+                </table>            
+            </header>
+            <table id="tabela-cliente"></table>
+            <table id="tabela-pedidos"></table>
+            <script src="pedidoCompra.js"></script>
+            <table>
+                <tr>
+                    <td id="opercaoFiscal"></td>
+                    <td id="vencimento"></td>
+                </tr>
+                <tr>
+                    <td id="total-orcado"></td>
+                    <td id="total-peso"></td>
+                </tr>
+                <tr>
+                    <td id="comprador"></td>
+                    <td id="frete"></td>
+                </tr>
+                <tr>
+                    <td id="transportadora"></td>
+                    <td id="traportadoraFone"></td>
+                </tr>
 
-        html2pdf().from(element).set(options).save();
-        }
-    </script>
-    <select id="dropDownFornecedor" onchange="atualizarFonecedor(this.value)">
-        <option value="">Selecione o Fornecedor</option>
-    </select>
-    <div class = 'contanier' id = 'orcamento'>
-        <header>
-            <table id="cabecalho">
-                <td>
-                    <img src="logo.png" alt="" width="100px">
-                </td>
-                <td>
-                    <div id="nome"> JP Trading LTDA. </div>
-                    <div id="rua"> Tamoios, 262 </div>
-                    <div id="cidade"> Ribeirão/SP </div>
-                    <div id="pais"> Brasil </div>
-                    <div id="cnpj"> 49.465.446/0007-76 </div>
-                </td>
-                <td>
-                    <div id="celular"> +55 (16) 99999-9999</div>
-                </td>
-                <td>
-                    <div id="data" ></div>
-                    <div id="hora"></div>
-                </td>
-            </table>            
-        </header>
-        <table id="tabela-cliente"></table>
-        <table id="tabela-pedidos"></table>
-        <script src="pedidoCompra.js"></script>
-        <table>
-            <tr>
-                <td id="opercaoFiscal"></td>
-                <td id="vencimento"></td>
-            </tr>
-            <tr>
-                <td id="total-orcado"></td>
-                <td id="total-peso"></td>
-            </tr>
-            <tr>
-                <td id="comprador"></td>
-                <td id="frete"></td>
-            </tr>
-            <tr>
-                <td id="transportadora"></td>
-                <td id="traportadoraFone"></td>
-            </tr>
+            </table>
+        </div>
 
-        </table>
+        <script>
+            function addZero(i) {
+                if (i < 10) {
+                    i = "0" + i;
+                }
+                return i;
+            }
+            const displayDateTime = () => {
+                const now = new Date();
+                const date = addZero(now.getDate());
+                const month = addZero(now.getMonth() + 1);
+                const year = now.getFullYear();
+                const hours = addZero(now.getHours());
+                const minutes = addZero(now.getMinutes());
+
+                const formattedDateTime = `${date}/${month}/${year}`;
+                const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+                document.getElementById('data').innerText = "data: " + formattedDateTime;
+                document.getElementById('hora').innerText = "hora: " + formattedTime;
+            };
+
+            displayDateTime();
+        </script>
     </div>
-
-    <script>
-        function addZero(i) {
-            if (i < 10) {
-                i = "0" + i;
-            }
-            return i;
-        }
-        const displayDateTime = () => {
-            const now = new Date();
-            const date = addZero(now.getDate());
-            const month = addZero(now.getMonth() + 1);
-            const year = now.getFullYear();
-            const hours = addZero(now.getHours());
-            const minutes = addZero(now.getMinutes());
-
-            const formattedDateTime = `${date}/${month}/${year}`;
-            const formattedTime = `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
-            document.getElementById('data').innerText = "data: " + formattedDateTime;
-            document.getElementById('hora').innerText = "hora: " + formattedTime;
-        };
-
-        displayDateTime();
-    </script>
-
 
 </body>
 </html>

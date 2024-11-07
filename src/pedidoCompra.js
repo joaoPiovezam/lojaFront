@@ -10,6 +10,15 @@ async function  carregarUrl(){
     return dados.API_URL
   }
 
+  function loadScript(url)
+  {    
+      var head = document.getElementsByTagName('head')[0];
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = url;
+      head.appendChild(script);
+  }
+
 var urlAPI = "";
 var urlFornecedor = "";
 var urlPedidoCompra = "";
@@ -19,7 +28,7 @@ var pesoTotal = 0.0;
 var volumeTotal = 0.0;
 
 async function carregarDados() {
-
+    loadScript("header.js");
     urlA = await carregarUrl()
     urlAPI =  urlA + "/pedidoCompra/"+ localStorage.orcamentoId +"/"+ idFornececedor;
     urlFornecedor =  urlA + "/fornecedor/";
@@ -66,11 +75,87 @@ function formatarData(data) {
     return `${dataFormatada.getDate()}/${dataFormatada.getMonth() + 1}/${dataFormatada.getFullYear()}`;
 }
 
-// Função para formatar preço
-function formatarPreco(preco) {
-    return ` ${preco.toFixed(2).replace(".", ",")}`;
-} 
+async function converterDolar(){
+    resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dados = await resposta.json();
+    return dados.BRLUSD.ask
+  }
   
+  async function converterColon(){
+    respostaReal =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dadosReal = await respostaReal.json();
+  
+    respostaColon =  await fetch("https://economia.awesomeapi.com.br/json/last/USD-CRC", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dadosColon = await respostaColon.json();
+  
+  
+    return dadosColon.USDCRC.ask * dadosReal.BRLUSD.ask
+  }
+  
+  async function converterEuro(){
+    resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-EUR", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dados = await resposta.json();
+    return dados.BRLEUR.ask
+  }
+  
+  async function converterMoeda(valor){
+    valorConvertido = 0
+    switch(localStorage.Moeda) {
+      case 'USD':
+        valorConvertido = await converterDolar() * valor;
+        break;
+      case 'EUR':
+        valorConvertido = await converterEuro() * valor;
+        break;
+      case 'CRC':
+        valorConvertido = await converterColon() * valor;
+        break;
+      case 'BRL':
+        valorConvertido = valor;
+        break;
+    }
+    return valorConvertido
+  }
+
+  async function formatarPreco(preco) {
+      var precoConvertido = await converterMoeda(preco)
+      switch(localStorage.Moeda){
+        case 'USD':
+          return ` US$ ${precoConvertido.toFixed(2).replace(",", ".")}`;
+        case 'EUR':
+          return ` € ${precoConvertido.toFixed(2).replace(".", ",")}`;
+        case 'CRC':
+          return ` ₡ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+        case 'BRL':
+          return ` R$ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+      }
+  
+  }  
+
+  function formatarPeso(peso){
+    return `  ${peso.toFixed(2).replace(".", ",")}`;
+  }
+
 carregarDados();
 
 
@@ -251,7 +336,7 @@ function popularTabelaCliente4(dados){
     tabela.appendChild(linha1);
 }
 
-function popularTabelaPedidos(dados){
+async function popularTabelaPedidos(dados){
     const tabela = document.getElementById("tabela-pedidos");
     
     const linha = document.createElement("tr");
@@ -311,8 +396,8 @@ function popularTabelaPedidos(dados){
         colunaDescricao.textContent = item.pecasFornecedor.peca.descricao;
         colunaQuantidade.textContent = item.pedido.quantidade;
         //colunaDataEntrega.textContent = formatarData(item.dataEntrega);
-        colulaPrecoUnit.textContent = formatarPreco(item.pecasFornecedor.preco *1);
-        colunaPreco.textContent = formatarPreco(item.pecasFornecedor.preco * item.pedido.quantidade);
+        colulaPrecoUnit.textContent = await formatarPreco(item.pecasFornecedor.preco *1);
+        colunaPreco.textContent = await formatarPreco(item.pecasFornecedor.preco * item.pedido.quantidade);
         colunaNcm.textContent = item.pecasFornecedor.peca.ncm;
         //colunaVolume.textContent = item.peca.volume;
         colunaPeso.textContent = item.pecasFornecedor.peca.peso
@@ -340,7 +425,7 @@ function popularTabelaPedidos(dados){
       const totalPeso = document.getElementById("total-peso");
       
       totalOrcado.append('PREÇO TOTAL  = ');
-      totalOrcado.append(formatarPreco(precoTotal));
+      totalOrcado.append(await formatarPreco(precoTotal));
 
       /*totalVolume.append('VOLUME TOTAL = ');
       totalVolume.append(formatarPreco(volumeTotal));*/
@@ -348,7 +433,7 @@ function popularTabelaPedidos(dados){
 
 
       totalPeso.append('PESO TOTAL     = ');
-      totalPeso.append(formatarPreco(pesoTotal)); 
+      totalPeso.append(await formatarPeso(pesoTotal)); 
 
 }
 

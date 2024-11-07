@@ -5,53 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Pacotes</title>
     <link rel="stylesheet" href="style.css">
-    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1800px;
+            margin: 150px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="number"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"]{
+            width: 50%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        textarea{
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #tipoPessoa{
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        #tabela-pedidos{
+            
+            padding: 10px;
+            margin: 5px 0;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cadastro de Pacotes</h1>
+    <header id="header"></header>
+    <div class="container">
+        <h1>Cadastro de Pacotes</h1>
 
-    <input hidden id="pagina" value="packingList2">
-    <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
-        <option value="">Selecione o Orçamento</option>
-    </select>
-    <div id="tabela-pacotes"></div>
+        <input hidden id="pagina" value="packingList2">
+        <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
+            <option value="">Selecione o Orçamento</option>
+        </select>
+        <div id="tabela-pacotes"></div>
 
-    <form id="formularioEncomenda">
-        <div class="campo">
-            <label for="volume">Volume:</label>
-            <input type="number" id="volume" name="volume">
-        </div>
+        <form id="formularioEncomenda">
+            <div class="campo">
+                <label for="volume">Volume:</label>
+                <input type="number" id="volume" name="volume">
+            </div>
 
-        <div class="campo">
-            <label for="pacote">Pacote:</label>
-            <input type="text" id="pacote" name="pacote" required>
-        </div>
+            <div class="campo">
+                <label for="pacote">Pacote:</label>
+                <input type="text" id="pacote" name="pacote" required>
+            </div>
 
-        <div class="campo">
-            <label for="comprimento">Comprimento (m):</label>
-            <input type="number" id="comprimento" name="comprimento" required>
-        </div>
+            <div class="campo">
+                <label for="comprimento">Comprimento (m):</label>
+                <input type="number" id="comprimento" name="comprimento" required>
+            </div>
 
-        <div class="campo">
-            <label for="largura">Largura (m):</label>
-            <input type="number" id="largura" name="largura" required>
-        </div>
+            <div class="campo">
+                <label for="largura">Largura (m):</label>
+                <input type="number" id="largura" name="largura" required>
+            </div>
 
-        <div class="campo">
-            <label for="altura">Altura (m):</label>
-            <input type="number" id="altura" name="altura" required>
-        </div>
+            <div class="campo">
+                <label for="altura">Altura (m):</label>
+                <input type="number" id="altura" name="altura" required>
+            </div>
 
-        <div class="campo">
-            <label for="peso">Peso (kg):</label>
-            <input type="number" id="peso" name="peso" required>
-        </div>
+            <div class="campo">
+                <label for="peso">Peso (kg):</label>
+                <input type="number" id="peso" name="peso" required>
+            </div>
 
-        <button onclick="addPacote()" type="submit">Cadastrar</button>
-    </form>
-
-    <div id="tabela-pedidos"></div>
-    <script src="cadastroPackList.js"></script>
+            <button onclick="addPacote()" type="submit">Cadastrar</button>
+        </form>
+        
+        <div id="tabela-pedidos"></div>
+        <script src="cadastroPackList.js"></script>
+    </div>
 
     
 </body>

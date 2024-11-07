@@ -5,8 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 150px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"]{
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        textarea{
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #tipoPessoa{
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
+    <header id="header"></header>
     <div class="container">
         <form id="formularioCadastro" action="/#" onsubmit="window.location.reload();">
 
@@ -29,6 +80,6 @@
    </div>
 
 
-    <script src="/cadastroFatura.js"></script>
+    <script src="cadastroFatura.js"></script>
 </body>
 </html>

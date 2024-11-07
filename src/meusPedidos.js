@@ -30,6 +30,7 @@ function proximaPagina(){
 }
 
 async function carregarDados() {
+    loadScript("header.js");
     urlA = await carregarUrl()
         urlAPI = urlA + "/orcamento/" + localStorage.email + "/?page=" + pagina;
         const resposta = await fetch(urlAPI, {

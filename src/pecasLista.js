@@ -4,6 +4,15 @@ var j = 1;
 var str = "";
 var tipo = document.getElementById('pagina');
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 async function  carregarUrl(){
   const urlA = await fetch('./rotaBack.json')
   dados = await urlA.json()
@@ -28,6 +37,7 @@ var urlPecaFornecedor = ""
 
 async function carregarDados() {
   
+  loadScript("header.js");
   urlA = await carregarUrl()
   var urlAPI = urlA + "/peca/0/?format=json&page="+ pagina + "&search="+str;
   var urlOrcamento = urlA + "/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";
@@ -75,9 +85,81 @@ async function carregarDados() {
         }
     }
 
-function formatarPreco(preco) {
+async function converterDolar(){
+  resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  dados = await resposta.json();
+  return dados.BRLUSD.ask
+}
 
-    return ` ${preco.toFixed(2).replace(".", ",")}`;
+async function converterColon(){
+  respostaReal =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  dadosReal = await respostaReal.json();
+
+  respostaColon =  await fetch("https://economia.awesomeapi.com.br/json/last/USD-CRC", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  dadosColon = await respostaColon.json();
+
+
+  return dadosColon.USDCRC.ask * dadosReal.BRLUSD.ask
+}
+
+async function converterEuro(){
+  resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-EUR", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  });
+  dados = await resposta.json();
+  return dados.BRLEUR.ask
+}
+
+async function converterMoeda(valor){
+  valorConvertido = 0
+  switch(localStorage.Moeda) {
+    case 'USD':
+      valorConvertido = await converterDolar() * valor;
+      break;
+    case 'EUR':
+      valorConvertido = await converterEuro() * valor;
+      break;
+    case 'CRC':
+      valorConvertido = await converterColon() * valor;
+      break;
+    case 'BRL':
+      valorConvertido = valor;
+      break;
+  }
+  return valorConvertido
+}
+
+async function formatarPreco(preco) {
+    var precoConvertido = await converterMoeda(preco)
+    switch(localStorage.Moeda){
+      case 'USD':
+        return ` US$ ${precoConvertido.toFixed(2).replace(",", ".")}`;
+      case 'EUR':
+        return ` € ${precoConvertido.toFixed(2).replace(".", ",")}`;
+      case 'CRC':
+        return ` ₡ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+      case 'BRL':
+        return ` R$ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+    }
+
 }  
 
 function formatarData(data) {
@@ -259,7 +341,7 @@ function abrirOrcamento(){
       );  
 }
 
-function popularTabelaPecas(dados){
+async function popularTabelaPecas(dados){
     tipo = document.getElementById('pagina').value;
     const tabela = document.getElementById("tabela-pecas");
     for (const item of dados.results) {
@@ -311,7 +393,7 @@ function popularTabelaPecas(dados){
         colunaCodigo.textContent = item.codigo;
         colunaDescricao.textContent = item.descricao;
         colunaMarca.textContent = item.marca;
-        colunaPreco.textContent = formatarPreco(item.preco_venda * 1.2);
+        colunaPreco.textContent = await formatarPreco(item.preco_venda * 1.2);
         btnQtd.textContent = "adicionar ao orçamento";
         btnPreco.textContent = "adicionar";
 
@@ -353,7 +435,7 @@ function popularTabelaPecas(dados){
 
 }
 
-function popularTabelaOrcamento(dados){
+async function popularTabelaOrcamento(dados){
     tipo = document.getElementById('pagina').value;
     const tabela = document.getElementById("tabela-orcamento");
     for (const item of dados.results) {
@@ -404,7 +486,7 @@ function popularTabelaOrcamento(dados){
         colunaItem.textContent = j.toString();
         colunaCodigo.textContent = item.peca.codigo;
         colunaDescricao.textContent = item.peca.descricao;
-        colunaMarca.textContent = formatarPreco(item.peca.preco_venda * 1.2)
+        colunaMarca.textContent = await formatarPreco(item.peca.preco_venda * 1.2)
         colunaPreco.textContent = item.quantidade ;
         btnQtd.textContent = "alterar quantidade";
         btnDelete.textContent = "remover";

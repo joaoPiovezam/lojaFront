@@ -1,6 +1,15 @@
 var orcamentoId = localStorage.orcamentoId;
 var pecaCodigo = localStorage.pecaCodigo;
 
+function loadScript(url)
+{    
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    head.appendChild(script);
+}
+
 if (localStorage.pecaCodigo == null){
     pecaCodigo = '';
 }
@@ -16,6 +25,7 @@ var urlAPI = "";
 var urlPacote = "";
 
 async function carregarDados() {
+    loadScript("header.js");
     urlA = await carregarUrl()
     urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/0/0/?search="
     urlPacote =  urlA + "/packOrcamento/" + orcamentoId;
@@ -41,9 +51,82 @@ async function carregarDados() {
     popularTabelaPedidos(dadosJSON, dadosPacote);
 }
 
-function formatarPreco(preco) {
-    return ` ${preco.toFixed(2).replace(".", ",")}`;
-}  
+async function converterDolar(){
+    resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dados = await resposta.json();
+    return dados.BRLUSD.ask
+  }
+  
+  async function converterColon(){
+    respostaReal =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-USD", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dadosReal = await respostaReal.json();
+  
+    respostaColon =  await fetch("https://economia.awesomeapi.com.br/json/last/USD-CRC", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dadosColon = await respostaColon.json();
+  
+  
+    return dadosColon.USDCRC.ask * dadosReal.BRLUSD.ask
+  }
+  
+  async function converterEuro(){
+    resposta =  await fetch("https://economia.awesomeapi.com.br/json/last/BRL-EUR", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    });
+    dados = await resposta.json();
+    return dados.BRLEUR.ask
+  }
+  
+  async function converterMoeda(valor){
+    valorConvertido = 0
+    switch(localStorage.Moeda) {
+      case 'USD':
+        valorConvertido = await converterDolar() * valor;
+        break;
+      case 'EUR':
+        valorConvertido = await converterEuro() * valor;
+        break;
+      case 'CRC':
+        valorConvertido = await converterColon() * valor;
+        break;
+      case 'BRL':
+        valorConvertido = valor;
+        break;
+    }
+    return valorConvertido
+  }
+  
+  async function formatarPreco(preco) {
+      var precoConvertido = await converterMoeda(preco)
+      switch(localStorage.Moeda){
+        case 'USD':
+          return ` US$ ${precoConvertido.toFixed(2).replace(",", ".")}`;
+        case 'EUR':
+          return ` € ${precoConvertido.toFixed(2).replace(".", ",")}`;
+        case 'CRC':
+          return ` ₡ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+        case 'BRL':
+          return ` R$ ${precoConvertido.toFixed(2).replace(".", ",")}`;
+      }
+  
+  }  
 
 carregarDados();
 
@@ -52,7 +135,7 @@ function formatarData(data) {
     return `${dataFormatada.getDate()}/${dataFormatada.getMonth() + 1}/${dataFormatada.getFullYear()}`;
 }
 
-function popularTabelaPedidos(dados, dadosPacote){
+async function popularTabelaPedidos(dados, dadosPacote){
     const tabela = document.getElementById("tabela");
 
     const linhaPecas = document.createElement("td");
@@ -132,8 +215,8 @@ function popularTabelaPedidos(dados, dadosPacote){
             const colulaPrecoUnit = document.createElement("td");
             const colunaPreco = document.createElement("td");
     
-            colulaPrecoUnit.textContent = formatarPreco(item.peca.preco_venda * 1.2);
-            colunaPreco.textContent = formatarPreco(item.peca.preco_venda * item.quantidade * 1.2);
+            colulaPrecoUnit.textContent = await formatarPreco(item.peca.preco_venda * 1.2);
+            colunaPreco.textContent = await formatarPreco(item.peca.preco_venda * item.quantidade * 1.2);
     
             linha.appendChild(colulaPrecoUnit);
             linha.appendChild(colunaPreco); 

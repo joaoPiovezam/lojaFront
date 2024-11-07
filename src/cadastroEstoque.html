@@ -8,33 +8,36 @@
     <script src="estoque.js"></script>
 </head>
 <body>
-    <h1>Cadastro de Estoque</h1>
+    <header id="header"></header>
+    <div class="container">
+        <h1>Cadastro de Estoque</h1>
 
-    <form id="formularioEstoque">
+        <form id="formularioEstoque">
 
-        <div class="campo">
-            <label for="pedido">Orcamento:</label>
-            <select width="800" id="dropDownOrcamento" name="Pedido" required>
-                <option value="0">Selecione</option>
-            </select>
-        </div>  
+            <div class="campo">
+                <label for="pedido">Orcamento:</label>
+                <select width="800" id="dropDownOrcamento" name="Pedido" required>
+                    <option value="0">Selecione</option>
+                </select>
+            </div>  
 
-        <div class="campo">
-            <label for="dataEntrada">Data de Entrada:</label>
-            <input type="date" id="dataEntrada" name="dataEntrada">
+            <div class="campo">
+                <label for="dataEntrada">Data de Entrada:</label>
+                <input type="date" id="dataEntrada" name="dataEntrada">
+            </div>
+
+            <div class="campo">
+                <label for="dataSaida">Data de Saída:</label>
+                <input type="date" id="dataSaida" name="dataSaida">
+            </div>
+
+            <button type="submit" onclick="addEstoque()">Cadastrar</button>
+        </form>
+
+        <h1>Peças em Estoque</h1>
+        <div class = 'contanier' id = 'orcamento'>
+            <table id = "tabela">
         </div>
-
-        <div class="campo">
-            <label for="dataSaida">Data de Saída:</label>
-            <input type="date" id="dataSaida" name="dataSaida">
-        </div>
-
-        <button type="submit" onclick="addEstoque()">Cadastrar</button>
-    </form>
-
-    <h1>Peças em Estoque</h1>
-    <div class = 'contanier' id = 'orcamento'>
-        <table id = "tabela">
     </div>
     
 </body>

@@ -6,69 +6,123 @@
     <title>Pedido de Compra</title>
     <link rel="stylesheet" href="style.css">
     <script src="cadastroPedidoCompra.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 150px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"]{
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        textarea{
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        #tipoPessoa{
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
-    <h1>Cadastro de Pedido de Compra</h1>
-    
-    <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
-        <option value="0">Selecione o Orçamento</option>
-    </select>
-
-    <div class="campo">
-        <label for="fornecedor">Fornecedor:</label>
-        <select onchange="filtrarFornecedor(this.value)" width="800" id="fornecedor" name="fornecedor" required>
-            <option value="0">Selecione</option>
+    <header id="header"></header>
+    <div class="container">
+        <h1>Cadastro de Pedido de Compra</h1>
+        
+        <label for="orcamento">Orcamento:</label>
+        <select id="dropdownOrcamento" onchange="atualizarOrcamento(this.value)">
+            
+            <option value="0">Selecione o Orçamento</option>
         </select>
-    </div>
-
-    <form id="formularioCadastro">
-        <div class="campo">
-            <label for="operacaoFiscal">Operação Fiscal:</label>
-            <input type="text" id="operacaoFiscal" name="operacaoFiscal" required>
-        </div>
 
         <div class="campo">
-            <label for="vencimento">Vencimento:</label>
-            <select  width="800" id="vencimento" name="vencimento" required>
+            <label for="fornecedor">Fornecedor:</label>
+            <select onchange="filtrarFornecedor(this.value)" width="800" id="fornecedor" name="fornecedor" required>
                 <option value="0">Selecione</option>
-                <option value="1">28</option>
-                <option value="2">30</option>
-                <option value="3">30/60/90</option>
-                <option value="4">28/56/84</option>
-                <option value="5">30/60</option>
-                <option value="6">28/56</option>
-                <option value="7">30/45/60</option>
             </select>
         </div>
 
-        <div class="campo">
-            <label for="comprador">Comprador:</label>
-            <input type="text" id="comprador" name="comprador" required>
-        </div>
+        <form id="formularioCadastro">
+            <div class="campo">
+                <label for="operacaoFiscal">Operação Fiscal:</label>
+                <input type="text" id="operacaoFiscal" name="operacaoFiscal" required>
+            </div>
 
-        <div class="campo">
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-        </div>
+            <div class="campo">
+                <label for="vencimento">Vencimento:</label>
+                <select  width="800" id="vencimento" name="vencimento" required>
+                    <option value="0">Selecione</option>
+                    <option value="1">28</option>
+                    <option value="2">30</option>
+                    <option value="3">30/60/90</option>
+                    <option value="4">28/56/84</option>
+                    <option value="5">30/60</option>
+                    <option value="6">28/56</option>
+                    <option value="7">30/45/60</option>
+                </select>
+            </div>
 
-        <div class="campo">
-            <label for="observacoes">Observações:</label>
-            <textarea id="observacoes" name="observacoes"></textarea>
-        </div>
+            <div class="campo">
+                <label for="comprador">Comprador:</label>
+                <input type="text" id="comprador" name="comprador" required>
+            </div>
 
-        <div class="campo">
-            <label for="frete">Frete:</label>
-            <input type="number" id="frete" name="frete">
-        </div>
+            <div class="campo">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
 
-        <div class="campo">
-            <label for="transportadora">Transportadora:</label>
-            <input type="text" id="transportadora" name="transportadora">
-        </div>
+            <div class="campo">
+                <label for="observacoes">Observações:</label>
+                <textarea id="observacoes" name="observacoes"></textarea>
+            </div>
 
-        <button type="button" onclick="addPedido()">Cadastrar</button>
-    </form>
+            <div class="campo">
+                <label for="frete">Frete:</label>
+                <input type="number" id="frete" name="frete">
+            </div>
 
+            <div class="campo">
+                <label for="transportadora">Transportadora:</label>
+                <input type="text" id="transportadora" name="transportadora">
+            </div>
+
+            <button type="button" onclick="addPedido()">Cadastrar</button>
+        </form>
+    </div>
     
 </body>
 </html>
