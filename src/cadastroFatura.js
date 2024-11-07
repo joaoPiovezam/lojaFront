@@ -17,6 +17,8 @@ var urlOrcamento = "";
 
 async function carregarDados() {
   loadScript("header.js");
+  loadScript("cadastroCotaPagamento.js")
+  loadScript("cadastroNotificar.js")
   urlA = await carregarUrl()
     urlOrcamento = urlA + "/orcamentos/";
     const respostaOrcamento = await fetch(urlOrcamento, {

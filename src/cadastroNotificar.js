@@ -16,9 +16,9 @@ async function  carregarUrl(){
 var urlAPI = "";
 
 async function carregarDados() {
-  loadScript("header.js");
+  //loadScript("header.js");
     urlA = await carregarUrl()
-    urlAPI = urlA + "/orcamentos/"
+    /*urlAPI = urlA + "/orcamentos/"
         const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
@@ -28,7 +28,7 @@ async function carregarDados() {
           });
         const dadosJSON = await resposta.json();
         //popularTabela(dadosJSON); 
-        popularDropDownOrcamento(dadosJSON); 
+        popularDropDownOrcamento(dadosJSON);*/ 
     }
 
 carregarDados();
@@ -49,8 +49,8 @@ async function addNotificar(){
     urlA = await carregarUrl()
     const formularioCadastro = document.getElementById('formularioCadastro');
 
-    formularioCadastro.addEventListener('submit', async function(event) {
-    event.preventDefault(); // Evita o envio padrão do formulário
+    //formularioCadastro.addEventListener('submit', async function(event) {
+    //event.preventDefault(); // Evita o envio padrão do formulário
 
     const dadosNotificar = {
         nome: document.getElementById('nome').value,
@@ -74,7 +74,7 @@ async function addNotificar(){
       })
         .then((response) => response.json())
         .then((json) => console.log(json));
-    });
+    //});
 
 }
 

@@ -12,12 +12,11 @@ template.innerHTML = `
                     <option value = "CRC">₡ CRC</option>
                 </select>
                 <ul id = "geral">
+                        <a href="/#" >HOME</a>
                         <a href="/pecas.html" >Peças</a>
                         <a href="/cadastroOrcamento.html">Orçamento</a>
                         <a href="/cadastroFatura.html">Fatura</a>
                         <a href="/cadastroCotacao.html">Cotação</a>
-                        <a href="/cadastroCotaPagamento.html">Condição de Pagamento</a>
-                        <a href="/cadastroNotificar.html">Notificação</a>
                         <a href="/cadastroPedidoCompra.html">Pedido de Compra</a>
                         <a href="/cadastroPacotes.html">Packing List</a>
                         <a href="/cadastroEstoque.html">Estoque</a>                

@@ -22,7 +22,7 @@ async function carregarDados() {
         urlA = await carregarUrl()
         urlAPI = urlA + "/orcamentos/"
         urlCondicao = urlA + "/condicao/"+ localStorage.orcamentoId + "/";
-        const resposta = await fetch(urlAPI, {
+        /*const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
               "Content-type": "application/json; charset=UTF-8",
@@ -31,7 +31,7 @@ async function carregarDados() {
           });
         const dadosJSON = await resposta.json();
         //popularTabela(dadosJSON); 
-        popularDropDownOrcamento(dadosJSON);
+        popularDropDownOrcamento(dadosJSON);*/
 
         const respostaCondicao = await fetch(urlCondicao, {
           method: "GET",
