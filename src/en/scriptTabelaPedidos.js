@@ -267,7 +267,7 @@ function popularTabelaCliente1(dados){
     const colunaCodigo = document.createElement("td");
    
     colunaDataEmissao.textContent = "DATE OF ISSUE";
-    colunaDataValidade.textContent = "DATA VALIDADE";
+    colunaDataValidade.textContent = "EXPIRATION DATE";
     colunaTipoEntrega.textContent = "INCOTERM";
     colunaFrete.textContent = "FREIGHT";
     colunaResponsavel.textContent = "RESPONSIBLE";
