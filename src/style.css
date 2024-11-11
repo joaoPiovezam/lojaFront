@@ -274,3 +274,7 @@ select#dropDownMoeda option[value="BRL"]   { background-image:url(br_flag.png); 
         border-radius: 3px;
         box-sizing: border-box;
 }
+
+#bandeira{
+    width: 30px;
+}

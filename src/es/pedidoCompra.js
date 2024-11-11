@@ -5,7 +5,7 @@ if (localStorage.idFornececedor == ""){
 }
 
 async function  carregarUrl(){
-    const urlA = await fetch('./rotaBack.json')
+    const urlA = await fetch('../rotaBack.json')
     dados = await urlA.json()
     return dados.API_URL
   }
@@ -28,8 +28,7 @@ var pesoTotal = 0.0;
 var volumeTotal = 0.0;
 
 async function carregarDados() {
-    loadScript("header.js");
-    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
+    loadScript("../header.js");
     urlA = await carregarUrl()
     urlAPI =  urlA + "/pedidoCompra/"+ localStorage.orcamentoId +"/"+ idFornececedor;
     urlFornecedor =  urlA + "/fornecedor/";
@@ -190,9 +189,9 @@ function popularTabelaCliente1(dados){
     const colunaEmail = document.createElement("td");
    
     colunacpfCnpj.textContent = "CNPJ:";
-    colunanomeFornecedor.textContent = "FORNECEDOR:";
-    colunaTelefone.textContent = "TELEFONE:";
-    colunaEmail.textContent = "EMAIL:";
+    colunanomeFornecedor.textContent = "PROVEDOR:";
+    colunaTelefone.textContent = "TELFONÓ:";
+    colunaEmail.textContent = "CORREO ELECTRÓNICO:";
 
     linha.appendChild(colunacpfCnpj);
     linha.appendChild(colunanomeFornecedor);
@@ -233,9 +232,9 @@ function popularTabelaCliente2(dados){
 
     colunaEndereco.colSpan = 2
 
-    colunaCep.textContent = "CEP:";
-    colunaEndereco.textContent = "ENDEREÇO:";
-    colunaCidade.textContent = "CIDADE:";
+    colunaCep.textContent = "CÓDIGO POSTAL:";
+    colunaEndereco.textContent = "DIRECCIÓN:";
+    colunaCidade.textContent = "CIUDAD:";
 
     linha.appendChild(colunaCep);
     linha.appendChild(colunaEndereco);
@@ -354,13 +353,13 @@ async function popularTabelaPedidos(dados){
     colunaDescricao.setAttribute('width', '188px');
     
 
-    colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
-    colunaDescricao.textContent = "PRODUTOS";
-    colunaQuantidade.textContent = "QTDE.";
+    colunaItem.textContent = "ÍTEM";
+    colunaCodigo.textContent = "CÓDIGO";
+    colunaDescricao.textContent = "PRODUCTOS";
+    colunaQuantidade.textContent = "CANT.";
     //colunaDataEntrega.textContent = "ENTREGA";
-    colulaPrecoUnit.textContent = "PREÇO UN.";
-    colunaPreco.textContent = 'PREÇO';
+    colulaPrecoUnit.textContent = "PRECIO UN.";
+    colunaPreco.textContent = 'PRECIO';
     //colunaVolume.textContent = 'VOLUME';
     colunaPeso.textContent = 'PESO';
     colunaNcm.textContent = 'NCM';
@@ -425,7 +424,7 @@ async function popularTabelaPedidos(dados){
       const totalOrcado = document.getElementById("total-orcado");
       const totalPeso = document.getElementById("total-peso");
       
-      totalOrcado.append('PREÇO TOTAL  = ');
+      totalOrcado.append('PRECIO TOTAL  = ');
       totalOrcado.append(await formatarPreco(precoTotal));
 
       /*totalVolume.append('VOLUME TOTAL = ');
@@ -447,21 +446,21 @@ function popularTabelaPedidosCompra(dados){
     const frete = document.getElementById("frete");
 
 
-    vencimento.append("VENCIMENTOS:    ");
+    vencimento.append("EXPIRA:    ");
     vencimento.append(dados.results[0].vencimento);
 
-    operacaoFiscal.append('OPERAÇÂO FISCAL:    ');
+    operacaoFiscal.append('OPERACIÓN FISCAL:    ');
     operacaoFiscal.append(dados.results[0].operacaoFiscal);
 
     comprador.append('COMPRADOR: ');
     comprador.append(dados.results[0].comprador);
 
-    transportadora.append('TRASPORTADORA: ');
+    transportadora.append('EMPRESA DE TRANSPORTE: ');
     transportadora.append(dados.results[0].transportadora.nome);
 
-    transportadoraFone.append("FONE(Transportadora): ");
+    transportadoraFone.append("TELÉFONO(Transportadora): ");
     transportadoraFone.append(dados.results[0].transportadora.telefone);
 
-    frete.append("FRETE: ");
+    frete.append("ENVÍO: ");
     frete.append(dados.results[0].frete);
 }

@@ -1,10 +1,7 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
-
-
-
-            <div class="navbar" id="navbar">
+            <div class="navbar" id="navbar"> 
                 <select onchange = "atualizarMoeda()" id = 'dropDownMoeda'>
                     <option value = "BRL">R$ BRL</option>
                     <option value = "USD">US$ USD</option>
@@ -13,7 +10,7 @@ template.innerHTML = `
                 </select>
                 <ul id = "geral">
                         <a href="/#" >HOME</a>
-                        <a href="/pecas.html" >Peças</a>
+                        <a href="/pecas.html" >Peça</a>
                         <a href="/cadastroOrcamento.html">Orçamento</a>
                         <a href="/cadastroFatura.html">Fatura</a>
                         <a href="/cadastroCotacao.html">Cotação</a>
@@ -27,14 +24,19 @@ template.innerHTML = `
                     <a href="/pecas.html" >Catálogo</a>
                     <a href="/meusPedidos.html">Meus Pedidos</a>
                 </ul>
-                            <div class="login-link"  id='login'>
+
+            <div class="login-link"  id='login'>
                 <button id='login' type="button" style="border-radius: 10px;" onclick="logIn()"><i class="fas fa-user" ></i> Fazer Login</button>
             </div>
             
             <div class="login-link" id='logout'>
                 <button id='logout' type="button" style="border-radius: 10px;" onclick="logOut()"><i class="fas fa-user" ></i>Sair</button>
             </div>
+
+            
+
             </div>
+                     
             
 `;
 

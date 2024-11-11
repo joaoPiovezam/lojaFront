@@ -6,7 +6,7 @@ var tipo = document.getElementById("pagina");
 var urlAPI = "";
 
 async function  carregarUrl(){
-    const urlA = await fetch('./rotaBack.json')
+    const urlA = await fetch('../rotaBack.json')
     dados = await urlA.json()
     return dados.API_URL
   }
@@ -30,8 +30,7 @@ function proximaPagina(){
 }
 
 async function carregarDados() {
-    loadScript("header.js");
-    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
+    loadScript("../header.js");
     urlA = await carregarUrl()
         urlAPI = urlA + "/orcamento/" + localStorage.email + "/?page=" + pagina;
         const resposta = await fetch(urlAPI, {
@@ -86,18 +85,18 @@ function carregarTabela(){
     
     linha.id = "linhas";
 
-    colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
+    colunaItem.textContent = "ÍTEM";
+    colunaCodigo.textContent = "CÓDIGO";
     colunaDataEmissao .textContent = "Data Emissão";
-    colunaDataValidade.textContent = "Data Validade";
+    colunaDataValidade.textContent = "Data Ecpiración";
     colunaTipoEntrega.textContent = "Tipo Entrega";
-    colunaFrete.textContent = "Frete";
+    colunaFrete.textContent = "Transporte";
     colunaMarcasEmbarque.textContent = "Marcas Embarque";
-    colunaNomeEntrega.textContent = "Nome Entrega";
+    colunaNomeEntrega.textContent = "Nombre Entrega";
     colunaCnpjEntrega.textContent = "Cnpj Entrega";
-    colunaEnderecoEntrega.textContent = "Endereco Entrega";
-    colunaCidadeEntrega.textContent = "Cidade Entrega";
-    colunaPaisEntrega.textContent = "Pais Entrega";
+    colunaEnderecoEntrega.textContent = "Dirección de Entrega";
+    colunaCidadeEntrega.textContent = "Ciudad Entrega";
+    colunaPaisEntrega.textContent = "País Entrega";
 
     linha.appendChild(colunaItem);
     linha.appendChild(colunaCodigo);

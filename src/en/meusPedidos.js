@@ -6,7 +6,7 @@ var tipo = document.getElementById("pagina");
 var urlAPI = "";
 
 async function  carregarUrl(){
-    const urlA = await fetch('./rotaBack.json')
+    const urlA = await fetch('../rotaBack.json')
     dados = await urlA.json()
     return dados.API_URL
   }
@@ -30,8 +30,7 @@ function proximaPagina(){
 }
 
 async function carregarDados() {
-    loadScript("header.js");
-    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
+    loadScript("../header.js");
     urlA = await carregarUrl()
         urlAPI = urlA + "/orcamento/" + localStorage.email + "/?page=" + pagina;
         const resposta = await fetch(urlAPI, {
@@ -87,17 +86,17 @@ function carregarTabela(){
     linha.id = "linhas";
 
     colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
-    colunaDataEmissao .textContent = "Data Emissão";
-    colunaDataValidade.textContent = "Data Validade";
-    colunaTipoEntrega.textContent = "Tipo Entrega";
-    colunaFrete.textContent = "Frete";
-    colunaMarcasEmbarque.textContent = "Marcas Embarque";
-    colunaNomeEntrega.textContent = "Nome Entrega";
+    colunaCodigo.textContent = "CODE";
+    colunaDataEmissao .textContent = "Date of Issue";
+    colunaDataValidade.textContent = "Expiration Date";
+    colunaTipoEntrega.textContent = "Delivery Type";
+    colunaFrete.textContent = "Freight";
+    colunaMarcasEmbarque.textContent = "Shipping Marks";
+    colunaNomeEntrega.textContent = "Name Delivery";
     colunaCnpjEntrega.textContent = "Cnpj Entrega";
-    colunaEnderecoEntrega.textContent = "Endereco Entrega";
-    colunaCidadeEntrega.textContent = "Cidade Entrega";
-    colunaPaisEntrega.textContent = "Pais Entrega";
+    colunaEnderecoEntrega.textContent = "Delivery Address";
+    colunaCidadeEntrega.textContent = "Delivery City";
+    colunaPaisEntrega.textContent = "Delivery Country";
 
     linha.appendChild(colunaItem);
     linha.appendChild(colunaCodigo);
@@ -147,7 +146,7 @@ function popularTabela(dados){
 
         colunaBtnVizualizar.append(btnVizualizar);
 
-        btnVizualizar.textContent = "Ver Pedido";
+        btnVizualizar.textContent = "View Order";
 
         btnVizualizar.id = item.id;
 

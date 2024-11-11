@@ -62,7 +62,7 @@ if(localStorage.idFornececedor == null){
 }
 
 async function carregarDados() {
-    loadScript("header.js");
+    await loadScript("header.js");
     urlA = await carregarUrl() 
     urlPecaFornecedor = urlA + "/pecaFornecedor/" + localStorage.idPeca + "/" + localStorage.idFornececedor + "/?ordering=preco&page=" + pagina + "&search=" + str;
     urlPedidos = urlA + "/orcamento/"+ localStorage.orcamentoId +"/pedidos/0/0/";

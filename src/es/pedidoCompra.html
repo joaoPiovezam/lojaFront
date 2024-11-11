@@ -2,24 +2,24 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Fatura</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Orden de Compra</title>
+    <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
     <header id="header"></header>
     <div class="container">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 
-        <button onclick="gerarPDF()">Gerar PDF</button>
-        <a href="/src/es/fatura.html"><img id = "bandeira" src="./Bandera_de_España.png" alt=""></a>
-        <a href="/src/en/fatura.html"><img id = "bandeira" src="./Flag_of_Great_Britain.png" alt=""></a>
+        <button onclick="gerarPDF()">Generar PDF</button>
+        <a href="/src/pedidoCompra.html"><img id = "bandeira" src="../br_flag.png" alt=""></a>
+        <a href="/src/en/pedidoCompra.html"><img id = "bandeira" src="../Flag_of_Great_Britain.png" alt=""></a>
 
         <script>
             function gerarPDF() {
-            var element = document.getElementById('fatura');
+            var element = document.getElementById('orcamento');
             var options = {
                 margin: 10,
-                filename: 'meu-pdf.pdf',
+                filename: 'factura.pdf',
                 image: {
                 type: 'jpeg',
                 quality: 1
@@ -32,8 +32,11 @@
             html2pdf().from(element).set(options).save();
             }
         </script>
-        <div class = 'contanier' id = 'fatura'>
-            <input hidden id="pagina" value="fatura">
+        <select id="dropDownFornecedor" onchange="atualizarFonecedor(this.value)">
+            <option value="">Selecione o Fornecedor</option>
+        </select>
+        <div class = 'contanier' id = 'orcamento'>
+            <header>
                 <table id="cabecalho">
                     <td>
                         <img src="logo.png" alt="" width="100px">
@@ -53,20 +56,31 @@
                         <div id="hora"></div>
                     </td>
                 </table>            
-                <table id="tabela-cliente"></table>
-                <table id="tabela-destinatario"></table>
-                <table id="tabela-notificar"></table>
-                <table id="tabela-condicao"></table>
-                <table id="tabela-marca-embarque"></table>
-                <table id="tabela-peso"></table>
-                <table id="notificar"></table>
-                <table id="tabela-pedidos"></table>
-            
-            <script src="scriptTabelaPedidos.js"></script>
-                <table id="total-orcado"></table>
-                <div id="total-volume"></div>
-                <div id="total-peso"></div>
+            </header>
+            <table id="tabela-cliente"></table>
+            <table id="tabela-pedidos"></table>
+            <script src="pedidoCompra.js"></script>
+            <table>
+                <tr>
+                    <td id="opercaoFiscal"></td>
+                    <td id="vencimento"></td>
+                </tr>
+                <tr>
+                    <td id="total-orcado"></td>
+                    <td id="total-peso"></td>
+                </tr>
+                <tr>
+                    <td id="comprador"></td>
+                    <td id="frete"></td>
+                </tr>
+                <tr>
+                    <td id="transportadora"></td>
+                    <td id="traportadoraFone"></td>
+                </tr>
+
+            </table>
         </div>
+
         <script>
             function addZero(i) {
                 if (i < 10) {
@@ -90,7 +104,7 @@
 
             displayDateTime();
         </script>
-</div>
+    </div>
 
 </body>
 </html>

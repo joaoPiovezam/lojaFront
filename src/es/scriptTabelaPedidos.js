@@ -20,7 +20,7 @@ if (localStorage.volume == null){
 }
 
 async function  carregarUrl(){
-    const urlA = await fetch('./rotaBack.json')
+    const urlA = await fetch('../rotaBack.json')
     dados = await urlA.json()
     return dados.API_URL
   }
@@ -39,8 +39,7 @@ var volumeBruto = 0.0;
 var tipo = document.getElementById('pagina');
 
 async function carregarDados() {
-    loadScript("header.js");
-    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
+    loadScript("../header.js");
     urlA = await carregarUrl()
 
     urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/"+ volume + "/" + pecaCodigo + "/";
@@ -267,12 +266,12 @@ function popularTabelaCliente1(dados){
     const colunaResponsavel = document.createElement("td");
     const colunaCodigo = document.createElement("td");
    
-    colunaDataEmissao.textContent = "DATA DE EMISSÃO";
-    colunaDataValidade.textContent = "DATA VALIDADE";
+    colunaDataEmissao.textContent = "FECHA DE EMISIÓN";
+    colunaDataValidade.textContent = "FECHA DE CADUCIDAD";
     colunaTipoEntrega.textContent = "INCOTERM";
-    colunaFrete.textContent = "FRETE";
-    colunaResponsavel.textContent = "RESPONSÁVEL";
-    colunaCodigo.textContent = "ORÇAMENTO";
+    colunaFrete.textContent = "TRANSPORTE";
+    colunaResponsavel.textContent = "RESPONSABLE";
+    colunaCodigo.textContent = "PRESUPUESTO";
 
     linha.appendChild(colunaDataEmissao);
     linha.appendChild(colunaDataValidade);
@@ -319,7 +318,7 @@ function popularTabelaCliente2(dados){
     const colunaNome = document.createElement("td");
     colunaNome.setAttribute('colspan', '6');
     
-    colunaNome.textContent = "NOME CLIENTE";
+    colunaNome.textContent = "NOMBRE DEL CLIENTE";
 
     linha.appendChild(colunaNome);
 
@@ -348,9 +347,9 @@ function popularTabelaCliente3(dados){
     const colunaPais = document.createElement("td");
     colunaEndereco.setAttribute('colspan', '3');
     
-    colunaEndereco.textContent = "ENDERECO";
-    colunaCEP.textContent = "POSTAL CODE";
-    colunaCidade.textContent = "CIDADE";
+    colunaEndereco.textContent = "DIRECCIÓN";
+    colunaCEP.textContent = "CÓDIGO POSTAL";
+    colunaCidade.textContent = "CIUDAD";
     colunaPais.textContent = "PAÍS";
 
     linha.appendChild(colunaEndereco);
@@ -390,8 +389,8 @@ function popularTabelaCliente4(dados){
     const colunaEmail = document.createElement("td");
     colunaEmail.setAttribute('colspan', '5');
 
-    colunaTelefone.textContent = "TELEFONE";
-    colunaEmail.textContent = "EMAIL";
+    colunaTelefone.textContent = "TELÉFONO";
+    colunaEmail.textContent = "CORREO ELECTRÓNICO";
 
     linha.appendChild(colunaTelefone);
     linha.appendChild(colunaEmail);
@@ -417,7 +416,7 @@ function popularTabelaDestinatario(dados){
 
     const linhaDestinatario = document.createElement("td");
 
-    linhaDestinatario.textContent = "CONSIGNEE";
+    linhaDestinatario.textContent = "CONSIGNATARIO";
     linhaDestinatario.colSpan = 5;
     linhaDestinatario.id = "linhaDestinatario";
 
@@ -433,10 +432,10 @@ function popularTabelaDestinatario(dados){
     const colunaCidade = document.createElement("td");
     const colunaPais = document.createElement("td");
 
-    colunaNome.textContent = "Nome";
+    colunaNome.textContent = "Nombre";
     colunaCnpj.textContent = "CNPJ";
-    colunaEndereco.textContent = "Endereço";
-    colunaCidade.textContent = "Cidade";
+    colunaEndereco.textContent = "Dirección";
+    colunaCidade.textContent = "Ciudad";
     colunaPais.textContent = "País";
 
     linha.appendChild(colunaNome);
@@ -485,7 +484,7 @@ function popularMarcaEmbarque(dados){
 
     linha.id = "marca-embarque"
 
-    linha.textContent = "Marcas de Embarque:";
+    linha.textContent = "Marcas de Envio:";
     marca.textContent = dados.results[0].orcamento.marcas_embarque
 
     tabela.append(linha)
@@ -507,9 +506,9 @@ function popularTabelaNotificar(dados){
     const colunaTelefone = document.createElement("td");
     const colunaEmail = document.createElement("td");
 
-    colunaNome.textContent = "NOME:";
-    colunaTelefone.textContent = "TELEFONE:";
-    colunaEmail.textContent = "EMAIL:";
+    colunaNome.textContent = "NOMBRE:";
+    colunaTelefone.textContent = "TELÉFONO:";
+    colunaEmail.textContent = "CORREO ELECTRÓNICO:";
 
     linha.appendChild(colunaNome);
     linha.appendChild(colunaTelefone);
@@ -538,7 +537,7 @@ async function popularTabelaCondicao(dados){
     const tabela = document.getElementById("tabela-condicao");
 
     const linhaCondicao = document.createElement("td");
-    linhaCondicao.textContent = "CONDIÇÕES DE PAGAMENTO";
+    linhaCondicao.textContent = "CONDICIONES DE PAGO";
     linhaCondicao.colSpan = 5;
     linhaCondicao.id = "linhaCondicao";
     tabela.appendChild(linhaCondicao);
@@ -549,9 +548,9 @@ async function popularTabelaCondicao(dados){
     const colunaData = document.createElement("td");
     const colunaTotal = document.createElement("td");
 
-    colunaCondicao.textContent = "CONDIÇÕES DE PAGAMENTO";
+    colunaCondicao.textContent = "CONDICIONES DE PAGO";
     colunaPorcetagem.textContent = "%";
-    colunaData.textContent = "DATA";
+    colunaData.textContent = "FECHA";
     colunaTotal.textContent = "TOTAL";
 
     linha.appendChild(colunaCondicao);
@@ -607,10 +606,10 @@ function popularTabelaPeso(dados, qtdPacotes){
     const colunaVolume = document.createElement("td");
     const colunaEntrega = document.createElement("td");
     
-    colunaQtd.textContent = "Qtd. Pacotes"
-    colunaPesoLiq.textContent = "PESO LIQ."
+    colunaQtd.textContent = "Qtd. Paquetes"
+    colunaPesoLiq.textContent = "PESO NETO"
     colunaPesoBruto.textContent = "PESO BRUTO";
-    colunaVolume.textContent = "VOLUME";
+    colunaVolume.textContent = "VOLUMEN";
     colunaEntrega.textContent = "ENTREGA";
 
     linha.appendChild(colunaQtd);
@@ -647,7 +646,7 @@ async function popularTabelaPedidos(dados, dadosPacote){
     const tabela = document.getElementById("tabela-pedidos");
 
     const linhaPecas = document.createElement("td");
-    linhaPecas.textContent = "PEÇAS";
+    linhaPecas.textContent = "PARTES";
     linhaPecas.colSpan = 10;
     linhaPecas.id = "linhaPecas";
     tabela.appendChild(linhaPecas);
@@ -661,10 +660,10 @@ async function popularTabelaPedidos(dados, dadosPacote){
     colunaItem.setAttribute('width' , '10px')  
     colunaDescricao.setAttribute('width', '50px');    
 
-    colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
-    colunaDescricao.textContent = "PRODUTOS";
-    colunaQuantidade.textContent = "QTDE.";    
+    colunaItem.textContent = "ÍTEM";
+    colunaCodigo.textContent = "CÓDIGO";
+    colunaDescricao.textContent = "PRODUCTOS";
+    colunaQuantidade.textContent = "CANT.";    
 
     linha.appendChild(colunaItem);
     if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
@@ -702,8 +701,8 @@ async function popularTabelaPedidos(dados, dadosPacote){
         const colunaPreco = document.createElement("td");
         const colunaNcm = document.createElement("td");
 
-        colulaPrecoUnit.textContent = "PREÇO UN.";
-        colunaPreco.textContent = 'PREÇO TOTAL';    
+        colulaPrecoUnit.textContent = "PRECIO UN.";
+        colunaPreco.textContent = 'PRECIO TOTAL';    
         colunaNcm.textContent = 'NCM';
 
         linha.appendChild(colunaNcm);
@@ -853,7 +852,7 @@ async function popularTabelaPedidos(dados, dadosPacote){
       const totalPeso = document.getElementById("total-peso");
       const totalVolume = document.getElementById("total-volume");
       
-      totalOrcado.append('PREÇO TOTAL  = ');
+      totalOrcado.append('PRECIO TOTAL  = ');
       totalOrcado.append(await formatarPreco(precoTotal));
       
       if (tipo.value != "fatura"){ 
@@ -895,7 +894,7 @@ function popularTabelaPacotes(dados){
     const linha = document.createElement("tr");
 
     const linhaPecas = document.createElement("td");
-    linhaPecas.textContent = "PACOTES";
+    linhaPecas.textContent = "PAQUETES";
     linhaPecas.colSpan = 10;
     linhaPecas.id = "linhaPecas";
     tabela.appendChild(linhaPecas);
@@ -908,10 +907,10 @@ function popularTabelaPacotes(dados){
     const colunaVol = document.createElement("td");
     const colunaPeso = document.createElement("td");
 
-    colunaVolume.textContent = "VOLUME";
-    colunaPacote.textContent = "PACOTE";
-    colunaLargura.textContent = "LARGURA";
-    colunaComprimento.textContent = "COMPRIMENTO";
+    colunaVolume.textContent = "VOLUMEN";
+    colunaPacote.textContent = "PAQUETE";
+    colunaLargura.textContent = "ANCHO";
+    colunaComprimento.textContent = "LONGITUD";
     colunaAltura.textContent = "ALTURA";
     colunaVol.textContent = "Vol (m³)";
     colunaPeso.textContent = "PESO BRUTO(Kg)";

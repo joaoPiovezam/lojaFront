@@ -16,7 +16,7 @@ if (localStorage.pecaCodigo == null){
 var precoTotal = 0.0;
 
 async function  carregarUrl(){
-    const urlA = await fetch('./rotaBack.json')
+    const urlA = await fetch('../rotaBack.json')
     dados = await urlA.json()
     return dados.API_URL
   }
@@ -25,8 +25,7 @@ var urlAPI = "";
 var urlPacote = "";
 
 async function carregarDados() {
-    loadScript("header.js");
-    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
+    loadScript("../header.js");
     urlA = await carregarUrl()
     urlAPI =  urlA + "/orcamento/" + orcamentoId + "/pedidos/0/0/?search="
     urlPacote =  urlA + "/packOrcamento/" + orcamentoId;
@@ -140,7 +139,7 @@ async function popularTabelaPedidos(dados, dadosPacote){
     const tabela = document.getElementById("tabela");
 
     const linhaPecas = document.createElement("td");
-    linhaPecas.textContent = "PEÇAS";
+    linhaPecas.textContent = "PARTS";
     linhaPecas.colSpan = 10;
     linhaPecas.id = "linhaPecas";
     tabela.appendChild(linhaPecas);
@@ -155,9 +154,9 @@ async function popularTabelaPedidos(dados, dadosPacote){
     colunaDescricao.setAttribute('width', '50px');    
 
     colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
-    colunaDescricao.textContent = "PRODUTOS";
-    colunaQuantidade.textContent = "QTDE.";    
+    colunaCodigo.textContent = "CODE";
+    colunaDescricao.textContent = "PRODUCTS";
+    colunaQuantidade.textContent = "QTY.";    
 
     linha.appendChild(colunaItem);
 
@@ -169,15 +168,15 @@ async function popularTabelaPedidos(dados, dadosPacote){
 
 
         const colunaDataEntrega = document.createElement("td");
-        colunaDataEntrega.textContent = "ENTREGA";
+        colunaDataEntrega.textContent = "DELIVERY";
         linha.appendChild(colunaDataEntrega);
     
 
         const colulaPrecoUnit = document.createElement("td");
         const colunaPreco = document.createElement("td");
 
-        colulaPrecoUnit.textContent = "PREÇO UN.";
-        colunaPreco.textContent = 'PREÇO TOTAL';    
+        colulaPrecoUnit.textContent = "UNIT PRICE";
+        colunaPreco.textContent = 'TOTAL PRICE';    
 
         linha.appendChild(colulaPrecoUnit);
         linha.appendChild(colunaPreco); 

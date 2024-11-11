@@ -19,6 +19,7 @@ function myFunction() {
 }
 async function carregarDados() {
     loadScript("header.js");
+    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
     /*login = document.getElementById('login');
     logout = document.getElementById('logout');
     if(localStorage.email == 'null'){

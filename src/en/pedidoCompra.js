@@ -5,7 +5,7 @@ if (localStorage.idFornececedor == ""){
 }
 
 async function  carregarUrl(){
-    const urlA = await fetch('./rotaBack.json')
+    const urlA = await fetch('../rotaBack.json')
     dados = await urlA.json()
     return dados.API_URL
   }
@@ -28,8 +28,7 @@ var pesoTotal = 0.0;
 var volumeTotal = 0.0;
 
 async function carregarDados() {
-    loadScript("header.js");
-    loadScript("//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit")
+    loadScript("../header.js");
     urlA = await carregarUrl()
     urlAPI =  urlA + "/pedidoCompra/"+ localStorage.orcamentoId +"/"+ idFornececedor;
     urlFornecedor =  urlA + "/fornecedor/";
@@ -190,9 +189,9 @@ function popularTabelaCliente1(dados){
     const colunaEmail = document.createElement("td");
    
     colunacpfCnpj.textContent = "CNPJ:";
-    colunanomeFornecedor.textContent = "FORNECEDOR:";
-    colunaTelefone.textContent = "TELEFONE:";
-    colunaEmail.textContent = "EMAIL:";
+    colunanomeFornecedor.textContent = "DEALER:";
+    colunaTelefone.textContent = "TELEPHONE:";
+    colunaEmail.textContent = "E-MAIL:";
 
     linha.appendChild(colunacpfCnpj);
     linha.appendChild(colunanomeFornecedor);
@@ -233,9 +232,9 @@ function popularTabelaCliente2(dados){
 
     colunaEndereco.colSpan = 2
 
-    colunaCep.textContent = "CEP:";
-    colunaEndereco.textContent = "ENDEREÇO:";
-    colunaCidade.textContent = "CIDADE:";
+    colunaCep.textContent = "ZIP Code:";
+    colunaEndereco.textContent = "ADDRESS:";
+    colunaCidade.textContent = "CITY:";
 
     linha.appendChild(colunaCep);
     linha.appendChild(colunaEndereco);
@@ -273,10 +272,10 @@ function popularTabelaCliente3(dados){
     const colunaPais = document.createElement("td");
     colunaEndereco.setAttribute('colspan', '2');
     
-    colunaEndereco.textContent = "ENDERECO";
-    colunaCEP.textContent = "POSTAL CODE";
-    colunaCidade.textContent = "CIDADE";
-    colunaPais.textContent = "PAÍS";
+    colunaEndereco.textContent = "ADDRESS";
+    colunaCEP.textContent = "ZIP Code";
+    colunaCidade.textContent = "CITY";
+    colunaPais.textContent = "COUNTRY";
 
     linha.appendChild(colunaEndereco);
     linha.appendChild(colunaCEP);
@@ -315,8 +314,8 @@ function popularTabelaCliente4(dados){
     const colunaEmail = document.createElement("td");
     colunaEmail.setAttribute('colspan', '4');
 
-    colunaTelefone.textContent = "TELEFONE";
-    colunaEmail.textContent = "EMAIL";
+    colunaTelefone.textContent = "TELEPHONE";
+    colunaEmail.textContent = "E-MAIL";
 
     linha.appendChild(colunaTelefone);
     linha.appendChild(colunaEmail);
@@ -355,14 +354,14 @@ async function popularTabelaPedidos(dados){
     
 
     colunaItem.textContent = "ITEM";
-    colunaCodigo.textContent = "CODIGO";
-    colunaDescricao.textContent = "PRODUTOS";
-    colunaQuantidade.textContent = "QTDE.";
+    colunaCodigo.textContent = "CODE";
+    colunaDescricao.textContent = "PRODUCTS";
+    colunaQuantidade.textContent = "QTY.";
     //colunaDataEntrega.textContent = "ENTREGA";
-    colulaPrecoUnit.textContent = "PREÇO UN.";
-    colunaPreco.textContent = 'PREÇO';
+    colulaPrecoUnit.textContent = "UNIT PRICE";
+    colunaPreco.textContent = 'PRICE';
     //colunaVolume.textContent = 'VOLUME';
-    colunaPeso.textContent = 'PESO';
+    colunaPeso.textContent = 'WEIGHT';
     colunaNcm.textContent = 'NCM';
 
     linha.appendChild(colunaItem);
@@ -425,7 +424,7 @@ async function popularTabelaPedidos(dados){
       const totalOrcado = document.getElementById("total-orcado");
       const totalPeso = document.getElementById("total-peso");
       
-      totalOrcado.append('PREÇO TOTAL  = ');
+      totalOrcado.append('TOTAL PRICE  = ');
       totalOrcado.append(await formatarPreco(precoTotal));
 
       /*totalVolume.append('VOLUME TOTAL = ');
@@ -433,7 +432,7 @@ async function popularTabelaPedidos(dados){
 
 
 
-      totalPeso.append('PESO TOTAL     = ');
+      totalPeso.append('TOTAL WEIGHT    = ');
       totalPeso.append(await formatarPeso(pesoTotal)); 
 
 }
@@ -447,21 +446,21 @@ function popularTabelaPedidosCompra(dados){
     const frete = document.getElementById("frete");
 
 
-    vencimento.append("VENCIMENTOS:    ");
+    vencimento.append("WAGES:    ");
     vencimento.append(dados.results[0].vencimento);
 
-    operacaoFiscal.append('OPERAÇÂO FISCAL:    ');
+    operacaoFiscal.append('TAX OPERATION:    ');
     operacaoFiscal.append(dados.results[0].operacaoFiscal);
 
-    comprador.append('COMPRADOR: ');
+    comprador.append('BUYER: ');
     comprador.append(dados.results[0].comprador);
 
-    transportadora.append('TRASPORTADORA: ');
+    transportadora.append('TRANSPORT COMPANY: ');
     transportadora.append(dados.results[0].transportadora.nome);
 
-    transportadoraFone.append("FONE(Transportadora): ");
+    transportadoraFone.append("PHONE: ");
     transportadoraFone.append(dados.results[0].transportadora.telefone);
 
-    frete.append("FRETE: ");
+    frete.append("SHIPPING: ");
     frete.append(dados.results[0].frete);
 }
