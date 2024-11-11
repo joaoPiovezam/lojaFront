@@ -56,7 +56,8 @@ async function fazerLogin(){
           document.getElementById('alert').classList.remove('d-none')
         }else{
           document.getElementById('alert').classList.add('d-none');
-          location.href('/src/index.html');
+          //location.href('/src/index.html');
+          window.location.href = '/index.html';
         }
         
         
