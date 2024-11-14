@@ -762,6 +762,7 @@ async function popularTabelaPedidos(dados, dadosPacote){
     tabela.appendChild(linha);
 
     var i = 1
+    console.log(dados.result)
     for (const item of dados.results) {
         const linha = document.createElement("tr");
         const colunaItem = document.createElement("td");
@@ -771,7 +772,12 @@ async function popularTabelaPedidos(dados, dadosPacote){
 
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.peca.codigo;
-        colunaDescricao.textContent = item.peca.descricao;
+        if (item.descricao == ""){
+          colunaDescricao.textContent = item.peca.descricao;
+        }else{
+          colunaDescricao.textContent = item.descricao
+        }
+
         colunaQuantidade.textContent = item.quantidade;                 
 
         precoTotal  += item.peca.preco_venda * item.quantidade;

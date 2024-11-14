@@ -135,6 +135,7 @@ function popularTabela(dados){
     const tabela = document.getElementById("tabela-pecas");
     for (const item of dados.results) {
         const linha = document.createElement("tr");
+        const colunaBtnEditar = document.createElement("td");
         const colunaBtnVizualizar = document.createElement("td");
         const colunaBtnFatura = document.createElement("td");
         const colunaBtnPacotes = document.createElement("td");
@@ -160,21 +161,25 @@ function popularTabela(dados){
         btn.id = "preencher"
         linha.id = "linhas";
 
+        const btnEditar = document.createElement("button");
         const btnVizualizar = document.createElement("button");
         const btnFatura = document.createElement("button");
         const btnPacotes = document.createElement("button");
         const btnPedidos = document.createElement("button");
 
+        colunaBtnEditar.append(btnEditar);
         colunaBtnVizualizar.append(btnVizualizar);
         colunaBtnFatura.append(btnFatura);
         colunaBtnPacotes.append(btnPacotes);
         colunaBtnPedido.append(btnPedidos);
 
+        btnEditar.textContent = "Editar Pedidos";
         btnVizualizar.textContent = "Vizualizar Orcamento";
         btnFatura.textContent = "Vizualizar Fatura";
         btnPacotes.textContent = "Packing List";
         btnPedidos.textContent = "Pedidos de Compras";
 
+        btnEditar.id = item.id;
         btnVizualizar.id = item.id;
         btnFatura.id = item.id;
         btnPacotes.id = item.id;
@@ -188,6 +193,7 @@ function popularTabela(dados){
         var id = item.id; 
 
         btn.setAttribute("onclick", "preencherForm("+ JSON.stringify(item) +")");            
+        btnEditar.setAttribute("onclick", "editarOrcamento("+ btnEditar.id +")");            
         btnVizualizar.setAttribute("onclick", "vizualizarOrcamento("+ btnVizualizar.id +")");            
         btnAdicionar.setAttribute("onclick", "adicionarPecas("+ btnAdicionar.id +")");            
         btnFatura.setAttribute("onclick", "vizualizarFatura("+ btnFatura.id +")");            
@@ -227,6 +233,7 @@ function popularTabela(dados){
         linha.appendChild(colunaCidadeEntrega);
         linha.appendChild(colunaPaisEntrega);
         linha.appendChild(colunaCliente); 
+        linha.appendChild(colunaBtnEditar);
         linha.appendChild(colunaBtnVizualizar);
         linha.appendChild(colunaBtnFatura);       
         linha.appendChild(colunaBtnPacotes);       
@@ -434,6 +441,11 @@ function vizualizarPacotes(orcamentoId){
 function vizualizarPedidoCompra(orcamentoId){
     localStorage.orcamentoId = orcamentoId;
     window.open( '/pedidoCompra.html', '_blank').focus();
+}
+
+function editarOrcamento(orcamentoId){
+    localStorage.orcamentoId = orcamentoId;
+    window.open( '/editarPedidos.html', '_blank').focus();
 }
 
 function popularDropDown(dados){
