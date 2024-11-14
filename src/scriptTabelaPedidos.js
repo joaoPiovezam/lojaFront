@@ -846,6 +846,9 @@ async function popularTabelaPedidos(dados, dadosPacote){
                 option.id = item.id;
                 select.setAttribute("onchange","adicionarVolumePeca(" + JSON.stringify(item)  +  ",this)");
                 select.append(option);
+                if  (opcao.volume == item.volume){
+                  select.value = opcao.pacote
+                }
             } 
             linha.appendChild(colunaVolume);
         }
