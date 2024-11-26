@@ -247,7 +247,10 @@ function  formatarPeso(peso){
 carregarDados();
     
 function popularTabelaCliente1(dados){
-    console.log(dados)
+    //console.log(dados)
+
+    const cabecalho = document.getElementById("cabecalho");
+    
     const tabela = document.getElementById("tabela-cliente");
 
     const linhaComprador = document.createElement("td");
@@ -281,7 +284,7 @@ function popularTabelaCliente1(dados){
     linha.appendChild(colunaCodigo);
     
 
-    tabela.appendChild(linha);
+    cabecalho.appendChild(linha);
     
     const linha1 = document.createElement("tr");
     const colunaDataEmissao1 = document.createElement("td");
@@ -305,7 +308,7 @@ function popularTabelaCliente1(dados){
     linha1.appendChild(colunaResponsavel1);
     linha1.appendChild(colunaCodigo1);
 
-    tabela.appendChild(linha1);
+    cabecalho.appendChild(linha1);
     tabela.appendChild(linhaComprador);
 }
 
@@ -340,6 +343,7 @@ function popularTabelaCliente3(dados){
 
     const cliente = dados.results[0].cliente.client;
 
+    const linhaR = document.createElement("tr");
     const linha = document.createElement("tr");
     const colunaEndereco = document.createElement("td");
     const colunaCEP = document.createElement("td");
@@ -352,13 +356,12 @@ function popularTabelaCliente3(dados){
     colunaCidade.textContent = "CITY";
     colunaPais.textContent = "Country";
 
-    linha.appendChild(colunaEndereco);
+    linhaR.appendChild(colunaEndereco);
     linha.appendChild(colunaCEP);
     linha.appendChild(colunaCidade);
-    linha.appendChild(colunaPais);
-
-    tabela.appendChild(linha);
+    linha.appendChild(colunaPais);    
     
+    const linhaR1 = document.createElement("tr");
     const linha1 = document.createElement("tr");
     const colunaEndereco1 = document.createElement("td");
     const colunaCEP1 = document.createElement("td");
@@ -371,11 +374,14 @@ function popularTabelaCliente3(dados){
     colunaCidade1.textContent = cliente.cidade;
     colunaPais1.textContent = cliente.pais;
 
-    linha1.appendChild(colunaEndereco1);
+    linhaR1.appendChild(colunaEndereco1);
     linha1.appendChild(colunaCEP1);
     linha1.appendChild(colunaCidade1);
     linha1.appendChild(colunaPais1);
 
+    tabela.appendChild(linhaR);
+    tabela.appendChild(linhaR1);
+    tabela.appendChild(linha);
     tabela.appendChild(linha1);
 }
 
@@ -417,14 +423,17 @@ function popularTabelaDestinatario(dados){
     const linhaDestinatario = document.createElement("td");
 
     linhaDestinatario.textContent = "CONSIGNEE";
-    linhaDestinatario.colSpan = 5;
+    linhaDestinatario.colSpan = 3;
     linhaDestinatario.id = "linhaDestinatario";
 
     tabela.append(linhaDestinatario)
 
     const destinatario = dados.results[0].orcamento;
 
-    const linha = document.createElement("tr");
+    const linhaN = document.createElement("tr");
+    const linhaC = document.createElement("tr");
+    const linhaE = document.createElement("tr");
+    const linhaE2 = document.createElement("tr");
 
     const colunaNome = document.createElement("td");
     const colunaCnpj = document.createElement("td");
@@ -438,13 +447,20 @@ function popularTabelaDestinatario(dados){
     colunaCidade.textContent = "CITY";
     colunaPais.textContent = "Country";
 
-    linha.appendChild(colunaNome);
-    linha.appendChild(colunaCnpj);
-    linha.appendChild(colunaEndereco);
-    linha.appendChild(colunaCidade);
-    linha.appendChild(colunaPais);
+    colunaNome.colSpan = 3;
+    colunaCnpj.colSpan = 3;
+    colunaEndereco.colSpan = 3;
 
-    const linha1 = document.createElement("tr");
+    linhaN.appendChild(colunaNome);
+    linhaE.appendChild(colunaEndereco);
+    linhaE2.appendChild(colunaCidade);
+    linhaE2.appendChild(colunaPais);
+    linhaC.appendChild(colunaCnpj);
+
+    const linhaN1 = document.createElement("tr");
+    const linhaC1 = document.createElement("tr");
+    const linhaE1 = document.createElement("tr");
+    const linhaE3 = document.createElement("tr");
 
     const colunaNome1 = document.createElement("td");
     const colunaCnpj1 = document.createElement("td");
@@ -452,27 +468,30 @@ function popularTabelaDestinatario(dados){
     const colunaCidade1 = document.createElement("td");
     const colunaPais1 = document.createElement("td");
 
+    colunaNome1.colSpan = 3;
+    colunaCnpj1.colSpan = 3;
+    colunaEndereco1.colSpan = 3;
+
     colunaNome1.textContent = destinatario.nome_entrega;
     colunaCnpj1.textContent = destinatario.cnpj_entrega;
     colunaEndereco1.textContent = destinatario.endereco_entrega;
     colunaCidade1.textContent = destinatario.cidade_entrega;
     colunaPais1.textContent = destinatario.pais_entrega;
 
-    linha1.appendChild(colunaNome1);
-    linha1.appendChild(colunaCnpj1);
-    linha1.appendChild(colunaEndereco1);
-    linha1.appendChild(colunaCidade1);
-    linha1.appendChild(colunaPais1);
+    linhaN1.appendChild(colunaNome1);   
+    linhaE1.appendChild(colunaEndereco1);
+    linhaE3.appendChild(colunaCidade1);
+    linhaE3.appendChild(colunaPais1);
+    linhaC1.appendChild(colunaCnpj1);
 
-
-    /*nomeEntrega": "jao",
-            "cnpjEntrega": "123",
-            "enderecoEntrega": "tamioios, 262",
-            "cidadeEntrega": "ribeiraõ",
-            "paisEntrega": "brasil",*/
-
-    tabela.append(linha)
-    tabela.append(linha1)
+    tabela.append(linhaN)
+    tabela.append(linhaN1)
+    tabela.append(linhaE)
+    tabela.append(linhaE1)
+    tabela.append(linhaE2)
+    tabela.append(linhaE3)
+    tabela.append(linhaC)
+    tabela.append(linhaC1)
 
 }
 

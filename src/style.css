@@ -9,37 +9,37 @@
     font-size: 15px;
 }
 #linhaNotificar{
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #linhaComprador{
     text-align:center;
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #linhaCondicao{
     text-align:center;
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #linhaPacote{
     text-align:center;
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #linhaPecas{
     text-align:center;
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #linhaDestinatario{
     text-align:center;
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #marca-embarque{
     text-align:center;
-    background-color: rgba(111, 255, 0, 0.761);
+    background-color: rgba(50, 200, 0, 0.5);
 }
 
 #nome{
@@ -69,13 +69,21 @@
     font-size: 15px;
 }
 table{
-    width: 95%;
-    margin: auto;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
 }
 th, td {
-    border: 1px solid #414040;
-    padding: 8px;
+    border: 1px solid #68676747;
+    border-bottom: 1px;
+    padding: 5px;
+    margin: -1px;
 }
+
+td+td {
+    border-left: 1px solid #6867676f;
+    border-right: 1px solid #6867676f;
+  }
 
 body {
     font-family: Arial, sans-serif;
@@ -124,8 +132,6 @@ button {
     color: #343a40;
     
 }
-
-select#dropDownMoeda option[value="BRL"]   { background-image:url(br_flag.png);   }
 
 .navbar {
     background-color: #333;
@@ -206,7 +212,7 @@ select#dropDownMoeda option[value="BRL"]   { background-image:url(br_flag.png); 
 }
 
 .atrasado{
-    background-color: rgba(255, 0, 0, 0.393)
+    background-color: rgba(255, 0, 0, 0.4)
 }
 
 #dropDownMoeda{
@@ -277,4 +283,37 @@ select#dropDownMoeda option[value="BRL"]   { background-image:url(br_flag.png); 
 
 #bandeira{
     width: 30px;
+}
+
+#cliente-destinatario{
+    display: flex;
+}
+#tabela-destinatario #tabela-cliente{
+    flex: 1;
+    margin: 10px;
+}
+#tabela-destinatario{
+    text-align: right;
+}
+
+#notificar-marca{
+    display: flex;
+    align-items: flex-start;
+}
+#tabela-notificar #tabela-marca-embarque{
+    flex: 1;
+    margin: 10px;
+}
+#tabela-marca-embarque{
+    text-align: right;
+    top: 0;
+}
+
+#faturapdf{
+    max-width: 220mm;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }

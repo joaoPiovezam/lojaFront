@@ -19,7 +19,7 @@
             var element = document.getElementById('orcamento');
             var options = {
                 margin: 10,
-                filename: 'factura.pdf',
+                filename: 'pedido_compra.pdf',
                 image: {
                 type: 'jpeg',
                 quality: 1
@@ -57,7 +57,9 @@
                     </td>
                 </table>            
             </header>
+            <div id="linhaComprador">PROVEDOR</div>
             <table id="tabela-cliente"></table>
+            <div id="linhaPecas">PARTES</div>
             <table id="tabela-pedidos"></table>
             <script src="pedidoCompra.js"></script>
             <table>

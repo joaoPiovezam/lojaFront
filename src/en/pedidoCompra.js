@@ -450,7 +450,7 @@ function popularTabelaPedidosCompra(dados){
     vencimento.append(dados.results[0].vencimento);
 
     operacaoFiscal.append('TAX OPERATION:    ');
-    operacaoFiscal.append(dados.results[0].operacaoFiscal);
+    operacaoFiscal.append(dados.results[0].operacao_fiscal);
 
     comprador.append('BUYER: ');
     comprador.append(dados.results[0].comprador);
