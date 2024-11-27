@@ -262,6 +262,7 @@ function popularTabelaCliente1(dados){
     const orcamento = dados.results[0].orcamento;
 
     const linha = document.createElement("tr");
+    linha.id = "cabecalho1"
     const colunaDataEmissao = document.createElement("td");
     const colunaDataValidade = document.createElement("td");
     const colunaTipoEntrega = document.createElement("td");
@@ -322,6 +323,7 @@ function popularTabelaCliente2(dados){
     colunaNome.setAttribute('colspan', '6');
     
     colunaNome.textContent = "NOMBRE DEL CLIENTE";
+    linha.id = "cabecalho2"
 
     linha.appendChild(colunaNome);
 
@@ -350,6 +352,8 @@ function popularTabelaCliente3(dados){
     const colunaCidade = document.createElement("td");
     const colunaPais = document.createElement("td");
     colunaEndereco.setAttribute('colspan', '3');
+    linha.id = "cabecalho2"
+    colunaEndereco.id = "cabecalho2"
     
     colunaEndereco.textContent = "DIRECCIÓN";
     colunaCEP.textContent = "CÓDIGO POSTAL";
@@ -399,6 +403,8 @@ function popularTabelaCliente4(dados){
     colunaTelefone.textContent = "TELÉFONO";
     colunaEmail.textContent = "CORREO ELECTRÓNICO";
 
+    linha.id = "cabecalho2"
+
     linha.appendChild(colunaTelefone);
     linha.appendChild(colunaEmail);
 
@@ -435,6 +441,11 @@ function popularTabelaDestinatario(dados){
     const linhaC = document.createElement("tr");
     const linhaE = document.createElement("tr");
     const linhaE2 = document.createElement("tr");
+
+    linhaN.id = "cabecalho2";
+    linhaC.id = "cabecalho2";
+    linhaE.id = "cabecalho2";
+    linhaE2.id = "cabecalho2";
 
     const colunaNome = document.createElement("td");
     const colunaCnpj = document.createElement("td");
@@ -535,6 +546,8 @@ function popularTabelaNotificar(dados){
     const colunaTelefone = document.createElement("td");
     const colunaEmail = document.createElement("td");
 
+    linha.id = "cabecalho2"
+
     colunaNome.textContent = "NOMBRE:";
     colunaTelefone.textContent = "TELÉFONO:";
     colunaEmail.textContent = "CORREO ELECTRÓNICO:";
@@ -576,6 +589,8 @@ async function popularTabelaCondicao(dados){
     const colunaPorcetagem = document.createElement("td");
     const colunaData = document.createElement("td");
     const colunaTotal = document.createElement("td");
+
+    linha.id = "cabecalho2"
 
     colunaCondicao.textContent = "CONDICIONES DE PAGO";
     colunaPorcetagem.textContent = "%";
@@ -634,6 +649,8 @@ function popularTabelaPeso(dados, qtdPacotes){
     const colunaPesoBruto = document.createElement("td");
     const colunaVolume = document.createElement("td");
     const colunaEntrega = document.createElement("td");
+
+    linha.id = "cabecalho2"
     
     colunaQtd.textContent = "Qtd. Paquetes"
     colunaPesoLiq.textContent = "PESO NETO"
@@ -686,13 +703,19 @@ async function popularTabelaPedidos(dados, dadosPacote){
     const colunaDescricao = document.createElement("td");
     const colunaQuantidade = document.createElement("td");
 
+    linha.id = "cabecalho2"
+
     colunaItem.setAttribute('width' , '10px')  
     colunaDescricao.setAttribute('width', '50px');    
 
     colunaItem.textContent = "ÍTEM";
     colunaCodigo.textContent = "CÓDIGO";
     colunaDescricao.textContent = "PRODUCTOS";
-    colunaQuantidade.textContent = "CANT.";    
+    colunaQuantidade.textContent = "CANT.";
+
+    colunaCodigo.id = "colunaCodigo";
+    colunaQuantidade.id = "colunaQt";
+    colunaDescricao.id = "colunaDescricao"
 
     linha.appendChild(colunaItem);
     if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
@@ -795,7 +818,10 @@ async function popularTabelaPedidos(dados, dadosPacote){
         const colunaItem = document.createElement("td");
         const colunaCodigo = document.createElement("td");
         const colunaDescricao = document.createElement("td");
-        const colunaQuantidade = document.createElement("td");               
+        const colunaQuantidade = document.createElement("td");
+        
+        colunaQuantidade.id = "colunaQt"
+        colunaDescricao.id = "colunaDescricao"
 
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.peca.codigo;

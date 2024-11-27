@@ -263,6 +263,7 @@ function popularTabelaCliente1(dados){
     const orcamento = dados.results[0].orcamento;
 
     const linha = document.createElement("tr");
+    linha.id = "cabecalho1"
     const colunaDataEmissao = document.createElement("td");
     const colunaDataValidade = document.createElement("td");
     const colunaTipoEntrega = document.createElement("td");
@@ -323,6 +324,7 @@ function popularTabelaCliente2(dados){
     colunaNome.setAttribute('colspan', '6');
     
     colunaNome.textContent = "NOME CLIENTE";
+    colunaNome.id = "cabecalho2"
 
     linha.appendChild(colunaNome);
 
@@ -351,11 +353,14 @@ function popularTabelaCliente3(dados){
     const colunaCidade = document.createElement("td");
     const colunaPais = document.createElement("td");
     colunaEndereco.setAttribute('colspan', '3');
+    colunaEndereco.id = "cabecalho2"
     
     colunaEndereco.textContent = "ENDERECO";
     colunaCEP.textContent = "POSTAL CODE";
     colunaCidade.textContent = "CIDADE";
     colunaPais.textContent = "PAÍS";
+
+    linha.id = "cabecalho2"
 
     linhaR.appendChild(colunaEndereco);
     linha.appendChild(colunaCEP);
@@ -399,6 +404,8 @@ function popularTabelaCliente4(dados){
     colunaTelefone.textContent = "TELEFONE";
     colunaEmail.textContent = "EMAIL";
 
+    linha.id = "cabecalho2";
+
     linha.appendChild(colunaTelefone);
     linha.appendChild(colunaEmail);
 
@@ -435,6 +442,11 @@ function popularTabelaDestinatario(dados){
     const linhaC = document.createElement("tr");
     const linhaE = document.createElement("tr");
     const linhaE2 = document.createElement("tr");
+
+    linhaN.id = "cabecalho2";
+    linhaC.id = "cabecalho2";
+    linhaE.id = "cabecalho2";
+    linhaE2.id = "cabecalho2";
 
     const colunaNome = document.createElement("td");
     const colunaCnpj = document.createElement("td");
@@ -535,6 +547,8 @@ function popularTabelaNotificar(dados){
     const colunaTelefone = document.createElement("td");
     const colunaEmail = document.createElement("td");
 
+    linha.id = "cabecalho2"
+
     colunaNome.textContent = "NOME:";
     colunaTelefone.textContent = "TELEFONE:";
     colunaEmail.textContent = "EMAIL:";
@@ -576,6 +590,8 @@ async function popularTabelaCondicao(dados){
     const colunaPorcetagem = document.createElement("td");
     const colunaData = document.createElement("td");
     const colunaTotal = document.createElement("td");
+
+    linha.id = "cabecalho2"
 
     colunaCondicao.textContent = "CONDIÇÕES DE PAGAMENTO";
     colunaPorcetagem.textContent = "%";
@@ -634,6 +650,8 @@ function popularTabelaPeso(dados, qtdPacotes){
     const colunaPesoBruto = document.createElement("td");
     const colunaVolume = document.createElement("td");
     const colunaEntrega = document.createElement("td");
+
+    linha.id = "cabecalho2"
     
     colunaQtd.textContent = "Qtd. Pacotes"
     colunaPesoLiq.textContent = "PESO LIQ."
@@ -686,13 +704,19 @@ async function popularTabelaPedidos(dados, dadosPacote){
     const colunaDescricao = document.createElement("td");
     const colunaQuantidade = document.createElement("td");
 
+    linha.id = "cabecalho2"
+
     colunaItem.setAttribute('width' , '10px')  
     colunaDescricao.setAttribute('width', '50px');    
 
     colunaItem.textContent = "ITEM";
     colunaCodigo.textContent = "CODIGO";
     colunaDescricao.textContent = "PRODUTOS";
-    colunaQuantidade.textContent = "QTDE.";    
+    colunaQuantidade.textContent = "QTDE.";
+
+    colunaCodigo.id = "colunaCodigo";
+    colunaQuantidade.id = "colunaQt";
+    colunaDescricao.id = "colunaDescricao"
 
     linha.appendChild(colunaItem);
     if (tipo.value == 'packingList' || tipo.value == 'packingList2'){
@@ -706,7 +730,6 @@ async function popularTabelaPedidos(dados, dadosPacote){
         opcaoCodigo.textContent = "CODIGO";
         opcaoCodigo.value = '0';
         colunaCodigoS.append(opcaoCodigo);
-        colunaCodigo.id = "colunaCodigo";
         colunaCodigo.hidden = true;
         linha.appendChild(colunaCodigo);
     }else{
@@ -796,7 +819,10 @@ async function popularTabelaPedidos(dados, dadosPacote){
         const colunaItem = document.createElement("td");
         const colunaCodigo = document.createElement("td");
         const colunaDescricao = document.createElement("td");
-        const colunaQuantidade = document.createElement("td");               
+        const colunaQuantidade = document.createElement("td");
+        
+        colunaQuantidade.id = "colunaQt"
+        colunaDescricao.id = "colunaDescricao"
 
         colunaItem.textContent = i.toString();
         colunaCodigo.textContent = item.peca.codigo;

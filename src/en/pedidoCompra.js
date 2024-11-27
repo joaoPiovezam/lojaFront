@@ -193,6 +193,8 @@ function popularTabelaCliente1(dados){
     colunaTelefone.textContent = "TELEPHONE:";
     colunaEmail.textContent = "E-MAIL:";
 
+    linha.id = "cabecalho2"
+
     linha.appendChild(colunacpfCnpj);
     linha.appendChild(colunanomeFornecedor);
     linha.appendChild(colunaTelefone);
@@ -229,6 +231,8 @@ function popularTabelaCliente2(dados){
     const colunaCep = document.createElement("td");
     const colunaEndereco = document.createElement("td");
     const colunaCidade = document.createElement("td");
+
+    linha.id = "cabecalho2"
 
     colunaEndereco.colSpan = 2
 
@@ -352,6 +356,7 @@ async function popularTabelaPedidos(dados){
     const colunaPeso = document.createElement("td");
     colunaDescricao.setAttribute('width', '188px');
     
+    linha.id = "cabecalho2"
 
     colunaItem.textContent = "ITEM";
     colunaCodigo.textContent = "CODE";

@@ -79,10 +79,16 @@ th, td {
     padding: 5px;
     margin: -1px;
 }
+tr{
+    border: 1px solid #68676747;
+}
+td{
+    border: 0px;
+}
 
 td+td {
-    border-left: 1px solid #6867676f;
-    border-right: 1px solid #6867676f;
+    border-left: 0px solid #6867676f;
+    border-right: 0px solid #6867676f;
   }
 
 body {
@@ -316,4 +322,20 @@ button {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#colunaQt{
+    text-align: center;
+}
+
+#colunaDescricao{
+    min-width: 70mm;
+}
+
+#cabecalho1{
+    background-color: rgba(50, 200, 0, 0.5);
+}
+
+#cabecalho2{
+    background-color: rgba(50, 250, 0, 0.115);
 }
