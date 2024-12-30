@@ -32,7 +32,7 @@ async function carregarDados() {
     loadScript("header.js");
     urlA = await carregarUrl()
     urlC =  urlA + "/clientes/"
-        urlAPI =  urlA + "/orcamento/?page="+ pagina +"&search="+str;
+        urlAPI =  urlA + "/orcamentos/?page="+ pagina +"&search="+str;
         const resposta = await fetch(urlAPI, {
             method: "GET",
             headers: {
@@ -216,7 +216,8 @@ function popularTabela(dados){
         colunaEnderecoEntrega.textContent = item.endereco_entrega;
         colunaCidadeEntrega.textContent = item.cidade_entrega;
         colunaPaisEntrega.textContent = item.pais_entrega;
-        colunaCliente.textContent = item.cliente;
+        console.log(item)
+        colunaCliente.textContent = item.client.nome_cliente;
         btn.textContent = "adicionar ao orçamento";
 
         linha.appendChild(colunaItem);
