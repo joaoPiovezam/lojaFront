@@ -1,6 +1,7 @@
 const template = document.createElement('template');
 
 template.innerHTML = `
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
             <div class="navbar" id="navbar"> 
                 <select onchange = "atualizarMoeda()" id = 'dropDownMoeda'>
                     <option value = "BRL">R$ BRL</option>
