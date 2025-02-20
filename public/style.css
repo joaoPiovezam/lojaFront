@@ -339,3 +339,8 @@ button {
 #cabecalho2{
     background-color: rgba(50, 250, 0, 0.115);
 }
+
+#criarConta{
+    text-align: center;
+    margin-top: 10px;
+}
