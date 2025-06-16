@@ -3,8 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Login</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com; font-src 'self' https://stackpath.bootstrapcdn.com; connect-src 'self' https://api.athlan.com.br;">
+    <meta name="csrf-token" content="">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Secure Login</title>
     <link rel="stylesheet" href="style.css">
     <style>
     body {
@@ -48,17 +50,31 @@
   <header id="header"></header>
 <div class="container">
   <h2>Login</h2>
-    <form>
+    <form id="loginForm" novalidate>
       <div id="alert" class="alert alert-danger d-none" role="alert">
-        nome de usuario ou senha incorretos.
+        <span id="alertMessage">Nome de usuário ou senha incorretos.</span>
       </div>
-      <input type="text" class="form-control" id = "username" placeholder="Nome" required>
-      <input type="password" class="form-control" id = "password" placeholder="Senha" required>
-      <button type="button" class="btn btn-primary" onclick="logar()">Login</button>
+      <div id="success" class="alert alert-success d-none" role="alert">
+        Login realizado com sucesso!
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="username" placeholder="Nome de usuário" required maxlength="50" autocomplete="username">
+        <div class="invalid-feedback" id="usernameError"></div>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" id="password" placeholder="Senha" required minlength="8" autocomplete="current-password">
+        <div class="invalid-feedback" id="passwordError"></div>
+      </div>
+      <button type="submit" class="btn btn-primary" id="loginButton">
+        <span id="loginText">Entrar</span>
+        <span id="loginSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+      </button>
     </form>
     <div id="criarConta">Não possui uma conta? <a href="/cadastroCliente.html"> Criar Conta</a></div>
   </div>
-  <script src="login.js"></script>
+  <script src="security-utils.js"></script>
+  <script src="secure-auth.js"></script>
+  <script src="secure-login.js"></script>
 </div>
 </body>
 </html>

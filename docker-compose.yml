@@ -15,6 +15,7 @@ services:
             - ./nginx/sites-available:/etc/nginx/sites-available
             - ./nginx/conf.d:/etc/nginx/conf.d
             - ./nginx/letsencrypt:/etc/letsencrypt
+            - ./nginx/ssl:/etc/nginx/ssl
             - ./public:/var/www/public
         networks:
             - net_local
